@@ -33,6 +33,11 @@ class PersonaFileRepository(PersonaRepository):
     def _load_all_personas(self, path: str) -> list[Persona]:
         personas: list[Persona] = []
         base_path = Path(path)
+        # If path is relative, resolve it relative to this file's directory
+        if not base_path.is_absolute():
+            # Get the backend directory (parent of src)
+            backend_dir = Path(__file__).parent.parent
+            base_path = backend_dir / base_path
         for file_path in base_path.glob("*.json"):
             persona = self._load_persona(str(file_path))
             if persona is not None:
