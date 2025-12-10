@@ -12,7 +12,7 @@ from utils import llm_gpt_4o
 
 
 INSTRUCTIONS = f"""
-You helpful assistant that can answer questions about the user's request.
+You're a helpful assistant that can answer questions about the user's request.
 """
 
 
