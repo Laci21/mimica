@@ -43,4 +43,3 @@ class KnowledgeGenerator:
         llm_response = await self.call_llm()
         self.knowledge = llm_response
         return self.knowledge
-

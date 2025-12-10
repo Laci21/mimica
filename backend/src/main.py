@@ -1,10 +1,12 @@
 import datetime
+from pathlib import Path
 import uuid
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
 
-from src.data_models import TKFUpdate
+from src.workflow import Workflow
+from src.event_store import store as events
 from src.tkf_store import tkf
 from src.persona_repository import repository as persona_repo
 
@@ -13,21 +15,8 @@ from src.playwright.routes import router as playwright_router
 
 async def inititalize_server():
     print("Seeding TKF...")
-    await tkf.seed("Hello, world!")
-    await tkf.add_update(
-        TKFUpdate(
-            id=str(uuid.uuid4()),
-            created_at=datetime.datetime.now().isoformat(),
-            old_text="Hello, world!",
-            new_text="Hello, world! 2",
-            reasoning="I just updated the full content",
-            metadata={
-                "session_id": "123",
-                "persona_id": "456",
-            },
-        ),
-        "Hello, world! 2",
-    )
+    workflow = Workflow(events, tkf)
+    await workflow.process_from_playwright_events()
     print("TKF seeded")
 
 
