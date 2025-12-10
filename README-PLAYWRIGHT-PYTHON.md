@@ -15,8 +15,19 @@ Playwright Python Runner
     ↓
 Chromium Browser → Video + Events + Trace
     ↓
-GPT-4o (for LLM-driven personas)
+GPT-4o-mini (plan-then-execute for LLM personas)
 ```
+
+### LLM Strategy: Plan-Then-Execute ⚡
+
+The LLM-driven runs now use a **plan-then-execute** architecture for dramatically better performance:
+
+- **LLM calls**: Once per screen (4-5 total) instead of once per action (15-20)
+- **Speed**: 40-60 seconds instead of 3-6 minutes (**4-7x faster**)
+- **Reasoning**: Fully preserved - each planned action includes reasoning for TKF
+- **Execution**: Actions execute at full Playwright speed after planning
+
+See `PLAN-THEN-EXECUTE-SUMMARY.md` for detailed architecture explanation.
 
 ## Quick Start
 
@@ -142,11 +153,12 @@ playwright-runs/
 - **Description:** Young content creator testing the V1 UI with confusion points
 - **Use case:** Demonstrates problematic UI with scripted confusion/blocks
 
-### 2. AI UX Agent (LLM-Driven)
+### 2. AI UX Agent (LLM-Driven, Plan-Then-Execute)
 - **ID:** `ai-ux-agent`
 - **Mode:** `llm-driven`
-- **Description:** AI agent that identifies usability issues in real-time
-- **Use case:** Demonstrates LLM-powered UX testing with GPT-4o
+- **Description:** AI agent that identifies usability issues using plan-then-execute
+- **Use case:** Demonstrates fast LLM-powered UX testing with GPT-4o-mini
+- **Architecture:** Plans per screen, then executes actions at Playwright speed (4-7x faster)
 
 ## Running from Command Line
 
@@ -158,7 +170,10 @@ cd backend
 # Run scripted Gen Z Creator
 python -m src.playwright.gen_z_creator_v1
 
-# Run LLM-driven AI UX Agent
+# Run LLM-driven AI UX Agent (plan-then-execute, default)
+python -m src.playwright.ai_ux_agent_v1_plan
+
+# Run LLM-driven AI UX Agent (legacy per-step)
 python -m src.playwright.ai_ux_agent_v1
 ```
 
@@ -277,8 +292,10 @@ mv playwright.config.ts archive/
 
 ## Documentation
 
+- **Planning Strategies Comparison:** `PLANNING-STRATEGIES-COMPARISON.md` 🚀 NEW - Compare 3 strategies
+- **Plan-Then-Execute:** `PLAN-THEN-EXECUTE-SUMMARY.md` ⚡ Per-screen details
 - **Backend README:** `backend/README.md`
-- **API Docs:** `http://localhost:8000/docs` (when backend is running)
+- **API Docs:** `http://localhost:8001/docs` (when backend is running)
 - **Implementation Summary:** `docs/playwright-implementation-summary.md`
 - **Original TS Implementation:** `README-PLAYWRIGHT.md` (deprecated)
 
