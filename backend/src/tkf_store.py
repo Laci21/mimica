@@ -2,8 +2,12 @@ from abc import ABC, abstractmethod
 from datetime import datetime
 from typing import Any
 import asyncio
+import json
+
+from agents import Agent, Runner, RunConfig
 
 from src.data_models import TKFUpdate
+from src.utils import llm_gpt_4o
 
 
 MAX_TKF_UPDATES = 100_000
@@ -89,9 +93,29 @@ class InMemoryTKFStore(TKFStore):
         async with self._lock:
             return self._full_content
 
+    async def _format_seed_content(self, raw_content: str) -> str:
+        knowledge_data = json.loads(raw_content) if isinstance(raw_content, str) else raw_content
+        
+        agent = Agent(
+            name="tkf_formatter",
+            instructions="Format a list of knowledge facts into a coherent, non-redundant knowledge base text without information loss.",
+            model=llm_gpt_4o,
+        )
+        
+        prompt = f"Format these knowledge facts into a coherent knowledge base text. Remove redundancy but preserve all information:\n\n{json.dumps(knowledge_data, indent=2)}"
+        
+        result = await Runner.run(
+            agent,
+            input=prompt,
+            run_config=RunConfig(tracing_disabled=True)
+        )
+        
+        return result.final_output
+
     async def seed(self, full_content: str) -> None:
+        processed_content = await self._format_seed_content(full_content)
         async with self._lock:
-            self._full_content = full_content
+            self._full_content = processed_content
 
     async def get_updates_by_metadata_filter(self, metadata_filter: dict) -> list[TKFUpdate]:
         async with self._lock:
