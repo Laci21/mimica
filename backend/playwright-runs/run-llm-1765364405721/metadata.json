@@ -1,0 +1,23 @@
+{
+  "run_id": "run-llm-1765364405721",
+  "persona_id": "ai-ux-agent",
+  "scenario_id": "onboarding",
+  "ui_version": "v1",
+  "mode": "llm-driven",
+  "app_url": "http://localhost:3000/lab?version=v1",
+  "status": "failed",
+  "started_at": "2025-12-10T11:00:05.721591",
+  "source": "playwright-python",
+  "completed_at": "2025-12-10T11:03:45.800504",
+  "duration_ms": 220078,
+  "video_path": "run-llm-1765364405721/video.webm",
+  "trace_path": null,
+  "events_path": "run-llm-1765364405721/events.json",
+  "error": "Page.evaluate: Connection closed while reading from the driver",
+  "metadata": {
+    "browser": "chromium",
+    "headless": true,
+    "llm_model": "gpt-4o",
+    "eventCount": 10
+  }
+}

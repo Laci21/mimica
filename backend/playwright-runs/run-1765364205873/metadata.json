@@ -1,0 +1,22 @@
+{
+  "run_id": "run-1765364205873",
+  "persona_id": "gen-z-creator",
+  "scenario_id": "onboarding",
+  "ui_version": "v1",
+  "mode": "scripted",
+  "app_url": "http://localhost:3000/lab?version=v1",
+  "status": "completed",
+  "started_at": "2025-12-10T10:56:45.873383",
+  "source": "playwright-python",
+  "completed_at": "2025-12-10T10:57:13.829894",
+  "duration_ms": 27956,
+  "video_path": "run-1765364205873/video.webm",
+  "trace_path": "run-1765364205873/trace.zip",
+  "events_path": "run-1765364205873/events.json",
+  "error": null,
+  "metadata": {
+    "browser": "chromium",
+    "headless": true,
+    "eventCount": 17
+  }
+}

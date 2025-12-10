@@ -1,6 +1,12 @@
-# Playwright MCP UX Agent Integration - Quick Start
+# ⚠️ DEPRECATED: Playwright MCP UX Agent Integration (TypeScript)
 
-This README provides a quick overview of the Playwright integration for AI/UX agent persona testing.
+**This TypeScript/Node.js implementation has been migrated to the Python backend.**
+
+**👉 For the current implementation, see [README-PLAYWRIGHT-PYTHON.md](./README-PLAYWRIGHT-PYTHON.md)**
+
+---
+
+This README provides a quick overview of the **original** Playwright integration for AI/UX agent persona testing (now deprecated).
 
 ## 📚 Documentation Index
 
