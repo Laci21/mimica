@@ -74,7 +74,7 @@ async def run_gen_z_creator_v1(
         scenario_id=scenario_id,
         ui_version=ui_version,
         mode=mode,
-        app_url=f"{base_url}/lab?version={ui_version.value}",
+        app_url=f"{base_url}/app?version={ui_version.value}",
         status=RunStatus.RUNNING,
         started_at=started_at,
         metadata={

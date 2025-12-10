@@ -1,0 +1,138 @@
+{
+  "persona_id": "methodical_evaluator",
+  "persona_name": "Methodical Evaluator",
+  "ui_version": "v1",
+  "scenario_id": "onboarding",
+  "description": "Careful evaluator who reads all text, compares options, and questions unclear language in V1",
+  "steps": [
+    {
+      "screen_id": "step-0",
+      "action": "WAIT",
+      "selector": "body",
+      "reasoning": "Let me read what these options mean before choosing.",
+      "status": "success",
+      "wait_after_ms": 2500
+    },
+    {
+      "screen_id": "step-0",
+      "action": "HOVER",
+      "selector": "[data-element-id='goal-option-maximize']",
+      "reasoning": "'Maximize Output'... but maximize what exactly? This is vague.",
+      "status": "confused",
+      "wait_after_ms": 2000
+    },
+    {
+      "screen_id": "step-0",
+      "action": "HOVER",
+      "selector": "[data-element-id='goal-option-optimize']",
+      "reasoning": "'Optimize Workflow'... sounds similar to maximize. What's the difference?",
+      "status": "confused",
+      "wait_after_ms": 2000
+    },
+    {
+      "screen_id": "step-0",
+      "action": "HOVER",
+      "selector": "[data-element-id='goal-option-balance']",
+      "reasoning": "'Equilibrium Mode'? That's an odd name. Does this mean work-life balance?",
+      "status": "confused",
+      "wait_after_ms": 2500
+    },
+    {
+      "screen_id": "step-0",
+      "action": "CLICK",
+      "selector": "[data-element-id='goal-option-balance']",
+      "reasoning": "I'll choose this one since it seems least risky, though I'm not confident.",
+      "status": "success",
+      "wait_after_ms": 1500
+    },
+    {
+      "screen_id": "step-0",
+      "action": "CLICK",
+      "selector": "[data-element-id='step0-continue']",
+      "reasoning": "Proceeding to the next step.",
+      "status": "success",
+      "wait_after_ms": 1000
+    },
+    {
+      "screen_id": "step-1",
+      "action": "WAIT",
+      "selector": "body",
+      "reasoning": "Reading this screen... 'Engagement Mode'? 'Interaction Paradigm'? What do these terms mean?",
+      "status": "confused",
+      "wait_after_ms": 3000
+    },
+    {
+      "screen_id": "step-1",
+      "action": "HOVER",
+      "selector": "[data-element-id='engagement-intensity-slider']",
+      "reasoning": "There's no label or explanation for this slider. What am I adjusting?",
+      "status": "confused",
+      "wait_after_ms": 2500
+    },
+    {
+      "screen_id": "step-1",
+      "action": "CLICK",
+      "selector": "[data-element-id='engagement-intensity-slider']",
+      "reasoning": "I'll set it to medium since I don't understand the implications.",
+      "status": "confused",
+      "wait_after_ms": 1500
+    },
+    {
+      "screen_id": "step-1",
+      "action": "HOVER",
+      "selector": "[data-element-id='step1-back']",
+      "reasoning": "Checking if I can go back to change my previous choice if needed.",
+      "status": "success",
+      "wait_after_ms": 1000
+    },
+    {
+      "screen_id": "step-1",
+      "action": "CLICK",
+      "selector": "[data-element-id='step1-continue']",
+      "reasoning": "Moving forward, though I wish I understood these settings better.",
+      "status": "success",
+      "wait_after_ms": 1000
+    },
+    {
+      "screen_id": "step-2",
+      "action": "WAIT",
+      "selector": "body",
+      "reasoning": "Reading the notification options carefully.",
+      "status": "success",
+      "wait_after_ms": 2000
+    },
+    {
+      "screen_id": "step-2",
+      "action": "CLICK",
+      "selector": "[data-element-id='notification-updates']",
+      "reasoning": "Selecting updates - seems safe and informative.",
+      "status": "success",
+      "wait_after_ms": 1000
+    },
+    {
+      "screen_id": "step-2",
+      "action": "CLICK",
+      "selector": "[data-element-id='step2-skip']",
+      "reasoning": "Continuing to the final step.",
+      "status": "success",
+      "wait_after_ms": 1000
+    },
+    {
+      "screen_id": "step-3",
+      "action": "WAIT",
+      "selector": "body",
+      "reasoning": "Reviewing the summary to make sure everything looks correct.",
+      "status": "success",
+      "wait_after_ms": 3000
+    },
+    {
+      "screen_id": "step-3",
+      "action": "CLICK",
+      "selector": "[data-element-id='step3-finish']",
+      "reasoning": "Completing the onboarding, though I have concerns about the unclear language used throughout.",
+      "status": "success",
+      "wait_after_ms": 1000
+    }
+  ]
+}
+

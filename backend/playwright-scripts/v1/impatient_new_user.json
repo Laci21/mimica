@@ -1,0 +1,82 @@
+{
+  "persona_id": "impatient_new_user",
+  "persona_name": "Impatient First-Time User",
+  "ui_version": "v1",
+  "scenario_id": "onboarding",
+  "description": "Impatient new user rushes through V1 onboarding, skipping text and getting frustrated by unclear language",
+  "steps": [
+    {
+      "screen_id": "step-0",
+      "action": "CLICK",
+      "selector": "[data-element-id='goal-option-maximize']",
+      "reasoning": "First option, whatever. Let's just get through this.",
+      "status": "success",
+      "wait_after_ms": 500
+    },
+    {
+      "screen_id": "step-0",
+      "action": "CLICK",
+      "selector": "[data-element-id='step0-continue']",
+      "reasoning": "Next.",
+      "status": "success",
+      "wait_after_ms": 300
+    },
+    {
+      "screen_id": "step-1",
+      "action": "CLICK",
+      "selector": "[data-element-id='engagement-intensity-slider']",
+      "reasoning": "Whatever this slider thing is, clicking it.",
+      "status": "success",
+      "wait_after_ms": 500
+    },
+    {
+      "screen_id": "step-1",
+      "action": "WAIT",
+      "selector": "body",
+      "reasoning": "Where's the continue button? This is confusing.",
+      "status": "confused",
+      "wait_after_ms": 1500
+    },
+    {
+      "screen_id": "step-1",
+      "action": "CLICK",
+      "selector": "[data-element-id='step1-continue']",
+      "reasoning": "Finally found it. Not obvious at all.",
+      "status": "success",
+      "wait_after_ms": 400
+    },
+    {
+      "screen_id": "step-2",
+      "action": "CLICK",
+      "selector": "[data-element-id='notification-updates']",
+      "reasoning": "Just checking something quickly.",
+      "status": "success",
+      "wait_after_ms": 600
+    },
+    {
+      "screen_id": "step-2",
+      "action": "CLICK",
+      "selector": "[data-element-id='step2-skip']",
+      "reasoning": "Moving on, this is taking too long.",
+      "status": "success",
+      "wait_after_ms": 300
+    },
+    {
+      "screen_id": "step-3",
+      "action": "WAIT",
+      "selector": "body",
+      "reasoning": "Is this done yet?",
+      "status": "success",
+      "wait_after_ms": 800
+    },
+    {
+      "screen_id": "step-3",
+      "action": "CLICK",
+      "selector": "[data-element-id='step3-finish']",
+      "reasoning": "Finally! Done with this.",
+      "status": "success",
+      "wait_after_ms": 500
+    }
+  ]
+}
+

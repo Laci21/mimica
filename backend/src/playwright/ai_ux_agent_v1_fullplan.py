@@ -106,7 +106,7 @@ async def run_ai_ux_agent_v1_fullplan(
         scenario_id=scenario_id,
         ui_version=ui_version,
         mode=mode,
-        app_url=f"{base_url}/lab?version={ui_version.value}",
+        app_url=f"{base_url}/app?version={ui_version.value}",
         status=RunStatus.RUNNING,
         started_at=started_at,
         metadata={
@@ -139,7 +139,7 @@ async def run_ai_ux_agent_v1_fullplan(
         page = await runner.start()
         
         # Navigate to app
-        await runner.navigate(f"/lab?version={ui_version.value}")
+        await runner.navigate(f"/app?version={ui_version.value}")
         await asyncio.sleep(1)
         
         # Log initial navigation

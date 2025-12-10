@@ -64,6 +64,7 @@ class PlaywrightEvent:
     status: EventStatus
     timestamp: float  # Unix timestamp
     
+    run_group_id: Optional[str] = None
     screen_id: Optional[str] = None
     target_element_id: Optional[str] = None
     duration_ms: Optional[int] = None
@@ -89,6 +90,7 @@ class PlaywrightRunMetadata:
     status: RunStatus
     started_at: str  # ISO timestamp
     source: Literal["playwright-python"] = "playwright-python"
+    run_group_id: Optional[str] = None  # NEW: Group multiple persona runs together
     
     completed_at: Optional[str] = None
     duration_ms: Optional[int] = None

@@ -1,0 +1,25 @@
+{
+  "run_id": "run-power_user_explorer-1765375930493",
+  "persona_id": "power_user_explorer",
+  "scenario_id": "onboarding",
+  "ui_version": "v1",
+  "mode": "scripted",
+  "app_url": "http://localhost:3000/app?version=v1",
+  "status": "completed",
+  "started_at": "2025-12-10T14:12:10.493564",
+  "source": "playwright-python",
+  "run_group_id": "suite-v1-1765375889116",
+  "completed_at": "2025-12-10T14:12:28.525991",
+  "duration_ms": 18032,
+  "video_path": "run-power_user_explorer-1765375930493/video.webm",
+  "trace_path": "run-power_user_explorer-1765375930493/trace.zip",
+  "events_path": "run-power_user_explorer-1765375930493/events.json",
+  "error": null,
+  "metadata": {
+    "browser": "chromium",
+    "headless": true,
+    "persona_name": "Exploratory Power User",
+    "script_description": "Power user who explores all options, tries the back button, and tests edge cases in V1",
+    "eventCount": 19
+  }
+}

@@ -1,0 +1,154 @@
+{
+  "persona_id": "accessibility_screen_reader",
+  "persona_name": "Accessibility-First Screen Reader User",
+  "ui_version": "v1",
+  "scenario_id": "onboarding",
+  "description": "Screen reader user who navigates with keyboard and is sensitive to accessibility issues in V1",
+  "steps": [
+    {
+      "screen_id": "step-0",
+      "action": "WAIT",
+      "selector": "body",
+      "reasoning": "Listening to the screen reader announce this page. Is there a proper heading?",
+      "status": "success",
+      "wait_after_ms": 2000
+    },
+    {
+      "screen_id": "step-0",
+      "action": "HOVER",
+      "selector": "[data-element-id='goal-option-maximize']",
+      "reasoning": "Tabbing to first option. Is there an accessible label? 'Maximize Output' is announced, but no description.",
+      "status": "confused",
+      "wait_after_ms": 2000
+    },
+    {
+      "screen_id": "step-0",
+      "action": "HOVER",
+      "selector": "[data-element-id='goal-option-optimize']",
+      "reasoning": "Next option. Again, just a short label with no context for what this means.",
+      "status": "confused",
+      "wait_after_ms": 2000
+    },
+    {
+      "screen_id": "step-0",
+      "action": "HOVER",
+      "selector": "[data-element-id='goal-option-balance']",
+      "reasoning": "Third option. 'Equilibrium Mode' - this terminology is unclear without visual context.",
+      "status": "confused",
+      "wait_after_ms": 2000
+    },
+    {
+      "screen_id": "step-0",
+      "action": "CLICK",
+      "selector": "[data-element-id='goal-option-balance']",
+      "reasoning": "Selecting this option using Enter key. Hoping it was the right choice.",
+      "status": "success",
+      "wait_after_ms": 1200
+    },
+    {
+      "screen_id": "step-0",
+      "action": "CLICK",
+      "selector": "[data-element-id='step0-continue']",
+      "reasoning": "Tabbing to continue button. Good - it's keyboard accessible.",
+      "status": "success",
+      "wait_after_ms": 1000
+    },
+    {
+      "screen_id": "step-1",
+      "action": "WAIT",
+      "selector": "body",
+      "reasoning": "New page loaded. Did focus move properly? Screen reader announces 'Engagement Mode' but it's unclear what this means.",
+      "status": "confused",
+      "wait_after_ms": 2500
+    },
+    {
+      "screen_id": "step-1",
+      "action": "HOVER",
+      "selector": "[data-element-id='engagement-intensity-slider']",
+      "reasoning": "Found a slider with my keyboard. But there's no label or description - I don't know what I'm adjusting.",
+      "status": "confused",
+      "wait_after_ms": 2500
+    },
+    {
+      "screen_id": "step-1",
+      "action": "CLICK",
+      "selector": "[data-element-id='engagement-intensity-slider']",
+      "reasoning": "Adjusting slider with arrow keys. Still no feedback about what value means what.",
+      "status": "confused",
+      "wait_after_ms": 1500
+    },
+    {
+      "screen_id": "step-1",
+      "action": "HOVER",
+      "selector": "[data-element-id='engagement-adaptive-toggle']",
+      "reasoning": "Found a toggle. Is it properly announced as a checkbox or switch? Unclear what it controls.",
+      "status": "confused",
+      "wait_after_ms": 1500
+    },
+    {
+      "screen_id": "step-1",
+      "action": "HOVER",
+      "selector": "[data-element-id='step1-continue']",
+      "reasoning": "Tabbing to continue button. The button hierarchy isn't clear in the screen reader.",
+      "status": "confused",
+      "wait_after_ms": 1200
+    },
+    {
+      "screen_id": "step-1",
+      "action": "CLICK",
+      "selector": "[data-element-id='step1-continue']",
+      "reasoning": "Pressing Enter to continue.",
+      "status": "success",
+      "wait_after_ms": 1000
+    },
+    {
+      "screen_id": "step-2",
+      "action": "WAIT",
+      "selector": "body",
+      "reasoning": "Focus should have moved to the new screen. Notification settings.",
+      "status": "success",
+      "wait_after_ms": 2000
+    },
+    {
+      "screen_id": "step-2",
+      "action": "HOVER",
+      "selector": "[data-element-id='notification-updates']",
+      "reasoning": "Tabbing through checkboxes. These have labels and descriptions - that's helpful!",
+      "status": "success",
+      "wait_after_ms": 1500
+    },
+    {
+      "screen_id": "step-2",
+      "action": "CLICK",
+      "selector": "[data-element-id='notification-updates']",
+      "reasoning": "Selecting with Space key. Heard a state change announcement - good.",
+      "status": "success",
+      "wait_after_ms": 1000
+    },
+    {
+      "screen_id": "step-2",
+      "action": "CLICK",
+      "selector": "[data-element-id='step2-skip']",
+      "reasoning": "Moving to final screen.",
+      "status": "success",
+      "wait_after_ms": 1000
+    },
+    {
+      "screen_id": "step-3",
+      "action": "WAIT",
+      "selector": "body",
+      "reasoning": "Final screen. Is there a summary that screen reader can announce? Structure seems unclear.",
+      "status": "confused",
+      "wait_after_ms": 2500
+    },
+    {
+      "screen_id": "step-3",
+      "action": "CLICK",
+      "selector": "[data-element-id='step3-finish']",
+      "reasoning": "Finishing onboarding. Overall, keyboard navigation worked but labels and context were severely lacking.",
+      "status": "success",
+      "wait_after_ms": 1000
+    }
+  ]
+}
+
