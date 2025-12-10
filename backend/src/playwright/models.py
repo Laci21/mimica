@@ -89,6 +89,7 @@ class PlaywrightRunMetadata:
     status: RunStatus
     started_at: str  # ISO timestamp
     source: Literal["playwright-python"] = "playwright-python"
+    run_group_id: Optional[str] = None  # NEW: Group multiple persona runs together
     
     completed_at: Optional[str] = None
     duration_ms: Optional[int] = None

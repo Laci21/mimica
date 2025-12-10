@@ -120,7 +120,7 @@ class PlaywrightRunner:
         Navigate to a URL.
         
         Args:
-            path: Path to append to base URL (e.g., "/lab?version=v1")
+            path: Path to append to base URL (e.g., "/app?version=v1")
         """
         if not self.page:
             raise RuntimeError("Page not initialized. Call start() first.")

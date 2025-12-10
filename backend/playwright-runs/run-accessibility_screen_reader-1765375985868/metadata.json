@@ -1,0 +1,25 @@
+{
+  "run_id": "run-accessibility_screen_reader-1765375985868",
+  "persona_id": "accessibility_screen_reader",
+  "scenario_id": "onboarding",
+  "ui_version": "v1",
+  "mode": "scripted",
+  "app_url": "http://localhost:3000/app?version=v1",
+  "status": "completed",
+  "started_at": "2025-12-10T14:13:05.868014",
+  "source": "playwright-python",
+  "run_group_id": "suite-v1-1765375889116",
+  "completed_at": "2025-12-10T14:13:39.175222",
+  "duration_ms": 33306,
+  "video_path": "run-accessibility_screen_reader-1765375985868/video.webm",
+  "trace_path": "run-accessibility_screen_reader-1765375985868/trace.zip",
+  "events_path": "run-accessibility_screen_reader-1765375985868/events.json",
+  "error": null,
+  "metadata": {
+    "browser": "chromium",
+    "headless": true,
+    "persona_name": "Accessibility-First Screen Reader User",
+    "script_description": "Screen reader user who navigates with keyboard and is sensitive to accessibility issues in V1",
+    "eventCount": 19
+  }
+}

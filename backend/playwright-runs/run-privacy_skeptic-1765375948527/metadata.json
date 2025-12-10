@@ -1,0 +1,25 @@
+{
+  "run_id": "run-privacy_skeptic-1765375948527",
+  "persona_id": "privacy_skeptic",
+  "scenario_id": "onboarding",
+  "ui_version": "v1",
+  "mode": "scripted",
+  "app_url": "http://localhost:3000/app?version=v1",
+  "status": "completed",
+  "started_at": "2025-12-10T14:12:28.527231",
+  "source": "playwright-python",
+  "run_group_id": "suite-v1-1765375889116",
+  "completed_at": "2025-12-10T14:13:05.866732",
+  "duration_ms": 37339,
+  "video_path": "run-privacy_skeptic-1765375948527/video.webm",
+  "trace_path": "run-privacy_skeptic-1765375948527/trace.zip",
+  "events_path": "run-privacy_skeptic-1765375948527/events.json",
+  "error": null,
+  "metadata": {
+    "browser": "chromium",
+    "headless": true,
+    "persona_name": "Skeptical Privacy-Conscious User",
+    "script_description": "Privacy-conscious user who carefully reads all text and questions vague language about data usage in V1",
+    "eventCount": 18
+  }
+}

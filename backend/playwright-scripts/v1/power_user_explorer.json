@@ -1,0 +1,154 @@
+{
+  "persona_id": "power_user_explorer",
+  "persona_name": "Exploratory Power User",
+  "ui_version": "v1",
+  "scenario_id": "onboarding",
+  "description": "Power user who explores all options, tries the back button, and tests edge cases in V1",
+  "steps": [
+    {
+      "screen_id": "step-0",
+      "action": "HOVER",
+      "selector": "[data-element-id='goal-option-maximize']",
+      "reasoning": "Let me see all the options first before deciding.",
+      "status": "success",
+      "wait_after_ms": 1000
+    },
+    {
+      "screen_id": "step-0",
+      "action": "HOVER",
+      "selector": "[data-element-id='goal-option-optimize']",
+      "reasoning": "Checking this option too.",
+      "status": "success",
+      "wait_after_ms": 1000
+    },
+    {
+      "screen_id": "step-0",
+      "action": "HOVER",
+      "selector": "[data-element-id='goal-option-balance']",
+      "reasoning": "And this one. The naming is inconsistent - some are verbs, some are nouns.",
+      "status": "confused",
+      "wait_after_ms": 1200
+    },
+    {
+      "screen_id": "step-0",
+      "action": "CLICK",
+      "selector": "[data-element-id='goal-option-optimize']",
+      "reasoning": "I'll try the middle option to see what it unlocks.",
+      "status": "success",
+      "wait_after_ms": 800
+    },
+    {
+      "screen_id": "step-0",
+      "action": "CLICK",
+      "selector": "[data-element-id='step0-continue']",
+      "reasoning": "Moving to the next screen.",
+      "status": "success",
+      "wait_after_ms": 600
+    },
+    {
+      "screen_id": "step-1",
+      "action": "CLICK",
+      "selector": "[data-element-id='engagement-adaptive-toggle']",
+      "reasoning": "What does this toggle do? Let me try it.",
+      "status": "success",
+      "wait_after_ms": 1000
+    },
+    {
+      "screen_id": "step-1",
+      "action": "CLICK",
+      "selector": "[data-element-id='engagement-intensity-slider']",
+      "reasoning": "Testing the slider interaction.",
+      "status": "success",
+      "wait_after_ms": 800
+    },
+    {
+      "screen_id": "step-1",
+      "action": "CLICK",
+      "selector": "[data-element-id='step1-back']",
+      "reasoning": "Let me test the back button to see if my selection is preserved.",
+      "status": "success",
+      "wait_after_ms": 1000
+    },
+    {
+      "screen_id": "step-0",
+      "action": "WAIT",
+      "selector": "body",
+      "reasoning": "Good, I'm back. My previous choice should still be selected.",
+      "status": "success",
+      "wait_after_ms": 800
+    },
+    {
+      "screen_id": "step-0",
+      "action": "CLICK",
+      "selector": "[data-element-id='goal-option-maximize']",
+      "reasoning": "Actually, let me try a different option this time.",
+      "status": "success",
+      "wait_after_ms": 600
+    },
+    {
+      "screen_id": "step-0",
+      "action": "CLICK",
+      "selector": "[data-element-id='step0-continue']",
+      "reasoning": "Moving forward again.",
+      "status": "success",
+      "wait_after_ms": 500
+    },
+    {
+      "screen_id": "step-1",
+      "action": "CLICK",
+      "selector": "[data-element-id='engagement-intensity-slider']",
+      "reasoning": "Back to this screen. Setting the slider.",
+      "status": "success",
+      "wait_after_ms": 600
+    },
+    {
+      "screen_id": "step-1",
+      "action": "CLICK",
+      "selector": "[data-element-id='step1-continue']",
+      "reasoning": "Proceeding to notifications.",
+      "status": "success",
+      "wait_after_ms": 500
+    },
+    {
+      "screen_id": "step-2",
+      "action": "CLICK",
+      "selector": "[data-element-id='notification-updates']",
+      "reasoning": "Selecting updates.",
+      "status": "success",
+      "wait_after_ms": 600
+    },
+    {
+      "screen_id": "step-2",
+      "action": "CLICK",
+      "selector": "[data-element-id='notification-reports']",
+      "reasoning": "And reports too - let me see if multiple selections work.",
+      "status": "success",
+      "wait_after_ms": 800
+    },
+    {
+      "screen_id": "step-2",
+      "action": "CLICK",
+      "selector": "[data-element-id='step2-skip']",
+      "reasoning": "To the final screen.",
+      "status": "success",
+      "wait_after_ms": 500
+    },
+    {
+      "screen_id": "step-3",
+      "action": "WAIT",
+      "selector": "body",
+      "reasoning": "Interesting - the flow allowed backtracking. That's good UX, though the labels throughout were confusing.",
+      "status": "success",
+      "wait_after_ms": 1200
+    },
+    {
+      "screen_id": "step-3",
+      "action": "CLICK",
+      "selector": "[data-element-id='step3-finish']",
+      "reasoning": "Done exploring. Overall, the flow works but the language needs improvement.",
+      "status": "success",
+      "wait_after_ms": 600
+    }
+  ]
+}
+

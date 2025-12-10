@@ -14,6 +14,7 @@ from .gen_z_creator_v1 import run_gen_z_creator_v1
 from .ai_ux_agent_v1 import run_ai_ux_agent_v1
 from .ai_ux_agent_v1_plan import run_ai_ux_agent_v1_plan
 from .ai_ux_agent_v1_fullplan import run_ai_ux_agent_v1_fullplan
+from .batch_runner import run_persona_suite
 from src.config import APP_BASE_URL, PLAYWRIGHT_OUTPUT_DIR
 
 
@@ -290,4 +291,125 @@ async def delete_run(run_id: str):
         del active_runs[run_id]
     
     return {"message": f"Run {run_id} deleted successfully"}
+
+
+# ============================================================================
+# Scripted Suite Endpoints
+# ============================================================================
+
+class ScriptedSuiteRequest(BaseModel):
+    """Request to run a scripted persona suite"""
+    ui_version: str
+    persona_ids: Optional[List[str]] = None  # Defaults to all 5 personas
+    run_group_id: Optional[str] = None  # Generated if not provided
+    headless: bool = True
+
+
+class ScriptedSuiteResponse(BaseModel):
+    """Response from starting a scripted suite"""
+    run_group_id: str
+    ui_version: str
+    persona_count: int
+    message: str
+
+
+@router.post("/scripted-suite", response_model=ScriptedSuiteResponse)
+async def start_scripted_suite(
+    request: ScriptedSuiteRequest,
+    background_tasks: BackgroundTasks
+):
+    """
+    Run a complete suite of scripted personas for a given UI version.
+    
+    This runs all personas sequentially with a shared run_group_id for easy grouping.
+    Perfect for generating demo videos and events for all personas at once.
+    """
+    from uuid import uuid4
+    import time
+    
+    # Generate run_group_id if not provided
+    run_group_id = request.run_group_id or f"suite-{request.ui_version}-{int(time.time() * 1000)}"
+    
+    # Start the suite in background
+    background_tasks.add_task(
+        run_persona_suite,
+        ui_version=request.ui_version,
+        persona_ids=request.persona_ids,
+        run_group_id=run_group_id,
+        headless=request.headless,
+        base_url=APP_BASE_URL,
+        output_dir=PLAYWRIGHT_OUTPUT_DIR
+    )
+    
+    persona_count = len(request.persona_ids) if request.persona_ids else 5
+    
+    return ScriptedSuiteResponse(
+        run_group_id=run_group_id,
+        ui_version=request.ui_version,
+        persona_count=persona_count,
+        message=f"Started scripted suite for {persona_count} personas (UI: {request.ui_version})"
+    )
+
+
+@router.get("/scripted-suite/{run_group_id}")
+async def get_suite_status(run_group_id: str):
+    """
+    Get status of all runs in a suite by run_group_id.
+    
+    Returns metadata for all persona runs that share this run_group_id.
+    """
+    suite_dir = Path(PLAYWRIGHT_OUTPUT_DIR)
+    
+    if not suite_dir.exists():
+        raise HTTPException(status_code=404, detail="No runs found")
+    
+    # Find all runs with this run_group_id
+    suite_runs = []
+    
+    for run_dir in suite_dir.iterdir():
+        if not run_dir.is_dir():
+            continue
+        
+        metadata_file = run_dir / "metadata.json"
+        if not metadata_file.exists():
+            continue
+        
+        try:
+            import json
+            with open(metadata_file, 'r') as f:
+                metadata = json.load(f)
+            
+            # Check if this run belongs to the suite
+            if metadata.get("run_group_id") == run_group_id or metadata.get("metadata", {}).get("run_group_id") == run_group_id:
+                suite_runs.append({
+                    "run_id": metadata["run_id"],
+                    "persona_id": metadata["persona_id"],
+                    "status": metadata["status"],
+                    "duration_ms": metadata.get("duration_ms"),
+                    "event_count": metadata.get("metadata", {}).get("eventCount", 0)
+                })
+        except Exception as e:
+            print(f"Error reading metadata for {run_dir}: {e}")
+            continue
+    
+    if not suite_runs:
+        raise HTTPException(status_code=404, detail=f"No runs found for suite {run_group_id}")
+    
+    # Calculate suite status
+    total = len(suite_runs)
+    completed = sum(1 for r in suite_runs if r["status"] == "completed")
+    failed = sum(1 for r in suite_runs if r["status"] == "failed")
+    running = sum(1 for r in suite_runs if r["status"] == "running")
+    
+    suite_status = "completed" if completed == total else ("running" if running > 0 else "partial")
+    
+    return {
+        "run_group_id": run_group_id,
+        "status": suite_status,
+        "total_personas": total,
+        "completed": completed,
+        "failed": failed,
+        "running": running,
+        "runs": suite_runs
+    }
 

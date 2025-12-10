@@ -1,0 +1,146 @@
+{
+  "persona_id": "privacy_skeptic",
+  "persona_name": "Skeptical Privacy-Conscious User",
+  "ui_version": "v1",
+  "scenario_id": "onboarding",
+  "description": "Privacy-conscious user who carefully reads all text and questions vague language about data usage in V1",
+  "steps": [
+    {
+      "screen_id": "step-0",
+      "action": "WAIT",
+      "selector": "body",
+      "reasoning": "I need to read carefully what each option means before choosing.",
+      "status": "success",
+      "wait_after_ms": 3000
+    },
+    {
+      "screen_id": "step-0",
+      "action": "HOVER",
+      "selector": "[data-element-id='goal-option-maximize']",
+      "reasoning": "'Maximize Output' - does this mean collecting more data about my work patterns?",
+      "status": "confused",
+      "wait_after_ms": 2500
+    },
+    {
+      "screen_id": "step-0",
+      "action": "HOVER",
+      "selector": "[data-element-id='goal-option-optimize']",
+      "reasoning": "'Optimize Workflow' - optimization usually requires tracking. What data is being collected?",
+      "status": "confused",
+      "wait_after_ms": 2500
+    },
+    {
+      "screen_id": "step-0",
+      "action": "HOVER",
+      "selector": "[data-element-id='goal-option-balance']",
+      "reasoning": "'Equilibrium Mode' sounds the most privacy-preserving, but I can't tell for sure.",
+      "status": "confused",
+      "wait_after_ms": 2000
+    },
+    {
+      "screen_id": "step-0",
+      "action": "CLICK",
+      "selector": "[data-element-id='goal-option-balance']",
+      "reasoning": "Choosing this because it seems least intrusive, though the app doesn't explain data implications.",
+      "status": "success",
+      "wait_after_ms": 1500
+    },
+    {
+      "screen_id": "step-0",
+      "action": "CLICK",
+      "selector": "[data-element-id='step0-continue']",
+      "reasoning": "Proceeding, but concerned about lack of privacy information.",
+      "status": "success",
+      "wait_after_ms": 1000
+    },
+    {
+      "screen_id": "step-1",
+      "action": "WAIT",
+      "selector": "body",
+      "reasoning": "'Engagement Mode' and 'Interaction Paradigm' - what data is this collecting about my interactions?",
+      "status": "confused",
+      "wait_after_ms": 3000
+    },
+    {
+      "screen_id": "step-1",
+      "action": "HOVER",
+      "selector": "[data-element-id='engagement-intensity-slider']",
+      "reasoning": "This slider has no explanation. Does higher intensity mean more tracking?",
+      "status": "confused",
+      "wait_after_ms": 2500
+    },
+    {
+      "screen_id": "step-1",
+      "action": "CLICK",
+      "selector": "[data-element-id='engagement-intensity-slider']",
+      "reasoning": "Setting it low to minimize potential data collection.",
+      "status": "success",
+      "wait_after_ms": 1500
+    },
+    {
+      "screen_id": "step-1",
+      "action": "CLICK",
+      "selector": "[data-element-id='step1-continue']",
+      "reasoning": "Moving on, but this app really needs a privacy policy link.",
+      "status": "success",
+      "wait_after_ms": 1000
+    },
+    {
+      "screen_id": "step-2",
+      "action": "WAIT",
+      "selector": "body",
+      "reasoning": "Notifications screen - I need to be careful here about what data sharing I'm agreeing to.",
+      "status": "success",
+      "wait_after_ms": 2500
+    },
+    {
+      "screen_id": "step-2",
+      "action": "HOVER",
+      "selector": "[data-element-id='notification-updates']",
+      "reasoning": "Important updates? Are these marketing emails or actual product updates?",
+      "status": "confused",
+      "wait_after_ms": 2000
+    },
+    {
+      "screen_id": "step-2",
+      "action": "HOVER",
+      "selector": "[data-element-id='notification-reports']",
+      "reasoning": "'Weekly progress' - this is vague. What data is being collected and who sees it?",
+      "status": "confused",
+      "wait_after_ms": 2000
+    },
+    {
+      "screen_id": "step-2",
+      "action": "WAIT",
+      "selector": "body",
+      "reasoning": "I'm uncomfortable with how vague these options are. There's no privacy information at all.",
+      "status": "blocked",
+      "wait_after_ms": 2000
+    },
+    {
+      "screen_id": "step-2",
+      "action": "CLICK",
+      "selector": "[data-element-id='step2-skip']",
+      "reasoning": "Not selecting anything - I'll skip notifications entirely to minimize data sharing.",
+      "status": "success",
+      "wait_after_ms": 1000
+    },
+    {
+      "screen_id": "step-3",
+      "action": "WAIT",
+      "selector": "body",
+      "reasoning": "Final review. Still no mention of privacy policy or data usage anywhere in this flow.",
+      "status": "confused",
+      "wait_after_ms": 2500
+    },
+    {
+      "screen_id": "step-3",
+      "action": "CLICK",
+      "selector": "[data-element-id='step3-finish']",
+      "reasoning": "Completing reluctantly. This onboarding needs clear privacy information.",
+      "status": "success",
+      "wait_after_ms": 1000
+    }
+  ]
+}
+
