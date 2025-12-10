@@ -53,6 +53,7 @@ async def main():
     # await seed_from_playwright_events(str(Path(__file__).parent.parent / "playwright-runs"), store)
     print("Seeded events from playwright runs")
     workflow = Workflow(events, tkf)
+    await workflow.initialize_tkf()
     await workflow.process_from_playwright_events()
 
 

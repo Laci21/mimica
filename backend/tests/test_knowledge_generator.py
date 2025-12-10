@@ -71,10 +71,18 @@ async def test_knowledge_generation():
     result = await generator.generate_knowledge()
     
     print("\n" + "="*60)
-    print("Generated Knowledge:")
+    print(f"Generated Knowledge ({len(result)} items):")
     print("="*60)
-    print(result)
-    print("="*60)
+    
+    for i, knowledge_item in enumerate(result, 1):
+        try:
+            item_data = json.loads(knowledge_item)
+            print(f"\n[{i}] {item_data.get('statement', 'N/A')}")
+            print(f"    Reasoning: {item_data.get('reasoning', 'N/A')}")
+        except json.JSONDecodeError:
+            print(f"\n[{i}] {knowledge_item}")
+    
+    print("\n" + "="*60)
     
     return result
 

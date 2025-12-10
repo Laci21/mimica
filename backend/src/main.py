@@ -1,5 +1,6 @@
 import datetime
 from pathlib import Path
+import json
 import uuid
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException, Query, Request
@@ -12,10 +13,10 @@ from src.persona_repository import repository as persona_repo
 
 from src.playwright.routes import router as playwright_router
 
-
 async def inititalize_server():
     print("Seeding TKF...")
     workflow = Workflow(events, tkf)
+    await workflow.initialize_tkf()
     await workflow.process_from_playwright_events()
     print("TKF seeded")
 
