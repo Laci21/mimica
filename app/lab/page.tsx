@@ -135,11 +135,11 @@ export default function LabPage() {
   return (
     <div className="h-screen flex flex-col bg-background">
       {/* Header */}
-      <header className="border-b border-border bg-surface px-6 py-4 flex-shrink-0">
+      <header className="border-b border-border bg-surface px-6 py-1.5 flex-shrink-0">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-accent">Analysis Lab</h1>
-            <p className="text-xs text-foreground/50 mt-1">
+            <h1 className="text-xl font-bold text-accent">Analysis Lab</h1>
+            <p className="text-[10px] text-foreground/50 mt-0">
               View test replays and analyze knowledge fabric
             </p>
           </div>
@@ -169,7 +169,7 @@ export default function LabPage() {
       </header>
 
       {/* Tabs */}
-      <div className="border-b border-border bg-surface px-6 py-3 flex-shrink-0">
+      <div className="border-b border-border bg-surface px-6 py-1 flex-shrink-0">
         <div className="flex gap-2">
           <button
             onClick={() => setActiveTab('replays')}
@@ -196,7 +196,7 @@ export default function LabPage() {
 
       {/* Content Area */}
       <main className="flex-1 overflow-hidden flex flex-col">
-        <div className="flex-1 overflow-hidden p-6">
+        <div className="flex-1 overflow-hidden p-3">
           {activeTab === 'replays' ? (
             <ReplayViewer selectedRunId={selectedRunId} onRunChange={setSelectedRunId} runs={runs} />
           ) : (
