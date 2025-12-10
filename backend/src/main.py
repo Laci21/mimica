@@ -17,7 +17,10 @@ async def inititalize_server():
     print("Seeding TKF...")
     workflow = Workflow(events, tkf)
     await workflow.initialize_tkf()
-    await workflow.process_from_playwright_events()
+    # Note: process_from_playwright_events() is commented out because TKF is now
+    # seeded from seeds.py which already contains the processed playwright data.
+    # Only uncomment if you want to reprocess playwright-runs/ folder on startup.
+    # await workflow.process_from_playwright_events()
     print("TKF seeded")
 
 

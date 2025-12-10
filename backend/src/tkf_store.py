@@ -57,6 +57,11 @@ class TKFStore(ABC):
     async def seed(self, full_content: str) -> None:
         """Seed the full content of the TKF."""
         raise NotImplementedError
+    
+    @abstractmethod
+    async def seed_with_updates(self, full_content: str, updates: list[TKFUpdate]) -> None:
+        """Seed the TKF with both full content and historical updates."""
+        raise NotImplementedError
 
 
 class InMemoryTKFStore(TKFStore):
@@ -204,9 +209,18 @@ class InMemoryTKFStore(TKFStore):
         return result.final_output
 
     async def seed(self, full_content: str) -> None:
-        # processed_content = await self._format_seed_content(full_content)
         async with self._lock:
             self._full_content = full_content
+    
+    async def seed_with_updates(self, full_content: str, updates: list[TKFUpdate]) -> None:
+        """
+        Seed the TKF with both full content and historical updates.
+        This bypasses semantic checks since we're restoring known-good state.
+        """
+        async with self._lock:
+            self._full_content = full_content
+            self._updates = list(updates)  # Copy the list
+            print(f"[TKF] Seeded with {len(self._full_content)} chars and {len(self._updates)} historical updates")
 
     async def get_updates_by_metadata_filter(self, metadata_filter: dict) -> list[TKFUpdate]:
         async with self._lock:
