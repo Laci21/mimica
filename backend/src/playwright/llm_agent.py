@@ -9,7 +9,10 @@ import json
 from typing import Optional, Dict, Any
 from playwright.async_api import Page
 
-from .models import LLMDecision, PageState, PlaywrightAction, EventStatus
+from .models import (
+    LLMDecision, PageState, PlaywrightAction, EventStatus,
+    ScreenPlan, PlanAction, ScreenSummary, FullFlowPlan
+)
 from src.utils import llm_gpt_4o
 
 
@@ -23,15 +26,17 @@ async def extract_page_state(page: Page) -> PageState:
     Returns:
         PageState with title, URL, visible text, and available elements
     """
-    # Get available interactive elements with data-element-id
+    # Get available interactive elements with data-element-id (excluding disabled)
     available_elements = await page.evaluate('''() => {
         const elements = Array.from(document.querySelectorAll('[data-element-id]'));
-        return elements.map(el => ({
-            id: el.getAttribute('data-element-id') || '',
-            text: (el.textContent || '').trim().substring(0, 100),
-            type: el.tagName.toLowerCase(),
-            selector: `[data-element-id="${el.getAttribute('data-element-id')}"]`
-        }));
+        return elements
+            .filter(el => !el.disabled && !el.classList.contains('disabled'))
+            .map(el => ({
+                id: el.getAttribute('data-element-id') || '',
+                text: (el.textContent || '').trim().substring(0, 100),
+                type: el.tagName.toLowerCase(),
+                selector: `[data-element-id="${el.getAttribute('data-element-id')}"]`
+            }));
     }''')
     
     # Get page content
@@ -78,66 +83,40 @@ async def get_llm_decision(
     Returns:
         LLMDecision with action, selector, reasoning, etc.
     """
-    system_prompt = f"""You are {persona_name}, {persona_description}.
+    # Shortened prompt for faster response
+    system_prompt = f"""You are {persona_name}, testing a UI.
+Goals: {'; '.join(persona_goals[:2])}
+Pain points: {'; '.join(persona_pain_points[:2])}
+Respond with valid JSON only."""
 
-Your characteristics:
-- Goals: {'; '.join(persona_goals)}
-- Preferences: {'; '.join(persona_preferences)}
-- Pain Points: {'; '.join(persona_pain_points)}
-- Tone: {persona_tone}
-
-You are testing a web application's user interface. At each step, observe what's on the screen and decide what action to take next based on your personality, goals, and pain points.
-
-Think like a real user with your specific characteristics. Express confusion when things are unclear, delight when things work well, and frustration when blocked."""
-
+    # Limit elements list for faster processing
     elements_list = '\n'.join([
-        f"{i + 1}. [{el['type']}] \"{el['text']}\" (id: {el['id']})"
-        for i, el in enumerate(page_state.available_elements)
+        f"{i + 1}. \"{el['text'][:30]}\" (id: {el['id']})"
+        for i, el in enumerate(page_state.available_elements[:15])  # Limit to 15 elements
     ])
 
-    user_prompt = f"""Current page state:
-
-Title: {page_state.title}
-URL: {page_state.url}
-Screen: {page_state.screen_id or 'unknown'}
-
-Visible text on page (truncated):
-{page_state.visible_text}
-
-Available interactive elements:
+    # Shortened prompt for faster response
+    user_prompt = f"""Page: {page_state.title}
+Elements:
 {elements_list}
 
-What do you do next? Consider your goals, preferences, and pain points.
+Next action JSON:
+{{"action":"CLICK|HOVER|TYPE|WAIT","selector":"[data-element-id='id-here']","reasoning":"brief thought","status":"success|confused|blocked|delighted","shouldContinue":true|false,"textToType":"optional"}}
 
-Respond ONLY with valid JSON in this exact format (no markdown, no code blocks):
-{{
-  "action": "CLICK" | "HOVER" | "TYPE" | "WAIT",
-  "selector": "[data-element-id='exact-id-here']",
-  "reasoning": "Your first-person thought process explaining why (1-2 sentences)",
-  "status": "success" | "confused" | "blocked" | "delighted",
-  "shouldContinue": true | false,
-  "textToType": "optional - only if action is TYPE"
-}}
-
-Important:
-- Use EXACTLY one of the selectors from the available elements list
-- Keep reasoning conversational and in-character
-- Set shouldContinue to false if you've completed the flow or are stuck
-- Match status to your emotional state (confused if unclear, delighted if pleasant)"""
+Use exact selector from list."""
 
     try:
-        # Use the backend's LLM integration
-        # The llm_gpt_4o model is from openai-agents, so we need to adapt the call
+        # Use the backend's LLM integration (gpt-4o-mini for speed)
         from agents import Runner, Agent, RunConfig
         
-        # Create a simple agent for this decision
+        # Create agent (using gpt-4o-mini from utils.py for speed)
         decision_agent = Agent(
             name='ux_agent_decision',
             instructions=system_prompt,
-            model=llm_gpt_4o
+            model=llm_gpt_4o  # Already configured with gpt-4o-mini in utils.py
         )
         
-        # Run the agent to get the decision
+        # Run with tracing disabled for speed
         result = await Runner.run(
             decision_agent,
             input=user_prompt,
@@ -194,7 +173,7 @@ Important:
 
 async def execute_llm_decision(page: Page, decision: LLMDecision) -> None:
     """
-    Execute an LLM decision on the page.
+    Execute an LLM decision on the page (optimized).
     
     Args:
         page: Playwright page object
@@ -202,24 +181,29 @@ async def execute_llm_decision(page: Page, decision: LLMDecision) -> None:
     """
     try:
         if decision.action == PlaywrightAction.CLICK:
+            # Just try to click - faster than pre-checking
+            # Playwright will wait for element automatically
             await page.click(decision.selector, timeout=5000)
         
         elif decision.action == PlaywrightAction.HOVER:
-            await page.hover(decision.selector, timeout=5000)
+            # Reduced timeout for speed
+            await page.hover(decision.selector, timeout=2000)
         
         elif decision.action == PlaywrightAction.TYPE:
             if decision.text_to_type:
-                await page.fill(decision.selector, decision.text_to_type, timeout=5000)
+                await page.fill(decision.selector, decision.text_to_type, timeout=3000)
         
         elif decision.action == PlaywrightAction.WAIT:
-            await page.wait_for_timeout(1000)
+            # Reduced wait time
+            await page.wait_for_timeout(500)
         
         else:
             print(f"Unknown action: {decision.action}")
     
     except Exception as e:
         print(f"Error executing {decision.action} on {decision.selector}: {e}")
-        raise
+        # Don't raise - let agent continue and try to recover
+        pass
 
 
 async def run_llm_persona_flow(
@@ -300,4 +284,281 @@ async def run_llm_persona_flow(
     
     print(f"\n[LLM Agent] Flow completed with {len(decisions)} steps\n")
     return decisions
+
+
+# ============================================================================
+# Plan-Then-Execute: Screen Planner
+# ============================================================================
+
+async def plan_screen(
+    persona_name: str,
+    persona_description: str,
+    persona_goals: list[str],
+    persona_pain_points: list[str],
+    screen_summary: ScreenSummary
+) -> ScreenPlan:
+    """
+    Generate a plan for a single screen using LLM.
+    
+    Args:
+        persona_name: Name of the persona
+        persona_description: Description of the persona
+        persona_goals: List of persona goals (first 2 used)
+        persona_pain_points: List of persona pain points (first 2 used)
+        screen_summary: Current screen state
+    
+    Returns:
+        ScreenPlan with ordered actions for this screen
+    """
+    # Short system prompt
+    system_prompt = f"""You are {persona_name}, {persona_description}.
+Goals: {'; '.join(persona_goals[:2])}
+Pain points: {'; '.join(persona_pain_points[:2])}
+
+Generate a JSON plan of actions for this screen. Each action needs reasoning."""
+
+    # Build elements list (limit to 15 for speed)
+    elements_list = '\n'.join([
+        f"{i+1}. \"{el.get('label', el.get('id', ''))[:30]}\" (id: {el['id']})"
+        for i, el in enumerate(screen_summary.available_elements[:15])
+    ])
+
+    # User prompt with JSON schema
+    user_prompt = f"""Screen: {screen_summary.screen_id}
+Title: {screen_summary.title}
+
+Elements:
+{elements_list}
+
+Generate a JSON plan:
+{{
+  "actions": [
+    {{"action":"CLICK|HOVER|TYPE|WAIT","selector":"[data-element-id='id-here']","reasoning":"brief first-person thought","value":"optional text if TYPE"}},
+    ...
+  ]
+}}
+
+Use exact selectors from list. Keep plan short (2-5 actions for this screen only)."""
+
+    try:
+        from agents import Runner, Agent, RunConfig
+        
+        # Create planning agent
+        planner_agent = Agent(
+            name='screen_planner',
+            instructions=system_prompt,
+            model=llm_gpt_4o  # Already gpt-4o-mini
+        )
+        
+        # Get plan from LLM
+        result = await Runner.run(
+            planner_agent,
+            input=user_prompt,
+            run_config=RunConfig(tracing_disabled=True)
+        )
+        
+        response_text = result.final_output
+        
+        # Extract JSON
+        if '```json' in response_text:
+            json_start = response_text.find('```json') + 7
+            json_end = response_text.find('```', json_start)
+            response_text = response_text[json_start:json_end].strip()
+        elif '```' in response_text:
+            json_start = response_text.find('```') + 3
+            json_end = response_text.find('```', json_start)
+            response_text = response_text[json_start:json_end].strip()
+        
+        # Parse JSON
+        import json
+        plan_dict = json.loads(response_text)
+        
+        # Convert to PlanAction objects
+        actions = []
+        for action_dict in plan_dict.get('actions', []):
+            action_str = action_dict.get('action', 'WAIT').upper()
+            
+            # Map to PlaywrightAction
+            try:
+                action = PlaywrightAction[action_str]
+            except KeyError:
+                print(f"Unknown action '{action_str}', defaulting to WAIT")
+                action = PlaywrightAction.WAIT
+            
+            actions.append(PlanAction(
+                action=action,
+                selector=action_dict.get('selector', 'body'),
+                reasoning=action_dict.get('reasoning', 'Continuing flow'),
+                value=action_dict.get('value')
+            ))
+        
+        return ScreenPlan(
+            screen_id=screen_summary.screen_id,
+            actions=actions
+        )
+    
+    except Exception as e:
+        print(f"Error generating screen plan: {e}")
+        # Fallback: simple wait action
+        return ScreenPlan(
+            screen_id=screen_summary.screen_id,
+            actions=[
+                PlanAction(
+                    action=PlaywrightAction.WAIT,
+                    selector='body',
+                    reasoning='Waiting to assess the situation due to planning error.'
+                )
+            ]
+        )
+
+
+# ============================================================================
+# Full-Flow Planner (Single LLM call for entire flow)
+# ============================================================================
+
+async def plan_full_flow(
+    persona_name: str,
+    persona_description: str,
+    persona_goals: list[str],
+    persona_pain_points: list[str],
+    flow_description: str,
+    expected_screens: list[str],
+    initial_screen_summary: ScreenSummary
+) -> FullFlowPlan:
+    """
+    Generate a complete plan for the entire flow with a single LLM call.
+    
+    This is faster (1 LLM call vs 4-5) but less adaptive to unexpected UI changes.
+    
+    Args:
+        persona_name: Name of the persona
+        persona_description: Description of the persona
+        persona_goals: List of persona goals
+        persona_pain_points: List of persona pain points
+        flow_description: High-level description of the flow
+        expected_screens: Expected screen IDs in order
+        initial_screen_summary: Summary of the first screen
+    
+    Returns:
+        FullFlowPlan with ordered actions for entire flow
+    """
+    # System prompt
+    system_prompt = f"""You are {persona_name}, {persona_description}.
+Goals: {'; '.join(persona_goals[:2])}
+Pain points: {'; '.join(persona_pain_points[:2])}
+
+Generate a complete JSON plan for the ENTIRE flow. This is a multi-screen onboarding flow.
+You need to plan actions that will take you through all screens from start to finish.
+
+Each action needs reasoning and should specify which screen it's for."""
+
+    # Build initial elements list
+    elements_list = '\n'.join([
+        f"{i+1}. \"{el.get('label', el.get('id', ''))[:30]}\" (id: {el['id']})"
+        for i, el in enumerate(initial_screen_summary.available_elements[:15])
+    ])
+
+    # User prompt with flow context
+    user_prompt = f"""Flow: {flow_description}
+
+Expected screens: {' → '.join(expected_screens)}
+
+Initial screen ({initial_screen_summary.screen_id}):
+Title: {initial_screen_summary.title}
+Elements:
+{elements_list}
+
+Generate a JSON plan for the COMPLETE flow:
+{{
+  "actions": [
+    {{"screen":"step-0","action":"CLICK|HOVER|TYPE|WAIT","selector":"[data-element-id='id-here']","reasoning":"brief first-person thought","value":"optional text if TYPE"}},
+    {{"screen":"step-0","action":"CLICK","selector":"[data-element-id='continue-btn']","reasoning":"moving to next screen"}},
+    {{"screen":"step-1","action":"CLICK","selector":"[data-element-id='option-1']","reasoning":"..."}},
+    // ... continue planning through all screens to completion
+  ]
+}}
+
+Important:
+1. Use exact format: [data-element-id='id-here']
+2. Continue buttons follow pattern: step0-continue, step1-continue, step2-continue, step3-continue
+3. Back buttons follow pattern: step1-back, step2-back, step3-back
+4. Goal options: goal-option-balance, goal-option-maximize, goal-option-optimize
+5. For elements you haven't seen, use simple IDs or use WAIT to pause
+6. Plan 8-12 actions total (keep it simple)
+7. Focus on navigation between screens rather than trying to guess all element IDs"""
+
+    try:
+        from agents import Runner, Agent, RunConfig
+        
+        # Create planning agent
+        planner_agent = Agent(
+            name='full_flow_planner',
+            instructions=system_prompt,
+            model=llm_gpt_4o
+        )
+        
+        # Get plan from LLM
+        result = await Runner.run(
+            planner_agent,
+            input=user_prompt,
+            run_config=RunConfig(tracing_disabled=True)
+        )
+        
+        response_text = result.final_output
+        
+        # Extract JSON
+        if '```json' in response_text:
+            json_start = response_text.find('```json') + 7
+            json_end = response_text.find('```', json_start)
+            response_text = response_text[json_start:json_end].strip()
+        elif '```' in response_text:
+            json_start = response_text.find('```') + 3
+            json_end = response_text.find('```', json_start)
+            response_text = response_text[json_start:json_end].strip()
+        
+        # Parse JSON
+        import json
+        plan_dict = json.loads(response_text)
+        
+        # Convert to PlanAction objects
+        actions = []
+        for action_dict in plan_dict.get('actions', []):
+            action_str = action_dict.get('action', 'WAIT').upper()
+            
+            # Map to PlaywrightAction
+            try:
+                action = PlaywrightAction[action_str]
+            except KeyError:
+                print(f"Unknown action '{action_str}', defaulting to WAIT")
+                action = PlaywrightAction.WAIT
+            
+            actions.append(PlanAction(
+                action=action,
+                selector=action_dict.get('selector', 'body'),
+                reasoning=action_dict.get('reasoning', 'Continuing flow'),
+                value=action_dict.get('value')
+            ))
+        
+        print(f"[Full Flow Planner] Generated plan with {len(actions)} actions across {len(expected_screens)} screens")
+        
+        return FullFlowPlan(
+            flow_id='onboarding-v1',
+            actions=actions,
+            expected_screens=expected_screens
+        )
+    
+    except Exception as e:
+        print(f"Error generating full flow plan: {e}")
+        # Fallback: minimal plan to at least try
+        return FullFlowPlan(
+            flow_id='onboarding-v1',
+            actions=[
+                PlanAction(
+                    action=PlaywrightAction.WAIT,
+                    selector='body',
+                    reasoning='Waiting due to planning error. Need to assess manually.'
+                )
+            ],
+            expected_screens=expected_screens
+        )
 

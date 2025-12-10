@@ -135,7 +135,7 @@ async def run_ai_ux_agent_v1(
         page = await runner.start()
         
         # Navigate to app
-        await runner.navigate(f"/lab?version={ui_version.value}")
+        await runner.navigate(f"/app?version={ui_version.value}")
         await asyncio.sleep(2)  # Wait for initial load
         
         # Log initial navigation
@@ -155,12 +155,12 @@ async def run_ai_ux_agent_v1(
         for step in range(max_steps):
             print(f"\n[Step {step + 1}/{max_steps}]")
             
-            # Wait for page to settle
+            # Minimal wait for page to settle (optimized)
             try:
-                await page.wait_for_load_state('networkidle', timeout=5000)
+                await page.wait_for_load_state('domcontentloaded', timeout=1000)
             except:
                 pass
-            await asyncio.sleep(0.5)
+            await asyncio.sleep(0.1)  # Minimal settling time
             
             # Extract page state
             page_state = await extract_page_state(page)
@@ -233,8 +233,8 @@ async def run_ai_ux_agent_v1(
                 ))
                 step_index += 1
             
-            # Small delay between actions
-            await asyncio.sleep(1)
+            # Minimal delay between actions (optimized)
+            await asyncio.sleep(0.1)  # Fast execution like scripted
         
         if step >= max_steps - 1:
             print(f"\n⚠ Reached max steps ({max_steps})\n")

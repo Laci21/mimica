@@ -12,6 +12,8 @@ from pydantic import BaseModel
 from .models import RunMode, UIVersion, PersonaFlowResult
 from .gen_z_creator_v1 import run_gen_z_creator_v1
 from .ai_ux_agent_v1 import run_ai_ux_agent_v1
+from .ai_ux_agent_v1_plan import run_ai_ux_agent_v1_plan
+from .ai_ux_agent_v1_fullplan import run_ai_ux_agent_v1_fullplan
 from src.config import APP_BASE_URL, PLAYWRIGHT_OUTPUT_DIR
 
 
@@ -24,6 +26,7 @@ class StartRunRequest(BaseModel):
     mode: RunMode
     headless: bool = True
     max_steps: Optional[int] = 20
+    planning_strategy: str = "per-screen"  # "per-screen" or "full-flow"
 
 
 class StartRunResponse(BaseModel):
@@ -54,7 +57,8 @@ async def _execute_run(
     ui_version: UIVersion,
     mode: RunMode,
     headless: bool,
-    max_steps: int
+    max_steps: int,
+    planning_strategy: str = "per-screen"
 ):
     """
     Background task to execute a Playwright run.
@@ -72,12 +76,32 @@ async def _execute_run(
         
         elif mode == RunMode.LLM_DRIVEN:
             if persona_id == "ai-ux-agent" and scenario_id == "onboarding":
-                result = await run_ai_ux_agent_v1(
-                    headless=headless,
-                    base_url=APP_BASE_URL,
-                    output_dir=PLAYWRIGHT_OUTPUT_DIR,
-                    max_steps=max_steps
-                )
+                # Choose planning strategy
+                
+                if planning_strategy == "full-flow":
+                    # Full-flow planning: 1 LLM call for entire flow (fastest, ~10-20s)
+                    result = await run_ai_ux_agent_v1_fullplan(
+                        headless=headless,
+                        base_url=APP_BASE_URL,
+                        output_dir=PLAYWRIGHT_OUTPUT_DIR,
+                        max_actions=max_steps
+                    )
+                elif planning_strategy == "per-step":
+                    # Per-step planning: 1 LLM call per action (legacy, ~3-6 min)
+                    result = await run_ai_ux_agent_v1(
+                        headless=headless,
+                        base_url=APP_BASE_URL,
+                        output_dir=PLAYWRIGHT_OUTPUT_DIR,
+                        max_steps=max_steps
+                    )
+                else:
+                    # Per-screen planning: 1 LLM call per screen (default, ~30-60s)
+                    result = await run_ai_ux_agent_v1_plan(
+                        headless=headless,
+                        base_url=APP_BASE_URL,
+                        output_dir=PLAYWRIGHT_OUTPUT_DIR,
+                        max_screens=max_steps
+                    )
             else:
                 raise ValueError(f"Unsupported LLM persona/scenario: {persona_id}/{scenario_id}")
         
@@ -122,7 +146,8 @@ async def start_run(
         ui_version=request.ui_version,
         mode=request.mode,
         headless=request.headless,
-        max_steps=request.max_steps or 20
+        max_steps=request.max_steps or 20,
+        planning_strategy=request.planning_strategy
     )
     
     return StartRunResponse(
