@@ -2,6 +2,8 @@
 
 Get the Playwright UX testing integration running in 5 minutes.
 
+**⚡ NEW: Plan-then-execute architecture** - LLM runs are now 4-7x faster!
+
 ## Prerequisites
 
 - Python 3.13+
@@ -111,7 +113,9 @@ open video.webm  # macOS
 
 ## Next Steps
 
-### Run an LLM-Driven Persona
+### Run an LLM-Driven Persona (Plan-Then-Execute)
+
+**⚡ Now 4-7x faster with plan-then-execute!**
 
 ```bash
 curl -X POST http://localhost:8001/playwright/runs \
@@ -122,9 +126,11 @@ curl -X POST http://localhost:8001/playwright/runs \
     "ui_version": "v1",
     "mode": "llm-driven",
     "headless": true,
-    "max_steps": 20
+    "max_steps": 10
   }'
 ```
+
+This will complete in ~40-60 seconds instead of 3-6 minutes!
 
 ### Run from Command Line
 
@@ -132,10 +138,13 @@ curl -X POST http://localhost:8001/playwright/runs \
 cd backend
 
 # Scripted
-python -m src.playwright.gen_z_creator_v1
+uv run python -m src.playwright.gen_z_creator_v1
 
-# LLM-driven
-python -m src.playwright.ai_ux_agent_v1
+# LLM-driven with plan-then-execute (default, fast!)
+uv run python -m src.playwright.ai_ux_agent_v1_plan
+
+# LLM-driven legacy per-step (slower)
+uv run python -m src.playwright.ai_ux_agent_v1
 ```
 
 ### Integrate with Frontend

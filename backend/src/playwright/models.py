@@ -169,3 +169,77 @@ class PersonaFlowResult:
     metadata_path: Optional[str] = None
     error: Optional[str] = None
 
+
+# ============================================================================
+# Plan-Then-Execute Models
+# ============================================================================
+
+@dataclass
+class PlanAction:
+    """
+    A single planned action for plan-then-execute flow.
+    
+    Each action includes reasoning so we can populate TKF and thought bubbles.
+    """
+    action: PlaywrightAction
+    selector: str
+    reasoning: str
+    value: Optional[str] = None  # Text to type, if action is TYPE
+    
+    def to_dict(self) -> Dict[str, Any]:
+        """Convert to dictionary for JSON serialization"""
+        result = asdict(self)
+        result['action'] = self.action.value
+        return result
+
+
+@dataclass
+class ScreenPlan:
+    """
+    A plan for a single screen/segment of the flow.
+    
+    Contains an ordered list of actions to execute on this screen.
+    """
+    screen_id: str
+    actions: list[PlanAction]
+    stop_condition: Optional[str] = None  # Future: "when continue button is enabled"
+    
+    def to_dict(self) -> Dict[str, Any]:
+        """Convert to dictionary for JSON serialization"""
+        return {
+            'screen_id': self.screen_id,
+            'actions': [a.to_dict() for a in self.actions],
+            'stop_condition': self.stop_condition
+        }
+
+
+@dataclass
+class ScreenSummary:
+    """
+    Summary of current screen state for planner input.
+    """
+    screen_id: str
+    title: str
+    url: str
+    available_elements: list[Dict[str, str]]  # [{id, label, type}, ...]
+
+
+@dataclass
+class FullFlowPlan:
+    """
+    A plan for the entire flow (all screens).
+    
+    Contains an ordered list of actions across all screens.
+    """
+    flow_id: str
+    actions: list[PlanAction]
+    expected_screens: list[str]  # Expected screen progression
+    
+    def to_dict(self) -> Dict[str, Any]:
+        """Convert to dictionary for JSON serialization"""
+        return {
+            'flow_id': self.flow_id,
+            'actions': [a.to_dict() for a in self.actions],
+            'expected_screens': self.expected_screens
+        }
+
