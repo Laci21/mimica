@@ -24,3 +24,12 @@ class TestEvent(BaseModel):
     group_id: str = Field(description="The unique identifier for the group")
     created_at: str = Field(description="The creation date of the event", default_factory=lambda: datetime.datetime.now(datetime.timezone.utc).isoformat())
     # TODO: rest...
+
+
+class TKFUpdate(BaseModel):
+    id: str = Field(description="The unique identifier for the knowledge item")
+    created_at: str = Field(description="The creation date of the knowledge item", default_factory=lambda: datetime.datetime.now(datetime.timezone.utc).isoformat())
+    old_text: str = Field(description="The old text of the knowledge item, to be replaced by the new text")
+    new_text: str = Field(description="The new text of the knowledge item, replacing the old text")
+    reasoning: str = Field(description="The reasoning of the knowledge item")
+    metadata: dict = Field(description="The metadata of the knowledge item", default={})
