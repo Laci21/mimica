@@ -31,12 +31,13 @@ export default function EventList({
   }
 
   return (
-    <div className="space-y-2 p-4">
-      <div className="text-xs font-medium text-foreground/60 mb-3">
+    <div className="h-full flex flex-col">
+      <div className="text-xs font-medium text-foreground/60 p-4 pb-2 flex-shrink-0">
         All Events ({events.length})
       </div>
       
-      <div className="space-y-2 max-h-[400px] overflow-y-auto pr-2">
+      <div className="flex-1 overflow-y-auto px-4 pb-4">
+        <div className="space-y-2">
         {events.map((event, idx) => {
           const videoTime = getVideoTimeForEvent(event, startUnix);
           const statusColors = getEventStatusColor(event.status);
@@ -88,6 +89,7 @@ export default function EventList({
             </button>
           );
         })}
+        </div>
       </div>
     </div>
   );
