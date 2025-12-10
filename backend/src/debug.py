@@ -6,6 +6,7 @@ import asyncio
 from agents import Agent, RunConfig, Runner
 from agents.extensions.handoff_prompt import RECOMMENDED_PROMPT_PREFIX
 from langfuse import propagate_attributes
+from src.tkf import get_tkf_agent
 from src.persona_repository import repository as persona_repo
 from src.event_listener import EventListener
 from src.tracking import init_tracing
@@ -26,6 +27,7 @@ agent = Agent(
 
 
 async def start_chat_loop():
+    agent = get_tkf_agent()
     with propagate_attributes(
         session_id=str(uuid.uuid4()),
         tags=["debug_agent"],
@@ -42,7 +44,6 @@ async def start_chat_loop():
 
 
 async def main():
-    persona_repo.get_all()
     init_tracing()
     await start_chat_loop()
 

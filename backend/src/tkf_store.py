@@ -70,6 +70,7 @@ class InMemoryTKFStore(TKFStore):
                 raise TKFStoreFullError(
                     f"TKF store is full (max={self._max_updates}); cannot add more updates."
                 )
+            print(f"[TKF] Adding update: {update.model_dump_json()}")
             self._updates.append(update)
             self._full_content = full_content
 
