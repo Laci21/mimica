@@ -1,5 +1,7 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+
+from src.persona_repository import repository as persona_repo
 
 from src.playwright.routes import router as playwright_router
 
@@ -42,6 +44,19 @@ async def root():
         }
     }
 
+@app.get("/persona/{id}")
+async def get_persona_by_id(id: str):
+    """Get a persona by id."""
+    persona = persona_repo.get_by_id(id)
+    if persona is None:
+        raise HTTPException(status_code=404, detail=f"Persona '{id}' not found")
+    return persona
+
+
+@app.get("/persona")
+async def get_all_personas():
+    """Get all personas."""
+    return persona_repo.get_all()
 
 if __name__ == "__main__":
     import uvicorn
