@@ -1,0 +1,12 @@
+[
+  {
+    "runId": "run-llm-1765359342269",
+    "personaId": "ai-ux-agent",
+    "stepIndex": 0,
+    "targetSelector": "body",
+    "action": "WAIT",
+    "reasoningText": "I need a moment to think about what to do next.",
+    "status": "confused",
+    "timestamp": 1765359347658
+  }
+]

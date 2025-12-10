@@ -1,0 +1,22 @@
+{
+  "runId": "run-llm-1765359985692",
+  "personaId": "ai-ux-agent",
+  "scenarioId": "onboarding",
+  "uiVersion": "v1",
+  "mode": "llm-driven",
+  "appUrl": "http://localhost:3000/app",
+  "status": "completed",
+  "startedAt": "2025-12-10T09:46:25.711Z",
+  "completedAt": "2025-12-10T09:46:29.437Z",
+  "durationMs": 3726,
+  "videoPath": "playwright-runs/run-llm-1765359985692/video.webm",
+  "tracePath": "playwright-runs/test-results/d0584d3b687109f01e10-2f1d2c9c88bcf083b7b0/trace.zip",
+  "eventsPath": "playwright-runs/run-llm-1765359985692/events.json",
+  "source": "playwright-mcp",
+  "metadata": {
+    "browser": "chromium",
+    "playwrightVersion": "1.57.0",
+    "llmModel": "claude-3-5-sonnet-20241022",
+    "eventCount": 1
+  }
+}
