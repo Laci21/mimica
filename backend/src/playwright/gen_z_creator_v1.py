@@ -104,7 +104,7 @@ async def run_gen_z_creator_v1(
         page = await runner.start()
         
         # Navigate to app
-        await runner.navigate(f"/lab?version={ui_version.value}")
+        await runner.navigate(f"/app?version={ui_version.value}")
         await asyncio.sleep(2)  # Wait for initial load
         
         # Step 0: Initial observation and confusion about goals
