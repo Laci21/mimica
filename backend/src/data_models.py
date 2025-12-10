@@ -23,7 +23,11 @@ class TestEvent(BaseModel):
     persona_id: str = Field(description="The unique identifier for the persona")
     group_id: str = Field(description="The unique identifier for the group")
     created_at: str = Field(description="The creation date of the event", default_factory=lambda: datetime.datetime.now(datetime.timezone.utc).isoformat())
-    # TODO: rest...
+    sentiment: str = Field(description="The sentiment of the event")
+    screen_id: str = Field(description="The screen identifier for the event")
+    reasoning_text: str = Field(description="The reasoning text for the event")
+    action: str = Field(description="The action performed in the event")
+    target_selector: str = Field(description="The target selector for the event")
 
 
 class TKFUpdate(BaseModel):

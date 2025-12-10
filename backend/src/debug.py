@@ -1,11 +1,15 @@
 
 from hashlib import sha256
+from pathlib import Path
 import uuid
 import httpx
 import asyncio
 from agents import Agent, RunConfig, Runner
 from agents.extensions.handoff_prompt import RECOMMENDED_PROMPT_PREFIX
 from langfuse import propagate_attributes
+from src.tkf_store import tkf
+from src.event_store import store as events
+from src.workflow import Workflow, seed_from_playwright_events
 from src.tkf import get_tkf_agent
 from src.persona_repository import repository as persona_repo
 from src.event_listener import EventListener
@@ -45,7 +49,13 @@ async def start_chat_loop():
 
 async def main():
     init_tracing()
-    await start_chat_loop()
+    # await start_chat_loop()
+    # await seed_from_playwright_events(str(Path(__file__).parent.parent / "playwright-runs"), store)
+    print("Seeded events from playwright runs")
+    workflow = Workflow(events, tkf)
+    await workflow.initialize_tkf()
+    await workflow.process_from_playwright_events()
+
 
 
 if __name__ == "__main__":

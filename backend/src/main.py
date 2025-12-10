@@ -1,25 +1,23 @@
 import datetime
+from pathlib import Path
 import json
 import uuid
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
 
-from src.data_models import TKFUpdate
+from src.workflow import Workflow
+from src.event_store import store as events
 from src.tkf_store import tkf
 from src.persona_repository import repository as persona_repo
 
 from src.playwright.routes import router as playwright_router
 
-def _get_tkf_init_knowledge():
-    with open("data/knowledge/tkf_init_knowledge.json", "r") as f:
-        return f.read()
-
 async def inititalize_server():
     print("Seeding TKF...")
-    tkf_init_knowledge = _get_tkf_init_knowledge()
-    await tkf.seed(tkf_init_knowledge)
-   
+    workflow = Workflow(events, tkf)
+    await workflow.initialize_tkf()
+    await workflow.process_from_playwright_events()
     print("TKF seeded")
 
 
