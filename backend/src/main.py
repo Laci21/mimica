@@ -28,6 +28,34 @@ async def inititalize_server():
         ),
         "Hello, world! 2",
     )
+    await tkf.add_update(
+        TKFUpdate(
+            id=str(uuid.uuid4()),
+            created_at=datetime.datetime.now().isoformat(),
+            old_text="Hello, world! 2",
+            new_text="Hello, world! 3",
+            reasoning="I just updated the full content again",
+            metadata={
+                "session_id": "123",
+                "persona_id": "456",
+            },
+        ),
+        "Hello, world! 3",
+    )
+    await tkf.add_update(
+        TKFUpdate(
+            id=str(uuid.uuid4()),
+            created_at=datetime.datetime.now().isoformat(),
+            old_text="Hello, world! 3",
+            new_text="Hell, world!",
+            reasoning="I just changed the content's meaning",
+            metadata={
+                "session_id": "123",
+                "persona_id": "456",
+            },
+        ),
+        "Hell, world!",
+    )
     print("TKF seeded")
 
 

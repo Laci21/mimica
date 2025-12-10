@@ -1,10 +1,15 @@
 import { TKFInsight, SimulationStep } from '../types';
+import { TKFUpdate } from '../types/tkf';
 import { getPersonaById } from '../data/personas';
 
 export function generateTKFReport(
   insights: TKFInsight[],
   allSteps: SimulationStep[],
-  uiVersion: 'v1' | 'v2'
+  uiVersion: 'v1' | 'v2',
+  backendTKF?: {
+    fullContent: string;
+    updates: TKFUpdate[];
+  }
 ): string {
   const personas = Array.from(
     new Set(allSteps.map((s) => s.personaId))
@@ -21,6 +26,31 @@ export function generateTKFReport(
   report += `**Total Interactions**: ${allSteps.length} steps across ${personas.length} persona${personas.length !== 1 ? 's' : ''}\n\n`;
 
   report += `---\n\n`;
+
+  // Include Backend TKF if available
+  if (backendTKF && backendTKF.fullContent) {
+    report += `## Current Common Knowledge (TKF)\n\n`;
+    report += `The Trusted Knowledge Fabric contains the following accumulated knowledge:\n\n`;
+    report += `\`\`\`\n${backendTKF.fullContent}\n\`\`\`\n\n`;
+    
+    if (backendTKF.updates.length > 0) {
+      report += `### Recent Knowledge Evolution\n\n`;
+      report += `The TKF has evolved through ${backendTKF.updates.length} updates. Most recent changes:\n\n`;
+      
+      // Show last 5 updates
+      backendTKF.updates.slice(-5).reverse().forEach((update, index) => {
+        report += `**Update ${index + 1}** (${new Date(update.created_at).toLocaleString()})\n`;
+        report += `- Reasoning: ${update.reasoning}\n`;
+        report += `- Change: \`${update.old_text}\` → \`${update.new_text}\`\n`;
+        if (Object.keys(update.metadata).length > 0) {
+          report += `- Context: ${Object.entries(update.metadata).map(([k, v]) => `${k}=${v}`).join(', ')}\n`;
+        }
+        report += `\n`;
+      });
+    }
+    
+    report += `---\n\n`;
+  }
 
   report += `## Tested Personas\n\n`;
   personas.forEach((persona) => {
