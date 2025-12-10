@@ -60,11 +60,18 @@ def _load_playwright_events_file(file_path: str) -> list[TestEvent]:
         results.append(event)
     return results
 
+def _get_tkf_init_knowledge() -> str:
+    with open(Path(__file__).parent.parent / "data" / "knowledge" / "tkf_init_knowledge.json", "r") as f:
+        return f.read()
 
 class Workflow:
     def __init__(self, event_store: TestEventRepository, tkf_store: TKFStore):
         self.event_store = event_store
         self.tkf_store = tkf_store
+
+    async def initialize_tkf(self):
+        tkf_init_knowledge = _get_tkf_init_knowledge()
+        await self.tkf_store.seed(tkf_init_knowledge)
 
     async def process_from_playwright_events(self):
         group_ids = await seed_from_playwright_events(str(Path(__file__).parent.parent / "playwright-runs"), self.event_store)
@@ -90,7 +97,7 @@ class Workflow:
             knowledge_generator = KnowledgeGenerator(persona, events)
             knowledge = await knowledge_generator.generate_knowledge()
             print(f"Generated knowledge for persona: {persona.display_name}, knowledge: {knowledge}")
-            knowledge_list.append(knowledge)
+            knowledge_list.append("\n".join(knowledge))
         return knowledge_list
 
 
