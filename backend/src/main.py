@@ -1,4 +1,5 @@
 import datetime
+import json
 import uuid
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException, Query, Request
@@ -10,24 +11,15 @@ from src.persona_repository import repository as persona_repo
 
 from src.playwright.routes import router as playwright_router
 
+def _get_tkf_init_knowledge():
+    with open("data/knowledge/tkf_init_knowledge.json", "r") as f:
+        return f.read()
 
 async def inititalize_server():
     print("Seeding TKF...")
-    await tkf.seed("Hello, world!")
-    await tkf.add_update(
-        TKFUpdate(
-            id=str(uuid.uuid4()),
-            created_at=datetime.datetime.now().isoformat(),
-            old_text="Hello, world!",
-            new_text="Hello, world! 2",
-            reasoning="I just updated the full content",
-            metadata={
-                "session_id": "123",
-                "persona_id": "456",
-            },
-        ),
-        "Hello, world! 2",
-    )
+    tkf_init_knowledge = _get_tkf_init_knowledge()
+    await tkf.seed(tkf_init_knowledge)
+   
     print("TKF seeded")
 
 
