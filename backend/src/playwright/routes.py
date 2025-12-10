@@ -4,7 +4,7 @@ FastAPI routes for Playwright UX testing endpoints.
 
 import json
 from pathlib import Path
-from typing import Optional
+from typing import Optional, List
 from fastapi import APIRouter, BackgroundTasks, HTTPException
 from fastapi.responses import FileResponse, JSONResponse
 from pydantic import BaseModel

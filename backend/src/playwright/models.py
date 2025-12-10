@@ -64,6 +64,7 @@ class PlaywrightEvent:
     status: EventStatus
     timestamp: float  # Unix timestamp
     
+    run_group_id: Optional[str] = None
     screen_id: Optional[str] = None
     target_element_id: Optional[str] = None
     duration_ms: Optional[int] = None

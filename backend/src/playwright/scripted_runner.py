@@ -209,7 +209,8 @@ async def run_scripted_persona(
                 action=script_step.action,
                 reasoning_text=script_step.reasoning,
                 status=script_step.status,
-                timestamp=time.time()
+                timestamp=time.time(),
+                run_group_id=run_group_id  # Add run_group_id to event
             ))
             step_index += 1
             

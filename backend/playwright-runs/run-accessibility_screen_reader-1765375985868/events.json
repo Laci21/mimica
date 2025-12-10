@@ -11,7 +11,8 @@
     "screen_id": "initial",
     "target_element_id": null,
     "duration_ms": null,
-    "metadata": {}
+    "metadata": {},
+    "run_group_id": "suite-v1-1765375889116"
   },
   {
     "run_id": "run-accessibility_screen_reader-1765375985868",
@@ -25,7 +26,8 @@
     "screen_id": "step-0",
     "target_element_id": null,
     "duration_ms": null,
-    "metadata": {}
+    "metadata": {},
+    "run_group_id": "suite-v1-1765375889116"
   },
   {
     "run_id": "run-accessibility_screen_reader-1765375985868",
@@ -39,7 +41,8 @@
     "screen_id": "step-0",
     "target_element_id": null,
     "duration_ms": null,
-    "metadata": {}
+    "metadata": {},
+    "run_group_id": "suite-v1-1765375889116"
   },
   {
     "run_id": "run-accessibility_screen_reader-1765375985868",
@@ -53,7 +56,8 @@
     "screen_id": "step-0",
     "target_element_id": null,
     "duration_ms": null,
-    "metadata": {}
+    "metadata": {},
+    "run_group_id": "suite-v1-1765375889116"
   },
   {
     "run_id": "run-accessibility_screen_reader-1765375985868",
@@ -67,7 +71,8 @@
     "screen_id": "step-0",
     "target_element_id": null,
     "duration_ms": null,
-    "metadata": {}
+    "metadata": {},
+    "run_group_id": "suite-v1-1765375889116"
   },
   {
     "run_id": "run-accessibility_screen_reader-1765375985868",
@@ -81,7 +86,8 @@
     "screen_id": "step-0",
     "target_element_id": null,
     "duration_ms": null,
-    "metadata": {}
+    "metadata": {},
+    "run_group_id": "suite-v1-1765375889116"
   },
   {
     "run_id": "run-accessibility_screen_reader-1765375985868",
@@ -95,7 +101,8 @@
     "screen_id": "step-0",
     "target_element_id": null,
     "duration_ms": null,
-    "metadata": {}
+    "metadata": {},
+    "run_group_id": "suite-v1-1765375889116"
   },
   {
     "run_id": "run-accessibility_screen_reader-1765375985868",
@@ -109,7 +116,8 @@
     "screen_id": "step-1",
     "target_element_id": null,
     "duration_ms": null,
-    "metadata": {}
+    "metadata": {},
+    "run_group_id": "suite-v1-1765375889116"
   },
   {
     "run_id": "run-accessibility_screen_reader-1765375985868",
@@ -123,7 +131,8 @@
     "screen_id": "step-1",
     "target_element_id": null,
     "duration_ms": null,
-    "metadata": {}
+    "metadata": {},
+    "run_group_id": "suite-v1-1765375889116"
   },
   {
     "run_id": "run-accessibility_screen_reader-1765375985868",
@@ -137,7 +146,8 @@
     "screen_id": "step-1",
     "target_element_id": null,
     "duration_ms": null,
-    "metadata": {}
+    "metadata": {},
+    "run_group_id": "suite-v1-1765375889116"
   },
   {
     "run_id": "run-accessibility_screen_reader-1765375985868",
@@ -151,7 +161,8 @@
     "screen_id": "step-1",
     "target_element_id": null,
     "duration_ms": null,
-    "metadata": {}
+    "metadata": {},
+    "run_group_id": "suite-v1-1765375889116"
   },
   {
     "run_id": "run-accessibility_screen_reader-1765375985868",
@@ -165,7 +176,8 @@
     "screen_id": "step-1",
     "target_element_id": null,
     "duration_ms": null,
-    "metadata": {}
+    "metadata": {},
+    "run_group_id": "suite-v1-1765375889116"
   },
   {
     "run_id": "run-accessibility_screen_reader-1765375985868",
@@ -179,7 +191,8 @@
     "screen_id": "step-1",
     "target_element_id": null,
     "duration_ms": null,
-    "metadata": {}
+    "metadata": {},
+    "run_group_id": "suite-v1-1765375889116"
   },
   {
     "run_id": "run-accessibility_screen_reader-1765375985868",
@@ -193,7 +206,8 @@
     "screen_id": "step-2",
     "target_element_id": null,
     "duration_ms": null,
-    "metadata": {}
+    "metadata": {},
+    "run_group_id": "suite-v1-1765375889116"
   },
   {
     "run_id": "run-accessibility_screen_reader-1765375985868",
@@ -207,7 +221,8 @@
     "screen_id": "step-2",
     "target_element_id": null,
     "duration_ms": null,
-    "metadata": {}
+    "metadata": {},
+    "run_group_id": "suite-v1-1765375889116"
   },
   {
     "run_id": "run-accessibility_screen_reader-1765375985868",
@@ -221,7 +236,8 @@
     "screen_id": "step-2",
     "target_element_id": null,
     "duration_ms": null,
-    "metadata": {}
+    "metadata": {},
+    "run_group_id": "suite-v1-1765375889116"
   },
   {
     "run_id": "run-accessibility_screen_reader-1765375985868",
@@ -235,7 +251,8 @@
     "screen_id": "step-2",
     "target_element_id": null,
     "duration_ms": null,
-    "metadata": {}
+    "metadata": {},
+    "run_group_id": "suite-v1-1765375889116"
   },
   {
     "run_id": "run-accessibility_screen_reader-1765375985868",
@@ -249,7 +266,8 @@
     "screen_id": "step-3",
     "target_element_id": null,
     "duration_ms": null,
-    "metadata": {}
+    "metadata": {},
+    "run_group_id": "suite-v1-1765375889116"
   },
   {
     "run_id": "run-accessibility_screen_reader-1765375985868",
@@ -263,6 +281,7 @@
     "screen_id": "step-3",
     "target_element_id": null,
     "duration_ms": null,
-    "metadata": {}
+    "metadata": {},
+    "run_group_id": "suite-v1-1765375889116"
   }
 ]
