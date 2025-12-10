@@ -33,6 +33,7 @@ from .runner_core import PlaywrightRunner
 from .logger import EventLogger
 from .llm_agent import extract_page_state, plan_full_flow
 from src.config import APP_BASE_URL, PLAYWRIGHT_OUTPUT_DIR
+from src.data_models import Persona
 
 
 # AI UX Agent Persona Definition
@@ -63,7 +64,9 @@ async def run_ai_ux_agent_v1_fullplan(
     headless: bool = True,
     base_url: Optional[str] = None,
     output_dir: Optional[str] = None,
-    max_actions: int = 25
+    max_actions: int = 25,
+    persona: Optional[Persona] = None,
+    run_id: Optional[str] = None
 ) -> PersonaFlowResult:
     """
     Run the AI UX Agent through the V1 onboarding using full-flow planning.
@@ -80,8 +83,26 @@ async def run_ai_ux_agent_v1_fullplan(
         PersonaFlowResult with paths to artifacts
     """
     # Setup
-    run_id = f"run-llm-fullplan-{int(time.time() * 1000)}"
-    persona_id = "ai-ux-agent"
+    # Use provided persona or fallback to default
+    if persona is None:
+        # Create a default persona for backward compatibility
+        from src.data_models import PersonMeta
+        persona = Persona(
+            id="ai-ux-agent",
+            displayName="AI UX Agent",
+            description="an AI-powered UX testing agent designed to quickly identify usability issues",
+            llmPrompt={
+                "system": "You are an AI-powered UX testing agent designed to quickly identify usability issues.",
+                "behavioralRules": AI_UX_AGENT_PERSONA["goals"] + AI_UX_AGENT_PERSONA["pain_points"]
+            },
+            behavior={},
+            meta=PersonMeta(version=1, author="system", createdAt="2025-01-01T00:00:00.000Z", tags=[])
+        )
+    
+    # Use provided run_id or generate one
+    if run_id is None:
+        run_id = f"run-{persona.id}-{int(time.time() * 1000)}"
+    persona_id = persona.id
     scenario_id = "onboarding"
     ui_version = UIVersion.V1
     mode = RunMode.LLM_DRIVEN
@@ -93,7 +114,7 @@ async def run_ai_ux_agent_v1_fullplan(
     started_at = datetime.now(datetime.UTC).isoformat() if hasattr(datetime, 'UTC') else datetime.utcnow().isoformat()
     
     print(f"\n🚀 Starting full-flow planning run: {run_id}")
-    print(f"   Persona: {persona_id}")
+    print(f"   Persona: {persona.display_name} ({persona_id})")
     print(f"   UI Version: {ui_version.value}")
     print(f"   Mode: {mode.value} (full-flow planning)")
     print(f"   Headless: {headless}")
@@ -179,13 +200,14 @@ async def run_ai_ux_agent_v1_fullplan(
         planning_start = time.time()
         
         full_flow_plan = await plan_full_flow(
-            persona_name=AI_UX_AGENT_PERSONA["name"],
-            persona_description=AI_UX_AGENT_PERSONA["description"],
-            persona_goals=AI_UX_AGENT_PERSONA["goals"],
-            persona_pain_points=AI_UX_AGENT_PERSONA["pain_points"],
+            persona_name=persona.display_name,
+            persona_description=persona.description,
+            persona_goals=[],  # Not used when persona_llm_prompt is provided
+            persona_pain_points=[],  # Not used when persona_llm_prompt is provided
             flow_description=FLOW_DESCRIPTION,
             expected_screens=EXPECTED_SCREENS,
-            initial_screen_summary=screen_summary
+            initial_screen_summary=screen_summary,
+            persona_llm_prompt=persona.llm_prompt
         )
         
         planning_time = time.time() - planning_start

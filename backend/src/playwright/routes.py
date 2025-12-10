@@ -6,16 +6,17 @@ import json
 from pathlib import Path
 from typing import Optional, List
 from fastapi import APIRouter, BackgroundTasks, HTTPException
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 
 from .models import RunMode, UIVersion, PersonaFlowResult
-from .gen_z_creator_v1 import run_gen_z_creator_v1
+from .scripted_runner import run_scripted_flow
 from .ai_ux_agent_v1 import run_ai_ux_agent_v1
 from .ai_ux_agent_v1_plan import run_ai_ux_agent_v1_plan
 from .ai_ux_agent_v1_fullplan import run_ai_ux_agent_v1_fullplan
 from .batch_runner import run_persona_suite
 from src.config import APP_BASE_URL, PLAYWRIGHT_OUTPUT_DIR
+from src.persona_repository import repository as persona_repo
 
 
 # Pydantic models for request/response
@@ -53,76 +54,114 @@ active_runs: dict[str, PersonaFlowResult] = {}
 
 
 async def _execute_run(
+    run_id: str,
     persona_id: str,
     scenario_id: str,
     ui_version: UIVersion,
     mode: RunMode,
     headless: bool,
     max_steps: int,
-    planning_strategy: str = "per-screen"
+    planning_strategy: str = "per-step"
 ):
     """
     Background task to execute a Playwright run.
     """
+    # Store pending status immediately
+    pending_result = PersonaFlowResult(
+        run_id=run_id,
+        success=False,
+        event_count=0,
+        duration_ms=0,
+        error=None
+    )
+    active_runs[run_id] = pending_result
+    
     try:
         if mode == RunMode.SCRIPTED:
-            if persona_id == "gen-z-creator" and scenario_id == "onboarding":
-                result = await run_gen_z_creator_v1(
-                    headless=headless,
-                    base_url=APP_BASE_URL,
-                    output_dir=PLAYWRIGHT_OUTPUT_DIR
-                )
-            else:
-                raise ValueError(f"Unsupported scripted persona/scenario: {persona_id}/{scenario_id}")
+            # Use generic scripted runner for any persona
+            result = await run_scripted_flow(
+                persona_id=persona_id,
+                ui_version=ui_version,
+                headless=headless,
+                base_url=APP_BASE_URL,
+                output_dir=PLAYWRIGHT_OUTPUT_DIR,
+                run_id=run_id
+            )
         
         elif mode == RunMode.LLM_DRIVEN:
-            if persona_id == "ai-ux-agent" and scenario_id == "onboarding":
-                # Choose planning strategy
-                
-                if planning_strategy == "full-flow":
-                    # Full-flow planning: 1 LLM call for entire flow (fastest, ~10-20s)
-                    result = await run_ai_ux_agent_v1_fullplan(
-                        headless=headless,
-                        base_url=APP_BASE_URL,
-                        output_dir=PLAYWRIGHT_OUTPUT_DIR,
-                        max_actions=max_steps
-                    )
-                elif planning_strategy == "per-step":
-                    # Per-step planning: 1 LLM call per action (legacy, ~3-6 min)
-                    result = await run_ai_ux_agent_v1(
-                        headless=headless,
-                        base_url=APP_BASE_URL,
-                        output_dir=PLAYWRIGHT_OUTPUT_DIR,
-                        max_steps=max_steps
-                    )
-                else:
-                    # Per-screen planning: 1 LLM call per screen (default, ~30-60s)
-                    result = await run_ai_ux_agent_v1_plan(
-                        headless=headless,
-                        base_url=APP_BASE_URL,
-                        output_dir=PLAYWRIGHT_OUTPUT_DIR,
-                        max_screens=max_steps
-                    )
+            # Fetch persona from repository
+            persona = persona_repo.get_by_id(persona_id)
+            if persona is None:
+                raise ValueError(f"Persona '{persona_id}' not found")
+            
+            # For now, only support onboarding scenario
+            if scenario_id != "onboarding":
+                raise ValueError(f"Unsupported scenario: {scenario_id}. Only 'onboarding' is supported.")
+            
+            # Choose planning strategy
+            if planning_strategy == "full-flow":
+                # Full-flow planning: 1 LLM call for entire flow (fastest, ~10-20s)
+                result = await run_ai_ux_agent_v1_fullplan(
+                    headless=headless,
+                    base_url=APP_BASE_URL,
+                    output_dir=PLAYWRIGHT_OUTPUT_DIR,
+                    max_actions=max_steps,
+                    persona=persona,
+                    run_id=run_id
+                )
+            elif planning_strategy == "per-step":
+                # Per-step planning: 1 LLM call per action (legacy, ~3-6 min)
+                result = await run_ai_ux_agent_v1(
+                    headless=headless,
+                    base_url=APP_BASE_URL,
+                    output_dir=PLAYWRIGHT_OUTPUT_DIR,
+                    max_steps=max_steps,
+                    persona=persona,
+                    run_id=run_id
+                )
             else:
-                raise ValueError(f"Unsupported LLM persona/scenario: {persona_id}/{scenario_id}")
+                # Per-screen planning: 1 LLM call per screen (default, ~30-60s)
+                result = await run_ai_ux_agent_v1_plan(
+                    headless=headless,
+                    base_url=APP_BASE_URL,
+                    output_dir=PLAYWRIGHT_OUTPUT_DIR,
+                    max_screens=max_steps,
+                    persona=persona,
+                    run_id=run_id
+                )
         
         else:
             raise ValueError(f"Unsupported mode: {mode}")
         
-        # Store result
+        # Update result in active_runs (replaces pending status)
         active_runs[result.run_id] = result
+        
+        # Clean up from active_runs after a delay (metadata.json is now the source of truth)
+        import asyncio
+        await asyncio.sleep(2)
+        if result.run_id in active_runs:
+            del active_runs[result.run_id]
     
     except Exception as e:
         print(f"Error in background run: {e}")
-        # Store error result
+        import traceback
+        traceback.print_exc()
+        
+        # Store error result with the same run_id
         error_result = PersonaFlowResult(
-            run_id=f"error-{persona_id}",
+            run_id=run_id,
             success=False,
             event_count=0,
             duration_ms=0,
             error=str(e)
         )
-        active_runs[error_result.run_id] = error_result
+        active_runs[run_id] = error_result
+        
+        # Keep error in active_runs for longer so frontend can see it
+        import asyncio
+        await asyncio.sleep(10)
+        if run_id in active_runs:
+            del active_runs[run_id]
 
 
 @router.post("/runs", response_model=StartRunResponse)
@@ -136,12 +175,15 @@ async def start_run(
     The run executes in the background and returns immediately with a run ID.
     Use GET /playwright/runs/{run_id} to check status.
     """
-    # Generate a temporary run ID for tracking
-    temp_run_id = f"pending-{request.persona_id}-{request.mode.value}"
+    import time
+    
+    # Generate the final run ID upfront so frontend and backend use the same ID
+    run_id = f"run-{request.persona_id}-{int(time.time() * 1000)}"
     
     # Start the run in background
     background_tasks.add_task(
         _execute_run,
+        run_id=run_id,
         persona_id=request.persona_id,
         scenario_id=request.scenario_id,
         ui_version=request.ui_version,
@@ -152,9 +194,9 @@ async def start_run(
     )
     
     return StartRunResponse(
-        run_id=temp_run_id,
+        run_id=run_id,
         status="started",
-        message=f"Run started in background. Poll /playwright/runs/{{run_id}} for status."
+        message=f"Run started in background. Poll /playwright/runs/{run_id} for status."
     )
 
 
@@ -194,29 +236,34 @@ async def get_run_metadata(run_id: str):
     """
     Get metadata for a specific run.
     """
-    # Check if run is in active runs
+    # First check filesystem (completed runs)
+    run_dir = Path(PLAYWRIGHT_OUTPUT_DIR) / run_id
+    metadata_path = run_dir / "metadata.json"
+    
+    if metadata_path.exists():
+        with open(metadata_path) as f:
+            metadata = json.load(f)
+        return metadata
+    
+    # If not on filesystem, check if it's an active/pending run
     if run_id in active_runs:
         result = active_runs[run_id]
+        # Return a metadata-like structure for pending runs
         return {
             "run_id": result.run_id,
+            "status": "running" if result.error is None else "failed",
             "success": result.success,
             "event_count": result.event_count,
             "duration_ms": result.duration_ms,
             "video_path": result.video_path,
-            "error": result.error
+            "error": result.error,
+            "metadata": {
+                "eventCount": result.event_count
+            }
         }
     
-    # Otherwise, check filesystem
-    run_dir = Path(PLAYWRIGHT_OUTPUT_DIR) / run_id
-    metadata_path = run_dir / "metadata.json"
-    
-    if not metadata_path.exists():
-        raise HTTPException(status_code=404, detail=f"Run {run_id} not found")
-    
-    with open(metadata_path) as f:
-        metadata = json.load(f)
-    
-    return metadata
+    # Not found anywhere
+    raise HTTPException(status_code=404, detail=f"Run {run_id} not found")
 
 
 @router.get("/runs/{run_id}/events")
@@ -239,7 +286,7 @@ async def get_run_events(run_id: str):
 @router.get("/runs/{run_id}/video")
 async def get_run_video(run_id: str):
     """
-    Download video for a specific run.
+    Stream video for a specific run with proper headers for browser playback.
     """
     run_dir = Path(PLAYWRIGHT_OUTPUT_DIR) / run_id
     video_path = run_dir / "video.webm"
@@ -247,10 +294,18 @@ async def get_run_video(run_id: str):
     if not video_path.exists():
         raise HTTPException(status_code=404, detail=f"Video for run {run_id} not found")
     
+    # Check if file is empty or corrupted
+    if video_path.stat().st_size == 0:
+        raise HTTPException(status_code=500, detail=f"Video file for run {run_id} is empty")
+    
     return FileResponse(
         path=str(video_path),
         media_type="video/webm",
-        filename=f"{run_id}-video.webm"
+        filename=f"{run_id}-video.webm",
+        headers={
+            "Accept-Ranges": "bytes",
+            "Cache-Control": "no-cache",
+        }
     )
 
 
@@ -324,7 +379,6 @@ async def start_scripted_suite(
     This runs all personas sequentially with a shared run_group_id for easy grouping.
     Perfect for generating demo videos and events for all personas at once.
     """
-    from uuid import uuid4
     import time
     
     # Generate run_group_id if not provided

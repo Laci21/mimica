@@ -35,7 +35,8 @@ from src.config import APP_BASE_URL, PLAYWRIGHT_OUTPUT_DIR
 async def run_gen_z_creator_v1(
     headless: bool = True,
     base_url: Optional[str] = None,
-    output_dir: Optional[str] = None
+    output_dir: Optional[str] = None,
+    run_id: Optional[str] = None
 ) -> PersonaFlowResult:
     """
     Run the Gen Z Creator persona through the V1 onboarding flow.
@@ -49,7 +50,9 @@ async def run_gen_z_creator_v1(
         PersonaFlowResult with paths to artifacts
     """
     # Setup
-    run_id = f"run-{int(time.time() * 1000)}"
+    # Use provided run_id or generate one
+    if run_id is None:
+        run_id = f"run-gen-z-creator-{int(time.time() * 1000)}"
     persona_id = "gen-z-creator"
     scenario_id = "onboarding"
     ui_version = UIVersion.V1
