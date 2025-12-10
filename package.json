@@ -6,14 +6,21 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "playwright:install": "npx playwright install chromium",
+    "playwright:test": "playwright test",
+    "playwright:run": "playwright test --headed",
+    "playwright:gen-z-v1": "playwright test gen-z-creator-v1.spec.ts",
+    "playwright:ai-agent-v1": "playwright test ai-ux-agent-v1.spec.ts"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.30.1",
     "next": "16.0.7",
     "react": "19.2.0",
     "react-dom": "19.2.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.48.2",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
