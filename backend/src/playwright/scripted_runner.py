@@ -1,8 +1,14 @@
 """
-JSON-driven scripted Playwright runner for reliable persona testing.
+Generic scripted Playwright flow runner that loads scripts from JSON files.
 
-This module loads JSON scripts and executes them using PlaywrightRunner,
-producing video, trace, events.json, and metadata.json for each persona.
+This runner can execute any persona's scripted flow by loading the appropriate
+JSON file from backend/playwright-scripts/{ui_version}/{persona_id}.json
+
+Outputs:
+- Video recording
+- Playwright trace
+- events.json (custom event log)
+- metadata.json (run metadata)
 """
 
 import asyncio
@@ -11,7 +17,6 @@ import time
 from datetime import datetime
 from pathlib import Path
 from typing import Optional
-from pydantic import ValidationError
 
 from .models import (
     PlaywrightAction,
@@ -23,119 +28,112 @@ from .models import (
     RunStatus,
     PersonaFlowResult,
 )
-from .script_models import ScriptedFlow, ScriptedStep
 from .runner_core import PlaywrightRunner
 from .logger import EventLogger
 from src.config import APP_BASE_URL, PLAYWRIGHT_OUTPUT_DIR
 
 
-def load_script(persona_id: str, ui_version: str, scripts_dir: Optional[Path] = None) -> ScriptedFlow:
+def load_scripted_flow(persona_id: str, ui_version: str, scripts_dir: str = "playwright-scripts") -> dict:
     """
-    Load and validate a JSON script for a given persona and UI version.
+    Load a scripted flow JSON file for a given persona and UI version.
     
     Args:
-        persona_id: Persona identifier (e.g., 'impatient_new_user')
-        ui_version: UI version ('v1' or 'v2')
-        scripts_dir: Optional custom scripts directory (defaults to backend/playwright-scripts)
+        persona_id: The persona identifier
+        ui_version: The UI version (e.g., 'v1', 'v2')
+        scripts_dir: Directory containing script files (relative to backend/)
     
     Returns:
-        Validated ScriptedFlow object
+        Dictionary containing the scripted flow data
     
     Raises:
-        FileNotFoundError: If script file doesn't exist
-        ValidationError: If script doesn't match schema
-        JSONDecodeError: If script is not valid JSON
+        FileNotFoundError: If the script file doesn't exist
+        ValueError: If the script file is invalid
     """
-    if scripts_dir is None:
-        # Default to backend/playwright-scripts
-        scripts_dir = Path(__file__).parent.parent.parent / "playwright-scripts"
-    
-    script_path = scripts_dir / ui_version / f"{persona_id}.json"
+    # Get the backend directory (parent of src)
+    backend_dir = Path(__file__).parent.parent.parent
+    script_path = backend_dir / scripts_dir / ui_version / f"{persona_id}.json"
     
     if not script_path.exists():
         raise FileNotFoundError(
-            f"Script not found: {script_path}\n"
-            f"Expected location: playwright-scripts/{ui_version}/{persona_id}.json"
+            f"Scripted flow not found for persona '{persona_id}' and UI version '{ui_version}' at {script_path}"
         )
     
-    # Load JSON
-    with open(script_path, 'r', encoding='utf-8') as f:
+    with open(script_path, 'r') as f:
         script_data = json.load(f)
     
-    # Validate against schema
-    try:
-        script = ScriptedFlow(**script_data)
-    except ValidationError as e:
-        raise ValidationError(f"Invalid script format in {script_path}: {e}")
+    # Validate basic structure
+    if 'steps' not in script_data:
+        raise ValueError(f"Invalid script file: missing 'steps' field")
     
-    return script
+    if not isinstance(script_data['steps'], list):
+        raise ValueError(f"Invalid script file: 'steps' must be a list")
+    
+    return script_data
 
 
-async def run_scripted_persona(
+async def run_scripted_flow(
     persona_id: str,
-    ui_version: str,
-    run_group_id: Optional[str] = None,
+    ui_version: UIVersion,
     headless: bool = True,
     base_url: Optional[str] = None,
     output_dir: Optional[str] = None,
-    scripts_dir: Optional[Path] = None
+    run_id: Optional[str] = None
 ) -> PersonaFlowResult:
     """
-    Run a scripted persona flow from a JSON script.
+    Run a scripted flow for any persona by loading the appropriate JSON script.
     
     Args:
-        persona_id: Persona identifier
-        ui_version: UI version to test ('v1' or 'v2')
-        run_group_id: Optional group ID to batch multiple persona runs
+        persona_id: The persona identifier (e.g., 'accessibility_screen_reader')
+        ui_version: The UI version to test
         headless: Whether to run browser in headless mode
-        base_url: Base URL of the app
-        output_dir: Output directory for artifacts
-        scripts_dir: Optional custom scripts directory
+        base_url: Base URL of the app (defaults to APP_BASE_URL)
+        output_dir: Output directory for artifacts (defaults to PLAYWRIGHT_OUTPUT_DIR)
+        run_id: Optional run ID (generated if not provided)
     
     Returns:
         PersonaFlowResult with paths to artifacts
     """
-    # Load and validate script
-    print(f"\n📄 Loading script for {persona_id} (UI: {ui_version})")
-    script = load_script(persona_id, ui_version, scripts_dir)
-    print(f"✓ Script loaded: {script.description}")
-    print(f"✓ Steps: {len(script.steps)}")
+    # Load the scripted flow
+    try:
+        script_data = load_scripted_flow(persona_id, ui_version.value)
+    except FileNotFoundError as e:
+        raise ValueError(f"No scripted flow available for persona '{persona_id}' on UI version '{ui_version.value}'") from e
     
     # Setup
-    run_id = f"run-{persona_id}-{int(time.time() * 1000)}"
-    scenario_id = script.scenario_id
-    mode = RunMode.SCRIPTED
+    if run_id is None:
+        run_id = f"run-{persona_id}-{int(time.time() * 1000)}"
+    
+    scenario_id = script_data.get('scenario_id', 'onboarding')
+    persona_name = script_data.get('persona_name', persona_id)
     
     base_url = base_url or APP_BASE_URL
     output_dir = output_dir or PLAYWRIGHT_OUTPUT_DIR
     
     start_time = time.time()
-    started_at = datetime.now(datetime.UTC).isoformat() if hasattr(datetime, 'UTC') else datetime.utcnow().isoformat()
+    started_at = datetime.utcnow().isoformat()
     
-    print(f"\n🎬 Starting scripted run: {run_id}")
-    print(f"   Persona: {script.persona_name} ({persona_id})")
-    print(f"   UI Version: {ui_version}")
-    print(f"   Scenario: {scenario_id}")
-    if run_group_id:
-        print(f"   Run Group: {run_group_id}")
-    print(f"   Headless: {headless}\n")
+    print(f"\n🎭 Starting scripted run: {run_id}")
+    print(f"   Persona: {persona_name} ({persona_id})")
+    print(f"   UI Version: {ui_version.value}")
+    print(f"   Mode: SCRIPTED")
+    print(f"   Headless: {headless}")
+    print(f"   Steps: {len(script_data['steps'])}\n")
     
     # Initialize metadata
     metadata = PlaywrightRunMetadata(
         run_id=run_id,
         persona_id=persona_id,
         scenario_id=scenario_id,
-        ui_version=UIVersion.V1 if ui_version == 'v1' else UIVersion.V2,
-        mode=mode,
-        app_url=f"{base_url}/app?version={ui_version}",
+        ui_version=ui_version,
+        mode=RunMode.SCRIPTED,
+        app_url=f"{base_url}/app?version={ui_version.value}",
         status=RunStatus.RUNNING,
         started_at=started_at,
-        run_group_id=run_group_id,  # Store at top level for easy querying
         metadata={
             "browser": "chromium",
             "headless": headless,
-            "persona_name": script.persona_name,
-            "script_description": script.description,
+            "script_file": f"{ui_version.value}/{persona_id}.json",
+            "total_steps": len(script_data['steps'])
         }
     )
     
@@ -160,198 +158,131 @@ async def run_scripted_persona(
         page = await runner.start()
         
         # Navigate to app
-        await runner.navigate(f"/app?version={ui_version}")
+        await runner.navigate(f"/app?version={ui_version.value}")
+        await asyncio.sleep(1.5)  # Wait for initial load
         
-        # Log initial navigation
-        logger.log_event(PlaywrightEvent(
-            run_id=run_id,
-            persona_id=persona_id,
-            step_index=step_index,
-            screen_id="initial",
-            target_selector='page',
-            action=PlaywrightAction.NAVIGATE,
-            reasoning_text=f'{script.persona_name} begins testing the {ui_version} onboarding flow.',
-            status=EventStatus.SUCCESS,
-            timestamp=time.time()
-        ))
-        step_index += 1
-        
-        # Initial wait for page load
-        await asyncio.sleep(2)
-        
-        # Execute script steps
-        for script_step in script.steps:
-            print(f"\n[Step {step_index}] {script_step.screen_id}: {script_step.action.value}")
-            print(f"  Selector: {script_step.selector}")
-            print(f"  Reasoning: \"{script_step.reasoning}\"")
-            print(f"  Status: {script_step.status.value}")
+        # Execute each step from the script
+        for step_data in script_data['steps']:
+            # Parse action
+            action_str = step_data.get('action', 'WAIT').upper()
+            try:
+                action = PlaywrightAction[action_str]
+            except KeyError:
+                print(f"Warning: Unknown action '{action_str}', defaulting to WAIT")
+                action = PlaywrightAction.WAIT
             
-            # Wait before step if specified
-            if script_step.wait_before_ms > 0:
-                await asyncio.sleep(script_step.wait_before_ms / 1000)
+            # Parse status
+            status_str = step_data.get('status', 'success').upper()
+            try:
+                status = EventStatus[status_str]
+            except KeyError:
+                print(f"Warning: Unknown status '{status_str}', defaulting to SUCCESS")
+                status = EventStatus.SUCCESS
             
-            # Extract target element ID
+            # Extract step details
+            selector = step_data.get('selector', 'body')
+            reasoning = step_data.get('reasoning', '')
+            screen_id = step_data.get('screen_id', 'unknown')
+            wait_after_ms = step_data.get('wait_after_ms', 1000)
+            text_to_type = step_data.get('text_to_type')
+            
+            # Extract element ID from selector if available
             target_element_id = None
-            if 'data-element-id=' in script_step.selector:
-                try:
-                    target_element_id = script_step.selector.split('data-element-id="')[1].split('"')[0]
-                except:
-                    pass
+            if 'data-element-id=' in selector:
+                # Extract ID from selector like [data-element-id="step0-continue"]
+                start = selector.find('data-element-id="') + len('data-element-id="')
+                end = selector.find('"', start)
+                if end > start:
+                    target_element_id = selector[start:end]
             
             # Log the event
             logger.log_event(PlaywrightEvent(
                 run_id=run_id,
                 persona_id=persona_id,
                 step_index=step_index,
-                screen_id=script_step.screen_id,
-                target_selector=script_step.selector,
+                screen_id=screen_id,
+                target_selector=selector,
                 target_element_id=target_element_id,
-                action=script_step.action,
-                reasoning_text=script_step.reasoning,
-                status=script_step.status,
-                timestamp=time.time(),
-                run_group_id=run_group_id  # Add run_group_id to event
+                action=action,
+                reasoning_text=reasoning,
+                status=status,
+                timestamp=time.time()
             ))
-            step_index += 1
             
             # Execute the action
             try:
-                if script_step.action == PlaywrightAction.CLICK:
-                    await runner.click(script_step.selector)
+                if action == PlaywrightAction.CLICK:
+                    await page.click(selector, timeout=5000)
+                    print(f"  ✓ Step {step_index + 1}: CLICK {target_element_id or selector}")
                 
-                elif script_step.action == PlaywrightAction.HOVER:
-                    await page.hover(script_step.selector)
+                elif action == PlaywrightAction.HOVER:
+                    await page.hover(selector, timeout=5000)
+                    print(f"  ✓ Step {step_index + 1}: HOVER {target_element_id or selector}")
                 
-                elif script_step.action == PlaywrightAction.TYPE:
-                    if script_step.value:
-                        await runner.fill(script_step.selector, script_step.value)
+                elif action == PlaywrightAction.TYPE:
+                    if text_to_type:
+                        await page.fill(selector, text_to_type, timeout=5000)
+                        print(f"  ✓ Step {step_index + 1}: TYPE '{text_to_type}' into {target_element_id or selector}")
+                    else:
+                        print(f"  ⚠ Step {step_index + 1}: TYPE action missing text_to_type")
                 
-                elif script_step.action == PlaywrightAction.WAIT:
-                    # Wait action uses wait_after_ms
-                    pass
+                elif action == PlaywrightAction.WAIT:
+                    print(f"  ✓ Step {step_index + 1}: WAIT ({reasoning[:50]}...)")
                 
-                elif script_step.action == PlaywrightAction.NAVIGATE:
-                    await runner.navigate(script_step.selector)
-                
-                elif script_step.action == PlaywrightAction.SELECT:
-                    if script_step.value:
-                        await page.select_option(script_step.selector, script_step.value)
-                
-                elif script_step.action == PlaywrightAction.SCROLL:
-                    await page.evaluate(f"document.querySelector('{script_step.selector}').scrollIntoView()")
-                
-                print(f"  ✓ Executed")
-                
-            except Exception as e:
-                print(f"  ✗ Failed: {e}")
-                # Log error but continue (script might be testing error states)
-                error_msg = str(e)
-                if len(error_msg) > 100:
-                    error_msg = error_msg[:100] + "..."
-                print(f"  Note: {error_msg}")
+                else:
+                    print(f"  ⚠ Step {step_index + 1}: Unsupported action {action}")
             
-            # Wait after step
-            if script_step.wait_after_ms > 0:
-                await asyncio.sleep(script_step.wait_after_ms / 1000)
+            except Exception as e:
+                print(f"  ✗ Step {step_index + 1}: Failed - {e}")
+                # Continue with next step even if this one fails
+            
+            # Wait after action
+            await asyncio.sleep(wait_after_ms / 1000.0)
+            step_index += 1
         
-        print(f"\n✓ Script completed with {step_index} events\n")
+        # Mark as completed
+        metadata.status = RunStatus.COMPLETED
+        duration_ms = int((time.time() - start_time) * 1000)
+        metadata.completed_at = datetime.utcnow().isoformat()
+        metadata.duration_ms = duration_ms
         
+        print(f"\n✅ Run completed successfully!")
+        print(f"   Duration: {duration_ms / 1000:.1f}s")
+        print(f"   Steps executed: {step_index}")
+    
     except Exception as e:
         error = str(e)
-        print(f"\n✗ Error during run: {error}\n")
-        logger.update_metadata(status=RunStatus.FAILED, error=error)
+        print(f"\n❌ Run failed: {error}")
+        metadata.status = RunStatus.FAILED
+        metadata.completed_at = datetime.utcnow().isoformat()
+        metadata.duration_ms = int((time.time() - start_time) * 1000)
     
     finally:
         # Stop runner and save artifacts
-        await runner.stop()
+        video_path, trace_path = await runner.stop()
         
-        # Calculate duration
-        end_time = time.time()
-        duration_ms = int((end_time - start_time) * 1000)
+        # Save metadata and events
+        events_path = logger.save_events()
+        metadata_path = logger.save_metadata(metadata)
         
-        # Get artifact paths
-        video_path = runner.get_video_path()
-        trace_path = runner.get_trace_path()
+        # Update metadata with artifact paths
+        metadata.video_path = str(video_path) if video_path else None
+        metadata.trace_path = str(trace_path) if trace_path else None
+        metadata.events_path = str(events_path)
+        metadata.metadata_path = str(metadata_path)
         
-        # Update metadata
-        logger.update_metadata(
-            status=RunStatus.COMPLETED if not error else RunStatus.FAILED,
-            completed_at=datetime.now(datetime.UTC).isoformat() if hasattr(datetime, 'UTC') else datetime.utcnow().isoformat(),
-            duration_ms=duration_ms,
-            video_path=str(video_path.relative_to(output_dir)) if video_path else None,
-            trace_path=str(trace_path.relative_to(output_dir)) if trace_path else None,
-            events_path=f"{run_id}/events.json",
-        )
-        
-        logger.metadata.metadata["eventCount"] = step_index
-        logger._write_metadata()
-        
-        print(f"\n📊 Run Summary:")
-        print(f"   Run ID: {run_id}")
-        print(f"   Persona: {script.persona_name}")
-        print(f"   Status: {logger.metadata.status.value}")
-        print(f"   Duration: {(duration_ms / 1000):.2f}s")
-        print(f"   Events: {step_index}")
-        if run_group_id:
-            print(f"   Run Group: {run_group_id}")
-        print(f"   Output Dir: {logger.get_run_dir()}\n")
-        
-        if video_path:
-            print(f"✓ Video: {video_path}")
-        if trace_path:
-            print(f"✓ Trace: {trace_path}")
-        print(f"✓ Events: {logger.events_path}")
-        print(f"✓ Metadata: {logger.metadata_path}\n")
+        # Re-save metadata with updated paths
+        logger.save_metadata(metadata)
     
     # Return result
     return PersonaFlowResult(
         run_id=run_id,
-        success=error is None,
+        success=(metadata.status == RunStatus.COMPLETED),
         event_count=step_index,
-        duration_ms=duration_ms,
-        video_path=str(video_path) if video_path else None,
-        trace_path=str(trace_path) if trace_path else None,
-        events_path=str(logger.events_path),
-        metadata_path=str(logger.metadata_path),
+        duration_ms=metadata.duration_ms or 0,
+        video_path=metadata.video_path,
+        trace_path=metadata.trace_path,
+        events_path=metadata.events_path,
+        metadata_path=metadata.metadata_path,
         error=error
     )
-
-
-# CLI entry point for testing
-async def main():
-    """Run a scripted persona for testing"""
-    import sys
-    
-    if len(sys.argv) < 3:
-        print("Usage: python -m src.playwright.scripted_runner <persona_id> <ui_version>")
-        print("Example: python -m src.playwright.scripted_runner impatient_new_user v1")
-        sys.exit(1)
-    
-    persona_id = sys.argv[1]
-    ui_version = sys.argv[2]
-    headless = "--headless" in sys.argv or "-h" in sys.argv
-    
-    try:
-        result = await run_scripted_persona(
-            persona_id=persona_id,
-            ui_version=ui_version,
-            headless=headless
-        )
-        
-        if result.success:
-            print("✅ Run completed successfully!")
-        else:
-            print(f"❌ Run failed: {result.error}")
-            sys.exit(1)
-    
-    except FileNotFoundError as e:
-        print(f"❌ {e}")
-        sys.exit(1)
-    except ValidationError as e:
-        print(f"❌ Script validation error: {e}")
-        sys.exit(1)
-
-
-if __name__ == "__main__":
-    asyncio.run(main())
-

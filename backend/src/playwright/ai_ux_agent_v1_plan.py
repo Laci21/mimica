@@ -34,6 +34,7 @@ from .runner_core import PlaywrightRunner
 from .logger import EventLogger
 from .llm_agent import extract_page_state, plan_screen
 from src.config import APP_BASE_URL, PLAYWRIGHT_OUTPUT_DIR
+from src.data_models import Persona
 
 
 # AI UX Agent Persona Definition
@@ -61,7 +62,9 @@ async def run_ai_ux_agent_v1_plan(
     headless: bool = True,
     base_url: Optional[str] = None,
     output_dir: Optional[str] = None,
-    max_screens: int = 10
+    max_screens: int = 10,
+    persona: Optional[Persona] = None,
+    run_id: Optional[str] = None
 ) -> PersonaFlowResult:
     """
     Run the AI UX Agent through the V1 onboarding using plan-then-execute.
@@ -76,8 +79,26 @@ async def run_ai_ux_agent_v1_plan(
         PersonaFlowResult with paths to artifacts
     """
     # Setup
-    run_id = f"run-llm-plan-{int(time.time() * 1000)}"
-    persona_id = "ai-ux-agent"
+    # Use provided persona or fallback to default
+    if persona is None:
+        # Create a default persona for backward compatibility
+        from src.data_models import Persona, PersonMeta
+        persona = Persona(
+            id="ai-ux-agent",
+            displayName="AI UX Agent",
+            description="an AI-powered UX testing agent designed to quickly identify usability issues",
+            llmPrompt={
+                "system": "You are an AI-powered UX testing agent designed to quickly identify usability issues.",
+                "behavioralRules": AI_UX_AGENT_PERSONA["goals"] + AI_UX_AGENT_PERSONA["pain_points"]
+            },
+            behavior={},
+            meta=PersonMeta(version=1, author="system", createdAt="2025-01-01T00:00:00.000Z", tags=[])
+        )
+    
+    # Use provided run_id or generate one
+    if run_id is None:
+        run_id = f"run-{persona.id}-{int(time.time() * 1000)}"
+    persona_id = persona.id
     scenario_id = "onboarding"
     ui_version = UIVersion.V1
     mode = RunMode.LLM_DRIVEN
@@ -89,7 +110,7 @@ async def run_ai_ux_agent_v1_plan(
     started_at = datetime.now(datetime.UTC).isoformat() if hasattr(datetime, 'UTC') else datetime.utcnow().isoformat()
     
     print(f"\n🤖 Starting plan-then-execute run: {run_id}")
-    print(f"   Persona: {persona_id}")
+    print(f"   Persona: {persona.display_name} ({persona_id})")
     print(f"   UI Version: {ui_version.value}")
     print(f"   Mode: {mode.value} (plan-then-execute)")
     print(f"   Headless: {headless}\n")
@@ -182,11 +203,12 @@ async def run_ai_ux_agent_v1_plan(
             # Call planner once for this screen
             print(f"[Planner] Generating plan for {current_screen_id}...")
             screen_plan = await plan_screen(
-                persona_name=AI_UX_AGENT_PERSONA["name"],
-                persona_description=AI_UX_AGENT_PERSONA["description"],
-                persona_goals=AI_UX_AGENT_PERSONA["goals"],
-                persona_pain_points=AI_UX_AGENT_PERSONA["pain_points"],
-                screen_summary=screen_summary
+                persona_name=persona.display_name,
+                persona_description=persona.description,
+                persona_goals=[],  # Not used when persona_llm_prompt is provided
+                persona_pain_points=[],  # Not used when persona_llm_prompt is provided
+                screen_summary=screen_summary,
+                persona_llm_prompt=persona.llm_prompt
             )
             
             print(f"[Planner] Got plan with {len(screen_plan.actions)} actions")

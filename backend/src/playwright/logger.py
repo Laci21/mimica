@@ -47,13 +47,18 @@ class EventLogger:
     
     def log_event(self, event: PlaywrightEvent):
         """
-        Log a single event.
+        Log a single event and update metadata with event count.
         
         Args:
             event: The event to log
         """
         self.events.append(event)
         self._write_events()
+        
+        # Update metadata with current event count
+        if hasattr(self.metadata, 'metadata') and isinstance(self.metadata.metadata, dict):
+            self.metadata.metadata['eventCount'] = len(self.events)
+            self._write_metadata()
     
     def update_metadata(self, **kwargs):
         """
@@ -80,4 +85,29 @@ class EventLogger:
         """Get the trace file path if it exists"""
         trace_path = self.run_dir / "trace.zip"
         return trace_path if trace_path.exists() else None
+    
+    def save_events(self) -> Path:
+        """
+        Save events to file (final save).
+        
+        Returns:
+            Path to the events file
+        """
+        self._write_events()
+        return self.events_path
+    
+    def save_metadata(self, metadata: Optional[PlaywrightRunMetadata] = None) -> Path:
+        """
+        Save metadata to file (final save).
+        
+        Args:
+            metadata: Optional updated metadata object. If provided, replaces current metadata.
+        
+        Returns:
+            Path to the metadata file
+        """
+        if metadata is not None:
+            self.metadata = metadata
+        self._write_metadata()
+        return self.metadata_path
 

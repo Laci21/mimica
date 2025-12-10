@@ -11,8 +11,8 @@ from pathlib import Path
 from typing import Optional, List
 from uuid import uuid4
 
-from .scripted_runner import run_scripted_persona, load_script
-from .models import PersonaFlowResult
+from .scripted_runner import run_scripted_flow
+from .models import PersonaFlowResult, UIVersion
 from src.config import APP_BASE_URL, PLAYWRIGHT_OUTPUT_DIR
 
 
@@ -32,8 +32,7 @@ async def run_persona_suite(
     run_group_id: Optional[str] = None,
     headless: bool = True,
     base_url: Optional[str] = None,
-    output_dir: Optional[str] = None,
-    scripts_dir: Optional[Path] = None
+    output_dir: Optional[str] = None
 ) -> dict:
     """
     Run a suite of persona scripts for a given UI version.
@@ -45,7 +44,6 @@ async def run_persona_suite(
         headless: Whether to run browser in headless mode
         base_url: Base URL of the app
         output_dir: Output directory for artifacts
-        scripts_dir: Optional custom scripts directory
     
     Returns:
         Dictionary with run_group_id and results for each persona
@@ -82,15 +80,20 @@ async def run_persona_suite(
         print(f"{'─'*70}")
         
         try:
-            result = await run_scripted_persona(
+            # Generate a run_id with the run_group_id in metadata
+            run_id = f"run-{persona_id}-{int(time.time() * 1000)}"
+            
+            result = await run_scripted_flow(
                 persona_id=persona_id,
-                ui_version=ui_version,
-                run_group_id=run_group_id,
+                ui_version=UIVersion(ui_version),
                 headless=headless,
                 base_url=base_url,
                 output_dir=output_dir,
-                scripts_dir=scripts_dir
+                run_id=run_id
             )
+            
+            # TODO: Add run_group_id to metadata after creation
+            # For now, the run_group_id association is handled by the API endpoint
             
             results.append({
                 "persona_id": persona_id,

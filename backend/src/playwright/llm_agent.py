@@ -66,7 +66,8 @@ async def get_llm_decision(
     persona_preferences: list[str],
     persona_pain_points: list[str],
     persona_tone: str,
-    page_state: PageState
+    page_state: PageState,
+    persona_llm_prompt: dict | None = None
 ) -> LLMDecision:
     """
     Get LLM decision for next action using GPT-4o.
@@ -79,12 +80,31 @@ async def get_llm_decision(
         persona_pain_points: List of persona pain points
         persona_tone: Persona tone/style
         page_state: Current page state
+        persona_llm_prompt: Optional LLM prompt from persona JSON (takes precedence)
     
     Returns:
         LLMDecision with action, selector, reasoning, etc.
     """
-    # Shortened prompt for faster response
-    system_prompt = f"""You are {persona_name}, testing a UI.
+    # Build system prompt from persona_llm_prompt if available
+    if persona_llm_prompt and 'system' in persona_llm_prompt:
+        system_base = persona_llm_prompt['system']
+        behavioral_rules = persona_llm_prompt.get('behavioralRules', [])
+        
+        if behavioral_rules:
+            rules_text = '\n'.join([f"- {rule}" for rule in behavioral_rules[:2]])
+            system_prompt = f"""{system_base}
+
+Guidelines:
+{rules_text}
+
+Respond with valid JSON only."""
+        else:
+            system_prompt = f"""{system_base}
+
+Respond with valid JSON only."""
+    else:
+        # Fallback to legacy format
+        system_prompt = f"""You are {persona_name}, testing a UI.
 Goals: {'; '.join(persona_goals[:2])}
 Pain points: {'; '.join(persona_pain_points[:2])}
 Respond with valid JSON only."""
@@ -295,7 +315,8 @@ async def plan_screen(
     persona_description: str,
     persona_goals: list[str],
     persona_pain_points: list[str],
-    screen_summary: ScreenSummary
+    screen_summary: ScreenSummary,
+    persona_llm_prompt: dict | None = None
 ) -> ScreenPlan:
     """
     Generate a plan for a single screen using LLM.
@@ -306,12 +327,31 @@ async def plan_screen(
         persona_goals: List of persona goals (first 2 used)
         persona_pain_points: List of persona pain points (first 2 used)
         screen_summary: Current screen state
+        persona_llm_prompt: Optional LLM prompt from persona JSON (takes precedence)
     
     Returns:
         ScreenPlan with ordered actions for this screen
     """
-    # Short system prompt
-    system_prompt = f"""You are {persona_name}, {persona_description}.
+    # Build system prompt from persona_llm_prompt if available
+    if persona_llm_prompt and 'system' in persona_llm_prompt:
+        system_base = persona_llm_prompt['system']
+        behavioral_rules = persona_llm_prompt.get('behavioralRules', [])
+        
+        if behavioral_rules:
+            rules_text = '\n'.join([f"- {rule}" for rule in behavioral_rules[:3]])
+            system_prompt = f"""{system_base}
+
+Behavioral Guidelines:
+{rules_text}
+
+Generate a JSON plan of actions for this screen. Each action needs reasoning that reflects your perspective and concerns."""
+        else:
+            system_prompt = f"""{system_base}
+
+Generate a JSON plan of actions for this screen. Each action needs reasoning."""
+    else:
+        # Fallback to legacy format
+        system_prompt = f"""You are {persona_name}, {persona_description}.
 Goals: {'; '.join(persona_goals[:2])}
 Pain points: {'; '.join(persona_pain_points[:2])}
 
@@ -423,7 +463,8 @@ async def plan_full_flow(
     persona_pain_points: list[str],
     flow_description: str,
     expected_screens: list[str],
-    initial_screen_summary: ScreenSummary
+    initial_screen_summary: ScreenSummary,
+    persona_llm_prompt: dict | None = None
 ) -> FullFlowPlan:
     """
     Generate a complete plan for the entire flow with a single LLM call.
@@ -438,12 +479,37 @@ async def plan_full_flow(
         flow_description: High-level description of the flow
         expected_screens: Expected screen IDs in order
         initial_screen_summary: Summary of the first screen
+        persona_llm_prompt: Optional LLM prompt from persona JSON (takes precedence)
     
     Returns:
         FullFlowPlan with ordered actions for entire flow
     """
-    # System prompt
-    system_prompt = f"""You are {persona_name}, {persona_description}.
+    # Build system prompt from persona_llm_prompt if available
+    if persona_llm_prompt and 'system' in persona_llm_prompt:
+        system_base = persona_llm_prompt['system']
+        behavioral_rules = persona_llm_prompt.get('behavioralRules', [])
+        
+        if behavioral_rules:
+            rules_text = '\n'.join([f"- {rule}" for rule in behavioral_rules[:3]])
+            system_prompt = f"""{system_base}
+
+Behavioral Guidelines:
+{rules_text}
+
+Generate a complete JSON plan for the ENTIRE flow. This is a multi-screen onboarding flow.
+You need to plan actions that will take you through all screens from start to finish.
+
+Each action needs reasoning that reflects your perspective and concerns."""
+        else:
+            system_prompt = f"""{system_base}
+
+Generate a complete JSON plan for the ENTIRE flow. This is a multi-screen onboarding flow.
+You need to plan actions that will take you through all screens from start to finish.
+
+Each action needs reasoning."""
+    else:
+        # Fallback to legacy format
+        system_prompt = f"""You are {persona_name}, {persona_description}.
 Goals: {'; '.join(persona_goals[:2])}
 Pain points: {'; '.join(persona_pain_points[:2])}
 

@@ -30,6 +30,8 @@ export default function VideoPlayer({
   const [duration, setDuration] = useState(0);
   const [playbackSpeed, setPlaybackSpeed] = useState(1);
   const [isSeeking, setIsSeeking] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   // Handle time updates
   useEffect(() => {
@@ -47,24 +49,66 @@ export default function VideoPlayer({
     const handleLoadedMetadata = () => {
       const dur = video.duration;
       setDuration(dur);
+      setIsLoading(false);
+      setError(null);
       if (onDurationChange) {
         onDurationChange(dur);
       }
     };
 
+    const handleLoadedData = () => {
+      setIsLoading(false);
+      setError(null);
+    };
+
     const handlePlay = () => setIsPlaying(true);
     const handlePause = () => setIsPlaying(false);
+    
+    const handleError = () => {
+      setIsLoading(false);
+      const videoError = video.error;
+      if (videoError) {
+        let errorMessage = 'Video failed to load';
+        switch (videoError.code) {
+          case MediaError.MEDIA_ERR_ABORTED:
+            errorMessage = 'Video loading was aborted';
+            break;
+          case MediaError.MEDIA_ERR_NETWORK:
+            errorMessage = 'Network error while loading video';
+            break;
+          case MediaError.MEDIA_ERR_DECODE:
+            errorMessage = 'Video codec not supported or video corrupted';
+            break;
+          case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED:
+            errorMessage = 'Video format not supported by your browser';
+            break;
+        }
+        setError(errorMessage);
+        console.error('Video error:', videoError);
+      }
+    };
+
+    const handleCanPlay = () => {
+      setIsLoading(false);
+      setError(null);
+    };
 
     video.addEventListener('timeupdate', handleTimeUpdate);
     video.addEventListener('loadedmetadata', handleLoadedMetadata);
+    video.addEventListener('loadeddata', handleLoadedData);
+    video.addEventListener('canplay', handleCanPlay);
     video.addEventListener('play', handlePlay);
     video.addEventListener('pause', handlePause);
+    video.addEventListener('error', handleError);
 
     return () => {
       video.removeEventListener('timeupdate', handleTimeUpdate);
       video.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      video.removeEventListener('loadeddata', handleLoadedData);
+      video.removeEventListener('canplay', handleCanPlay);
       video.removeEventListener('play', handlePlay);
       video.removeEventListener('pause', handlePause);
+      video.removeEventListener('error', handleError);
     };
   }, [onTimeUpdate, onDurationChange, isSeeking]);
 
@@ -79,14 +123,19 @@ export default function VideoPlayer({
     }
   }, [seekToTime]);
 
-  const togglePlayPause = () => {
+  const togglePlayPause = async () => {
     const video = videoRef.current;
     if (!video) return;
 
-    if (video.paused) {
-      video.play();
-    } else {
-      video.pause();
+    try {
+      if (video.paused) {
+        await video.play();
+      } else {
+        video.pause();
+      }
+    } catch (err) {
+      console.error('Error playing video:', err);
+      setError('Failed to play video. The video format may not be supported.');
     }
   };
 
@@ -144,6 +193,50 @@ export default function VideoPlayer({
           className="w-full h-full"
           preload="metadata"
         />
+        
+        {/* Loading Overlay */}
+        {isLoading && (
+          <div className="absolute inset-0 flex items-center justify-center bg-black/70">
+            <div className="text-white text-center">
+              <div className="animate-spin text-4xl mb-2">⏳</div>
+              <p className="text-sm">Loading video...</p>
+            </div>
+          </div>
+        )}
+        
+        {/* Error Overlay */}
+        {error && (
+          <div className="absolute inset-0 flex items-center justify-center bg-black/70">
+            <div className="text-center max-w-md mx-auto px-4">
+              <div className="text-4xl mb-3">⚠️</div>
+              <p className="text-white font-medium mb-2">Video Error</p>
+              <p className="text-white/70 text-sm mb-3">{error}</p>
+              <details className="text-left bg-black/40 rounded-lg p-3 mb-3">
+                <summary className="text-white/90 text-xs cursor-pointer mb-2">
+                  Troubleshooting Tips
+                </summary>
+                <ul className="text-white/70 text-xs space-y-1 list-disc list-inside">
+                  <li>Check if the video file exists on the backend</li>
+                  <li>Try using Chrome/Edge (better WebM codec support)</li>
+                  <li>Check browser console for detailed errors</li>
+                  <li>Ensure the run completed successfully</li>
+                </ul>
+              </details>
+              <button
+                onClick={() => {
+                  setError(null);
+                  setIsLoading(true);
+                  if (videoRef.current) {
+                    videoRef.current.load();
+                  }
+                }}
+                className="px-4 py-2 bg-accent hover:bg-accent-light rounded-lg text-sm transition-colors"
+              >
+                Retry
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Custom Controls */}

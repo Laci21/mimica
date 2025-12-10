@@ -89,21 +89,43 @@ class PlaywrightRunner:
         
         return self.page
     
-    async def stop(self):
+    async def stop(self) -> Tuple[Optional[Path], Optional[Path]]:
         """
         Stop Playwright and close browser gracefully.
         
         Ensures video and trace are saved.
+        
+        Returns:
+            Tuple of (video_path, trace_path)
         """
+        video_path = None
+        trace_path = None
+        
         try:
             # Stop tracing and save
             if self.capture_trace and self.context:
                 trace_path = self.run_dir / "trace.zip"
                 await self.context.tracing.stop(path=str(trace_path))
             
+            # Get video path before closing context
+            if self.page and self.record_video:
+                # Playwright provides video path from the page
+                video = self.page.video
+                if video:
+                    # The path will be available after close
+                    video_path_future = video.path()
+            
+            # Close page first
+            if self.page:
+                await self.page.close()
+            
             # Close context (triggers video save)
             if self.context:
                 await self.context.close()
+            
+            # Wait a moment for video to be fully written
+            import asyncio
+            await asyncio.sleep(0.5)
             
             # Close browser
             if self.browser:
@@ -112,8 +134,19 @@ class PlaywrightRunner:
             # Stop playwright
             if self.playwright:
                 await self.playwright.stop()
+            
+            # Get the actual video path
+            video_path = self.get_video_path()
+            if not video_path:
+                print("Warning: Video file not found after recording")
+            
+            # Get trace path
+            trace_path = self.get_trace_path()
+            
         except Exception as e:
             print(f"Error during cleanup: {e}")
+        
+        return (video_path, trace_path)
     
     async def navigate(self, path: str = "") -> None:
         """
