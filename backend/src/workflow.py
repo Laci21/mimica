@@ -4,6 +4,7 @@ from pathlib import Path
 import uuid
 
 from agents import RunConfig, Runner
+from src.seeds import KNOWLEDGE_BASE_LIST, TKF_INIT_KNOWLEDGE
 from src.tracking import propagate_attributes
 from src.tkf import get_tkf_agent
 from src.tkf_store import TKFStore
@@ -71,7 +72,7 @@ class Workflow:
 
     async def initialize_tkf(self):
         tkf_init_knowledge = _get_tkf_init_knowledge()
-        await self.tkf_store.seed(tkf_init_knowledge)
+        await self.tkf_store.seed(TKF_INIT_KNOWLEDGE)
 
     async def process_from_playwright_events(self):
         group_ids = await seed_from_playwright_events(str(Path(__file__).parent.parent / "playwright-runs"), self.event_store)
@@ -103,7 +104,8 @@ class Workflow:
 
     async def process_run(self, group_id: str):
         agent = get_tkf_agent()
-        knowledge_list = await self._process_event_to_knowledge(group_id)
+        # knowledge_list = await self._process_event_to_knowledge(group_id)
+        knowledge_list = KNOWLEDGE_BASE_LIST
         with propagate_attributes(
             session_id=group_id,
             tags=[f"run_{group_id}"],
@@ -114,3 +116,4 @@ class Workflow:
                     agent, input=knowledge, run_config=RunConfig(tracing_disabled=False)
                 )
                 print(result.final_output)
+        print(f"***** TKF=\n\n{await self.tkf_store.get_full_content()}\n\n*****")
