@@ -13,6 +13,7 @@ export default function BackendTKFView() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [lastFetchTime, setLastFetchTime] = useState<Date | null>(null);
+  const [copied, setCopied] = useState(false);
   
   // Filter states
   const [metadataFilters, setMetadataFilters] = useState<MetadataFilters>({});
@@ -108,7 +109,8 @@ export default function BackendTKFView() {
   const copyToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(fullContent);
-      // Could add a toast notification here
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
     } catch (err) {
       console.error('Failed to copy:', err);
     }
@@ -135,10 +137,14 @@ export default function BackendTKFView() {
             )}
             <button
               onClick={copyToClipboard}
-              className="text-xs px-3 py-1.5 rounded border border-border hover:bg-surface-light transition-colors"
+              className={`text-xs px-3 py-1.5 rounded border transition-all ${
+                copied 
+                  ? 'bg-green-500/20 border-green-500/50 text-green-400' 
+                  : 'border-border hover:bg-surface-light'
+              }`}
               title="Copy to clipboard"
             >
-              📋 Copy
+              {copied ? '✓ Copied!' : '📋 Copy'}
             </button>
           </div>
         </div>
