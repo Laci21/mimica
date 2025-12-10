@@ -90,10 +90,10 @@ export default function EventTimeline({
   };
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-0.5">
       {/* Timeline Visualization */}
-      <div className="bg-surface border border-border rounded-lg p-4">
-        <div className="flex items-center justify-between mb-2">
+      <div className="bg-surface border border-border rounded-lg p-1">
+        <div className="flex items-center justify-between mb-0.5">
           <div className="text-xs font-medium text-foreground/60">Event Timeline</div>
           <div className="text-xs text-foreground/40">
             {events.length} event{events.length !== 1 ? 's' : ''}
@@ -101,7 +101,7 @@ export default function EventTimeline({
         </div>
 
         {/* Visual Timeline Bar - with padding to ensure edge markers are visible */}
-        <div className="relative h-12 px-2">
+        <div className="relative h-6 px-2">
           <div className="absolute inset-x-2 inset-y-0 bg-background rounded border border-border">
             {/* Video coverage area - show where video ends if it's shorter than timeline */}
             {videoDuration < timelineDuration && (
@@ -193,40 +193,31 @@ export default function EventTimeline({
         </div>
 
         {/* Time labels */}
-        <div className="flex justify-between mt-2 px-2 text-xs text-foreground/40">
+        <div className="flex justify-between mt-0.5 px-2 text-xs text-foreground/40">
           <span>0:00</span>
           <span>{formatTime(timelineDuration)}</span>
         </div>
       </div>
 
       {/* Legend and Info */}
-      <div className="space-y-2">
-        <div className="flex items-center gap-4 text-xs px-2">
-          <span className="text-foreground/50">Status:</span>
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full" style={{ backgroundColor: '#22c55e' }}></div>
-            <span className="text-foreground/60">Success</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full" style={{ backgroundColor: '#eab308' }}></div>
-            <span className="text-foreground/60">Confused</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full" style={{ backgroundColor: '#ef4444' }}></div>
-            <span className="text-foreground/60">Blocked</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full" style={{ backgroundColor: '#3b82f6' }}></div>
-            <span className="text-foreground/60">Delighted</span>
-          </div>
+      <div className="flex items-center gap-2.5 text-xs px-0.5">
+        <span className="text-foreground/50">Status:</span>
+        <div className="flex items-center gap-1.5">
+          <div className="w-2 h-2 rounded-full" style={{ backgroundColor: '#22c55e' }}></div>
+          <span className="text-foreground/60">Success</span>
         </div>
-
-        {/* Warning when video is shorter than timeline */}
-        {videoDuration < timelineDuration && (
-          <div className="px-2 py-2 bg-yellow-500/10 border border-yellow-500/30 rounded text-xs text-yellow-600 dark:text-yellow-400">
-            ⚠️ Video ends at {formatTime(videoDuration)} • Some events occurred after recording stopped
-          </div>
-        )}
+        <div className="flex items-center gap-1.5">
+          <div className="w-2 h-2 rounded-full" style={{ backgroundColor: '#eab308' }}></div>
+          <span className="text-foreground/60">Confused</span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <div className="w-2 h-2 rounded-full" style={{ backgroundColor: '#ef4444' }}></div>
+          <span className="text-foreground/60">Blocked</span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <div className="w-2 h-2 rounded-full" style={{ backgroundColor: '#3b82f6' }}></div>
+          <span className="text-foreground/60">Delighted</span>
+        </div>
       </div>
     </div>
   );

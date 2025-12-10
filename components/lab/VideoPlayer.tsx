@@ -14,13 +14,15 @@ interface VideoPlayerProps {
   onTimeUpdate: (currentTime: number) => void;
   onDurationChange?: (duration: number) => void;
   seekToTime?: number;
+  variant?: 'default' | 'compact';
 }
 
 export default function VideoPlayer({ 
   videoUrl, 
   onTimeUpdate, 
   onDurationChange,
-  seekToTime
+  seekToTime,
+  variant = 'default'
 }: VideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -130,8 +132,10 @@ export default function VideoPlayer({
     video.currentTime = Math.max(video.currentTime - 5, 0);
   };
 
+  const isCompact = variant === 'compact';
+  
   return (
-    <div className="flex flex-col gap-3">
+    <div className={isCompact ? "flex flex-col gap-0.5" : "flex flex-col gap-3"}>
       {/* Video Display */}
       <div className="relative bg-black rounded-lg overflow-hidden aspect-video">
         <video
@@ -143,7 +147,7 @@ export default function VideoPlayer({
       </div>
 
       {/* Custom Controls */}
-      <div className="space-y-3">
+      <div className={isCompact ? "space-y-0.5" : "space-y-3"}>
         {/* Seek Bar */}
         <div className="px-1">
           <input
@@ -161,19 +165,19 @@ export default function VideoPlayer({
               background: `linear-gradient(to right, rgb(var(--accent)) 0%, rgb(var(--accent)) ${(currentTime / duration) * 100}%, rgb(var(--border)) ${(currentTime / duration) * 100}%, rgb(var(--border)) 100%)`
             }}
           />
-          <div className="flex justify-between text-xs text-foreground/50 mt-1">
+          <div className={`flex justify-between text-foreground/50 mt-0.5 ${isCompact ? 'text-xs' : 'text-xs'}`}>
             <span>{formatTime(currentTime)}</span>
             <span>{formatTime(duration)}</span>
           </div>
         </div>
 
         {/* Control Buttons */}
-        <div className="flex items-center gap-2 justify-between">
-          <div className="flex items-center gap-2">
+        <div className={`flex items-center justify-between ${isCompact ? 'gap-1.5' : 'gap-2'}`}>
+          <div className={`flex items-center ${isCompact ? 'gap-1.5' : 'gap-2'}`}>
             {/* Skip Backward */}
             <button
               onClick={skipBackward}
-              className="px-3 py-2 bg-surface hover:bg-surface-light border border-border rounded-lg transition-colors"
+              className={`bg-surface hover:bg-surface-light border border-border rounded transition-colors ${isCompact ? 'px-2 py-0.5 text-sm' : 'px-3 py-2'}`}
               title="Skip backward 5s"
             >
               ⏪
@@ -182,7 +186,7 @@ export default function VideoPlayer({
             {/* Play/Pause */}
             <button
               onClick={togglePlayPause}
-              className="px-4 py-2 bg-accent hover:bg-accent-light rounded-lg font-medium transition-colors"
+              className={`bg-accent hover:bg-accent-light rounded font-medium transition-colors ${isCompact ? 'px-3 py-0.5 text-sm' : 'px-4 py-2'}`}
             >
               {isPlaying ? '⏸ Pause' : '▶ Play'}
             </button>
@@ -190,7 +194,7 @@ export default function VideoPlayer({
             {/* Skip Forward */}
             <button
               onClick={skipForward}
-              className="px-3 py-2 bg-surface hover:bg-surface-light border border-border rounded-lg transition-colors"
+              className={`bg-surface hover:bg-surface-light border border-border rounded transition-colors ${isCompact ? 'px-2 py-0.5 text-sm' : 'px-3 py-2'}`}
               title="Skip forward 5s"
             >
               ⏩
@@ -200,7 +204,7 @@ export default function VideoPlayer({
           {/* Playback Speed */}
           <button
             onClick={changePlaybackSpeed}
-            className="px-3 py-2 bg-surface hover:bg-surface-light border border-border rounded-lg text-sm font-medium transition-colors"
+            className={`bg-surface hover:bg-surface-light border border-border rounded font-medium transition-colors ${isCompact ? 'px-2 py-0.5 text-xs' : 'px-3 py-2 text-sm'}`}
             title="Change playback speed"
           >
             {playbackSpeed}x

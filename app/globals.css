@@ -40,6 +40,32 @@ body {
   box-sizing: border-box;
 }
 
+/* Hide Next.js dev indicators (Turbopack, etc.) */
+#webpack-dev-server-client-overlay,
+#webpack-dev-server-client-overlay-div,
+nextjs-portal,
+[data-nextjs-dialog-overlay],
+[class*="nextjs-toast"],
+[id*="__next"],
+.__next-dev-indicator,
+.__next-dev-indicator-right,
+.__next-build-indicator,
+#__next-build-watcher,
+[data-nextjs-scroll-focus-boundary],
+nextjs-portal > *,
+body > nextjs-portal {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Hide any fixed positioned dev tools in bottom left/right */
+body > div[style*="position: fixed"][style*="bottom"],
+body > div[style*="position:fixed"][style*="bottom"] {
+  display: none !important;
+}
+
 /* Custom scrollbar for dark theme */
 ::-webkit-scrollbar {
   width: 8px;

@@ -117,7 +117,7 @@ export default function ReplayViewer({ selectedRunId, onRunChange, runs }: Repla
   }
 
   return (
-    <div className="h-full flex gap-6 overflow-hidden">
+    <div className="h-full flex gap-4 overflow-hidden">
       {isLoading ? (
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center">
@@ -127,30 +127,36 @@ export default function ReplayViewer({ selectedRunId, onRunChange, runs }: Repla
         </div>
       ) : metadata && videoUrl ? (
         <>
-          {/* Video Player + Timeline - Left (60%) - SCROLLABLE */}
-          <div className="w-[60%] flex flex-col min-h-0 overflow-y-auto">
-            <h3 className="text-lg font-semibold text-foreground/90 mb-3 flex-shrink-0">
-              Video Recording
-            </h3>
+          {/* Video Player + Timeline - Left (65%) - SCROLLABLE */}
+          <div className="w-[65%] flex flex-col min-h-0 overflow-y-auto">
+            <div className="flex items-baseline justify-between flex-shrink-0">
+              <h3 className="text-sm font-semibold text-foreground/90">
+                Video Recording
+              </h3>
+              <div className="text-xs text-foreground/50">
+                {metadata.persona_id} • {metadata.duration_ms ? `${(metadata.duration_ms / 1000).toFixed(1)}s` : 'N/A'} • {events.length} events
+              </div>
+            </div>
             
             {error && (
-              <div className="mb-4 p-3 rounded bg-red-500/10 border border-red-500/30 text-red-300 text-sm flex-shrink-0">
+              <div className="mb-1 p-1.5 rounded bg-red-500/10 border border-red-500/30 text-red-300 text-xs flex-shrink-0">
                 {error}
               </div>
             )}
             
             {/* Video Player */}
-            <div className="flex-shrink-0 max-w-3xl mb-4">
+            <div className="flex-shrink-0 mb-0.5">
               <VideoPlayer
                 videoUrl={videoUrl}
                 onTimeUpdate={setVideoTime}
                 onDurationChange={setVideoDuration}
                 seekToTime={seekToTime}
+                variant="compact"
               />
             </div>
             
             {/* Event Timeline below video */}
-            <div className="flex-shrink-0 max-w-3xl mb-4">
+            <div className="flex-shrink-0">
               <EventTimeline
                 events={events}
                 currentVideoTime={videoTime}
@@ -161,35 +167,11 @@ export default function ReplayViewer({ selectedRunId, onRunChange, runs }: Repla
                 onEventClick={handleEventClick}
               />
             </div>
-
-            {/* Metadata Info */}
-            <div className="p-3 bg-surface/50 rounded-lg border border-border text-xs flex-shrink-0 max-w-3xl">
-              <div className="grid grid-cols-2 gap-2">
-                <div>
-                  <span className="text-foreground/50">Persona:</span>{' '}
-                  <span className="text-foreground/90">{metadata.persona_id}</span>
-                </div>
-                <div>
-                  <span className="text-foreground/50">Mode:</span>{' '}
-                  <span className="text-foreground/90">{metadata.mode}</span>
-                </div>
-                <div>
-                  <span className="text-foreground/50">Duration:</span>{' '}
-                  <span className="text-foreground/90">
-                    {metadata.duration_ms ? `${(metadata.duration_ms / 1000).toFixed(1)}s` : 'N/A'}
-                  </span>
-                </div>
-                <div>
-                  <span className="text-foreground/50">Events:</span>{' '}
-                  <span className="text-foreground/90">{events.length}</span>
-                </div>
-              </div>
-            </div>
           </div>
 
-          {/* Event Details - Right (40%) */}
+          {/* Event Details - Right (35%) */}
           <div className="flex-1 flex flex-col min-h-0">
-            <h3 className="text-lg font-semibold text-foreground/90 mb-3 flex-shrink-0">
+            <h3 className="text-sm font-semibold text-foreground/90 flex-shrink-0">
               Event Details
             </h3>
             <div className="flex-1 bg-surface/50 rounded-lg border border-border overflow-y-auto min-h-0">
