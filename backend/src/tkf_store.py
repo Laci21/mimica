@@ -113,9 +113,9 @@ class InMemoryTKFStore(TKFStore):
         return result.final_output
 
     async def seed(self, full_content: str) -> None:
-        processed_content = await self._format_seed_content(full_content)
+        # processed_content = await self._format_seed_content(full_content)
         async with self._lock:
-            self._full_content = processed_content
+            self._full_content = full_content
 
     async def get_updates_by_metadata_filter(self, metadata_filter: dict) -> list[TKFUpdate]:
         async with self._lock:
