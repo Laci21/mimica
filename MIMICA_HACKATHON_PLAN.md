@@ -2,6 +2,9 @@
 name: mimica-hackathon-polish
 overview: Review current Mimica implementation against original plan and define the remaining work for the hackathon, including must-have items, stretch goals, and how 3–4 people can work in parallel.
 todos:
+  - id: persona-roster
+    content: Finalize 3 human personas + 1 AI UX Agent persona, and confirm main demo flow
+    status: pending
   - id: llm-personas
     content: Implement real LLM-driven personas for at least one full flow
     status: pending
@@ -53,16 +56,19 @@ todos:
 
 ### A. One-line Backlog (Highest Priority First)
 
-1. Implement real LLM-driven personas for at least one full flow (bounded, reliable scope).
+0. Finalize persona roster (3 human personas + 1 AI UX Agent persona) and confirm the main demo app/flow.
+1. Implement real LLM-driven personas for at least one full flow (bounded, reliable scope), including a stretch to support multiple LLM runs per persona for variability analysis.
 2. Implement a Playwright-based real-browser runner prototype, or gracefully fall back if too brittle.
-3. Add a sequential "Run All Personas" orchestration and simple progress indicator.
+3. Add a sequential "Run All Personas" orchestration and simple progress indicator, with a stretch to explore a parallel multi-persona view.
 4. Harden the end-to-end demo flow (including current scripted mode) and add a simple way to recover/reset.
-5. Improve TKF clarity and storytelling (legend, human-readable labels, projector-ready styling).
-6. Add click-to-expand evidence drill-down for individual TKF insights.
-7. Tune thought bubble UX and left-side flow for a smooth, readable demo experience.
-8. Refine baseline and scorecard behaviour and visuals to clearly show before/after improvements.
-9. Perform a full UX and visual pass (including final theming tweaks and animation timing polish) to make the overall experience as smooth and attractive as possible.
-10. Update demo documentation and narrative (DEMO_GUIDE and DEMO_QUICKREFERENCE) to match the final UI.
+5. Design a TKF gatekeeper and aggregation pipeline so only validated, deduplicated evidence enters the fabric.
+6. Improve TKF clarity and storytelling (legend, human-readable labels, projector-ready styling).
+7. Add click-to-expand evidence drill-down for individual TKF insights.
+8. Tune thought bubble UX and left-side flow for a smooth, readable demo experience.
+9. Refine baseline and scorecard behaviour and visuals to clearly show before/after improvements.
+10. Perform a full UX and visual pass (including final theming tweaks and animation timing polish) to make the overall experience as smooth and attractive as possible.
+11. Update demo documentation and narrative (DEMO_GUIDE and DEMO_QUICKREFERENCE) to match the final UI.
+12. (Stretch) Explore direct Cursor integration so the coding agent can apply changes without manual copy/paste.
 
 ---
 
@@ -74,8 +80,8 @@ Assume **3 people** for the hackathon day. The idea is to split the big realism 
 
 - **Item 1 (LLM personas)** and **Item 2 (Playwright)** are the main realism enablers.
 - **Item 3 (Run All Personas)** and **Item 4 (demo hardening/reset)** can be implemented **first for the scripted/non-LLM path**, and then extended to LLM/Playwright once items 1–2 are stable.
-- **Items 5–8 (TKF clarity, drill-down, bubbles, scorecard)** are largely independent of 1–2 and can be done in parallel; they feed into **Item 9 (global UX pass)**.
-- **Item 10 (docs & narrative)** should happen after 1–9 are mostly settled.
+- **Items 5–9 (TKF gatekeeper, clarity, drill-down, bubbles, scorecard)** are largely independent of 1–2 and can be done in parallel; they feed into **Item 10 (global UX pass)**.
+- **Item 11 (docs & narrative)** should happen after 0–10 are mostly settled.
 
 #### Person 1 – LLM Personas Owner (Backlog 1, plus input to 3–4)
 
@@ -106,21 +112,23 @@ Assume **3 people** for the hackathon day. The idea is to split the big realism 
 - Optionally, wire LLM decisions into the Playwright script (even for just one persona/flow) and verify it can complete at least one LLM-driven run.
 - Re-run hardening tests (Item 4) with LLM/Playwright in the loop.
 
-#### Person 3 – TKF, Bubbles, Scorecard & UX Owner (Backlog 5–10)
+#### Person 3 – TKF, Bubbles, Scorecard & UX Owner (Backlog 5–11)
 
-- **Phase 1 – TKF & evidence (Items 5–6):**
+- **Phase 1 – TKF & evidence (Items 5–7):**
+- Design and visualise the TKF gatekeeper/aggregation layer.
 - Improve TKF clarity: legend, human-readable element labels, projector-friendly typography.
 - Implement TKF evidence drill-down: click a card to show reasoning snippets and contributing personas/elements.
-- **Phase 2 – Bubbles & metrics (Items 7–8):**
+- **Phase 2 – Bubbles & metrics (Items 8–9):**
 - Tune thought bubble timing/placement so the left side is readable and not cluttered.
 - Refine baseline/scorecard visuals so before/after improvements are obvious at a glance.
-- **Phase 3 – Global UX & docs (Items 9–10):**
+- **Phase 3 – Global UX & docs (Items 10–11):**
 - Lead the full UX/visual pass across the whole Control Room, coordinating with Persons 1–2 to avoid visual regressions.
 - Once behaviours stabilise, update `DEMO_GUIDE.md` and `DEMO_QUICK_REFERENCE.md` to reflect the final flow, including where LLM and Playwright are shown.
 
 #### Coordination Checkpoints
 
 - **Checkpoint 1 (mid-day):**
+- Decision made on whether to keep the current FocusFlow onboarding flow or switch to a different app/flow for the demo, and initial persona roster updated if needed.
 - Person 1 has a first LLM persona running in the embedded app.
 - Person 2 has Run All Personas + reset working for scripted flows, and a basic Playwright script that can run one scripted flow.
 - Person 3 has TKF legend + humanized labels in place.
@@ -129,11 +137,20 @@ Assume **3 people** for the hackathon day. The idea is to split the big realism 
 - Playwright script has been tried with LLM once (even if it’s not used live, you know its current reliability).
 - TKF drill-down, bubbles tuning, and scorecard visuals are in place; global UX pass is underway.
 - **End state:**
-- Items 1–9 are demo-ready, with 10 (docs/narrative) locked before the actual presentation.
+- Core items 0–11 are demo-ready, with 12 (Cursor integration stretch) considered optional.
 
 ---
 
 ### C. Detailed Backlog Items
+
+#### 0. Finalize persona roster and demo app
+
+- Confirm the **three human personas** we want to use for the demo (and, if needed, rename them to more neutral / politically safe names) and update `lib/data/personas.ts` and `lib/data/simulation-sequences.ts` accordingly.
+- Add a **fourth persona that represents an AI UX Agent** so we can show that Mimica works both for human testers and AI agents that click through UIs.
+- Make an **early call on the main app/flow under test**:
+  - Either keep the current FocusFlow onboarding as the primary demo flow, or
+  - Switch to a different UI flow if we find a better story.
+- If we change the app/flow, adjust personas, scenarios, and sequences before starting Items 1–4 so later work doesn’t need to be redone.
 
 #### 1. Implement real LLM-driven personas (bounded scope)
 
@@ -146,6 +163,11 @@ Assume **3 people** for the hackathon day. The idea is to split the big realism 
   - Recent TKF insights where useful.
 - Use the LLM’s text as `reasoningText` so thought bubbles and TKF show real model output.
 - Keep current scripted personas as a reliable fallback for the live demo.
+
+- **Stretch – Multiple LLM runs per persona:**
+  - Allow running the same persona **2–3 times** through the flow to sample LLM variability.
+  - Aggregate the resulting steps in TKF (via `TKFAggregator`) to see where behaviour is stable vs. flaky.
+  - Because this is token-expensive, treat it as an offline/recorded experiment rather than part of the live demo unless time/budget allow.
 
 #### 2. Implement a Playwright-based real-browser runner prototype
 
@@ -167,6 +189,14 @@ Assume **3 people** for the hackathon day. The idea is to split the big realism 
 - Show which persona is currently active and a simple progress indicator (for example, 1/3, 2/3, 3/3).
 - This provides a smooth story of several different users testing the same flow without cluttering the screen with multiple app views.
 
+- **Stretch – Parallel multi-persona view:**
+  - Explore running all 4 personas **in parallel** and experimenting with different layouts:
+    - 2×2 grid showing four app views at once.
+    - A tabbed interface where one persona is visible at a time but you can quickly switch.
+    - A “primary + three thumbnails” layout where one persona is large and three smaller views can be clicked to expand.
+  - The goal is to find a layout that is still readable on a projector while communicating that multiple personas/agents are running at the same time.
+  - Keep the core sequential flow robust first; treat the parallel view as a demo-only stretch.
+
 #### 4. Harden the end-to-end demo flow and add a simple recovery path
 
 - Validate that both scripted and LLM-driven flows (and Playwright where used) can:
@@ -184,6 +214,10 @@ Assume **3 people** for the hackathon day. The idea is to split the big realism 
 - Ensure all element labels use `humanizeElementId` so they read as human descriptions (for example, "Continue button" or "Guidance Level Slider") rather than internal IDs.
 - Review TKF typography and spacing for projector readability (font sizes, contrast, line length).
 - Make sure the TKF panel clearly communicates that it is the system’s knowledge fabric: a structured memory of issues and improvements.
+- Introduce a light-weight **gatekeeper layer** in front of `TKFAggregator` that:
+  - Validates and normalizes incoming steps before they become TKF evidence (e.g. ignore obvious duplicates or non-user-facing events).
+  - Aggregates similar events so severity reflects distinct evidence, not just raw volume.
+  - Is visually represented as a small “gate” between the knowledge threads and the TKF fabric, so it’s clear that TKF is curated rather than a raw log.
 
 #### 6. Add TKF evidence drill-down
 
@@ -229,3 +263,14 @@ Assume **3 people** for the hackathon day. The idea is to split the big realism 
 - Document when to use LLM mode versus scripted runs and whether/when to show the Playwright prototype.
 - Script a concise 5–7 minute story: problem, personas and TKF, coding agent improving the UI, and measurable before/after experience changes.
 - Include concise troubleshooting notes so anyone on the team can operate the demo and recover from common issues during the hackathon.
+
+#### 11. (Stretch) Explore direct Cursor integration instead of copy/paste
+
+- Goal: replace the “copy to Cursor” step with a **one-click “Apply in Cursor”** action if the Cursor API allows it.
+- Investigate whether the Cursor API can:
+  - Receive a generated report or patch (for example, from `lib/tkf/export.ts` and the export modal), and
+  - Apply changes to files in an open Cursor workspace.
+- If feasible, prototype a button in the lab UI that:
+  - Calls the Cursor API directly instead of copying to clipboard.
+  - Updates files so the demo operator can see the changes without manually switching to Cursor.
+- Treat this as an exploratory stretch: it may not be practical in time or may not fit the hackathon constraints.
