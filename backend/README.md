@@ -46,6 +46,10 @@ PLAYWRIGHT_OUTPUT_DIR=playwright-runs
 
 ## Running the Backend
 
+```
+uv run uvicorn src.main:app
+```
+
 ### Development Server
 
 ```bash
