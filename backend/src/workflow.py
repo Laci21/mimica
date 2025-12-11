@@ -4,12 +4,13 @@ from pathlib import Path
 import uuid
 
 from agents import RunConfig, Runner
+from src.seeds import KNOWLEDGE_BASE_LIST, TKF_INIT_KNOWLEDGE, TKF_FULL_CONTENT, TKF_UPDATES
 from src.tracking import propagate_attributes
 from src.tkf import get_tkf_agent
 from src.tkf_store import TKFStore
 from src.knowledge_generator import KnowledgeGenerator
 from src.persona_repository import repository as persona_repo
-from src.data_models import TestEvent
+from src.data_models import TestEvent, TKFUpdate
 from src.event_store import TestEventRepository
 
 
@@ -60,18 +61,18 @@ def _load_playwright_events_file(file_path: str) -> list[TestEvent]:
         results.append(event)
     return results
 
-def _get_tkf_init_knowledge() -> str:
-    with open(Path(__file__).parent.parent / "data" / "knowledge" / "tkf_init_knowledge.json", "r") as f:
-        return f.read()
-
 class Workflow:
     def __init__(self, event_store: TestEventRepository, tkf_store: TKFStore):
         self.event_store = event_store
         self.tkf_store = tkf_store
 
     async def initialize_tkf(self):
-        tkf_init_knowledge = _get_tkf_init_knowledge()
-        await self.tkf_store.seed(tkf_init_knowledge)
+        # Convert update dicts to TKFUpdate objects
+        updates = [TKFUpdate(**update_dict) for update_dict in TKF_UPDATES]
+        
+        # Seed with both full content and historical updates from seeds.py
+        await self.tkf_store.seed_with_updates(TKF_FULL_CONTENT.strip(), updates)
+        print("TKF initialization complete")
 
     async def process_from_playwright_events(self):
         group_ids = await seed_from_playwright_events(str(Path(__file__).parent.parent / "playwright-runs"), self.event_store)
@@ -103,7 +104,8 @@ class Workflow:
 
     async def process_run(self, group_id: str):
         agent = get_tkf_agent()
-        knowledge_list = await self._process_event_to_knowledge(group_id)
+        # knowledge_list = await self._process_event_to_knowledge(group_id)
+        knowledge_list = KNOWLEDGE_BASE_LIST
         with propagate_attributes(
             session_id=group_id,
             tags=[f"run_{group_id}"],
@@ -114,3 +116,4 @@ class Workflow:
                     agent, input=knowledge, run_config=RunConfig(tracing_disabled=False)
                 )
                 print(result.final_output)
+        print(f"***** TKF=\n\n{await self.tkf_store.get_full_content()}\n\n*****")

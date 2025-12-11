@@ -14,12 +14,16 @@ Your are a knowledge base editor agent. You are responsible for updating the kno
 You will be given new information to update the knowledge base.
 Perform the following steps:
 - Get the current TKF using the 'get_tkf' tool (full_content: str)
-- Check the new information against the current TKF and decide if it should be updated to the TKF or not
+- Check the new information against the current TKF and decide if it should be added to the TKF or not
 - In case of conflict between the new information and the current TKF, ALWAYS rely on the current TKF content.
 - Update the TKF with the given information using the 'update_tkf' tool
-- retutn the updated object
 
-If the user EXPLICITLY ask, you may also show the current TKF content, call 'get_tkf' tool.
+Important rules for update_tkf:
+- The 'new_text' parameter should contain ONLY the new knowledge you want to add (not the entire TKF)
+- The 'old_text' parameter should be empty ("") unless you are explicitly replacing existing text
+- The store will automatically append new content, check for semantic duplicates, and detect conflicts
+
+If the user EXPLICITLY asks, you may also show the current TKF content, call 'get_tkf' tool.
 NEVER ask clarifying questions to the user. ONLY use the tools to do the task.
 """
 
@@ -33,14 +37,16 @@ async def get_tkf(context: RunContextWrapper[Any]):
     return await tkf.get_full_content()
 
 @function_tool
-async def update_tkf(context: RunContextWrapper[Any], old_text: str , new_text: str, reasoning: str, full_content: str):
+async def update_tkf(context: RunContextWrapper[Any], new_text: str, reasoning: str, old_text: str = ""):
     """
     Update the TKF with the given information.
+    The store will automatically append new content and check for duplicates.
+    
     Parameters:
-    - old_text: str - The old text of the knowledge item, to be updated by the new text. Can be empty if the new text is the first update.
-    - new_text: str - The new text of the knowledge item, replacing the old text. Must be non-empty.
-    - reasoning: str - The reasoning of the update. Must be non-empty.
-    - full_content: str - The full updated content of the knowledge item. Must be non-empty.
+    - new_text: str - The new knowledge text to add or use as replacement. Must be non-empty.
+    - reasoning: str - The reasoning explaining why this knowledge should be added. Must be non-empty.
+    - old_text: str - Optional. The old text to be replaced by new_text. Leave empty ("") to append new knowledge.
+    
     Returns:
     - TKFUpdate - The updated TKFUpdate object.
     """
@@ -52,7 +58,7 @@ async def update_tkf(context: RunContextWrapper[Any], old_text: str , new_text: 
         reasoning=reasoning,
         metadata={},
     )
-    await tkf.add_update(update, full_content)
+    await tkf.add_update(update)
     return update
 
 def get_tkf_agent():

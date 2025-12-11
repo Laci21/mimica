@@ -1,10 +1,9 @@
 import json
 from typing import List
 from pydantic.types import Json
-from agents import Agent, RunConfig, Runner
 
 from src.data_models import Persona
-from src.utils import llm_gpt_4o
+from src.utils import call_llm
 
 class KnowledgeGenerator:
     def __init__(self, persona: Persona, browser_events: list[Json]):
@@ -24,26 +23,9 @@ class KnowledgeGenerator:
                 )
         return prompt
 
-    async def call_llm(self, name: str, instructions: str, prompt: str) -> str:
-        agent = Agent(
-            name=name,
-            instructions=instructions,
-            model=llm_gpt_4o,
-        )
-        
-        
-        
-        result = await Runner.run(
-            agent,
-            input=prompt,
-            run_config=RunConfig(tracing_disabled=True)
-        )
-        
-        return result.final_output
-
     async def _generate_knowledge(self) -> str:
         prompt = self._build_prompt()
-        llm_response = await self.call_llm("knowledge_generator", self.generation_prompt_template, prompt)
+        llm_response = await call_llm("knowledge_generator", self.generation_prompt_template, prompt)
         return llm_response
 
     async def _is_valid_knowledge_item(self, knowledge_item: str) -> bool:    
@@ -63,7 +45,7 @@ class KnowledgeGenerator:
             "Return JSON boolean: true if valid, false otherwise."
         )
         
-        response = await self.call_llm("knowledge_validator", validation_instructions, validation_prompt)
+        response = await call_llm("knowledge_validator", validation_instructions, validation_prompt)
         return "true" in response.lower()
 
     async def _validate_knowledge(self, knowledge: list[str]) -> list[str]:
