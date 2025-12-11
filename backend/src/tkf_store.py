@@ -73,60 +73,6 @@ class InMemoryTKFStore(TKFStore):
         self._full_content = ""
         self._lock = asyncio.Lock()
 
-    async def _is_duplicate(self, new_text: str, existing_content: str) -> bool:
-        """
-        Check if new_text is semantically duplicate/redundant with existing TKF content.
-        Uses LLM to determine semantic similarity.
-        """
-        if not existing_content.strip():
-            return False
-        
-        instructions = "You are a knowledge deduplication expert. Return only 'true' or 'false' as a JSON boolean."
-        prompt = (
-            "Determine if the new knowledge is semantically duplicate or redundant with existing knowledge.\n\n"
-            "Return 'true' if:\n"
-            "- The new knowledge conveys essentially the same information as existing knowledge\n"
-            "- The new knowledge is a subset of existing knowledge\n"
-            "- The new knowledge would be redundant to add\n\n"
-            "Return 'false' if:\n"
-            "- The new knowledge adds new information or perspective\n"
-            "- The new knowledge is complementary but not redundant\n"
-            "- The new knowledge provides additional detail or context\n\n"
-            f"Existing TKF content:\n{existing_content}\n\n"
-            f"New knowledge to check:\n{new_text}\n\n"
-            "Return JSON boolean: true if duplicate/redundant, false if should be added."
-        )
-        
-        response = await call_llm("tkf_duplicate_checker", instructions, prompt)
-        return "true" in response.lower()
-
-    async def _has_conflict(self, new_text: str, existing_content: str) -> bool:
-        """
-        Check if new_text conflicts with or contradicts existing TKF content.
-        Uses LLM to determine semantic conflicts.
-        """
-        if not existing_content.strip():
-            return False
-        
-        instructions = "You are a knowledge consistency validator. Return only 'true' or 'false' as a JSON boolean."
-        prompt = (
-            "Determine if the new knowledge contradicts or conflicts with existing knowledge.\n\n"
-            "Return 'true' if:\n"
-            "- The new knowledge directly contradicts existing knowledge\n"
-            "- The new knowledge makes opposing claims\n"
-            "- Adding the new knowledge would create inconsistency\n\n"
-            "Return 'false' if:\n"
-            "- The new knowledge is consistent with existing knowledge\n"
-            "- The new knowledge provides a different perspective without contradiction\n"
-            "- The new knowledge can coexist with existing knowledge\n\n"
-            f"Existing TKF content:\n{existing_content}\n\n"
-            f"New knowledge to check:\n{new_text}\n\n"
-            "Return JSON boolean: true if conflict exists, false if consistent."
-        )
-        
-        response = await call_llm("tkf_conflict_checker", instructions, prompt)
-        return "true" in response.lower()
-
     async def add_update(self, update: TKFUpdate) -> None:
         # First, acquire lock to log update and check for early exits
         async with self._lock:
@@ -148,25 +94,7 @@ class InMemoryTKFStore(TKFStore):
                 print(f"[TKF] Replacing old text with new text")
                 self._full_content = self._full_content.replace(update.old_text.strip(), new_text)
                 return
-            
-            # Take a snapshot of current content for LLM checks (release lock during slow LLM calls)
-            current_content = self._full_content
-        
-        # Release lock for LLM calls (they can be slow and we have a snapshot)
-        print(f"[TKF] Checking for semantic duplicates...")
-        is_duplicate = await self._is_duplicate(new_text, current_content)
-        if is_duplicate:
-            print(f"[TKF] Semantic duplicate detected - skipping addition")
-            return
-        
-        print(f"[TKF] Checking for conflicts with existing knowledge...")
-        has_conflict = await self._has_conflict(new_text, current_content)
-        if has_conflict:
-            print(f"[TKF] Conflict detected - skipping addition (existing knowledge takes precedence)")
-            return
-        
-        # Re-acquire lock to append
-        async with self._lock:
+                    
             # Append new content with proper spacing
             if self._full_content:
                 self._full_content = self._full_content.rstrip() + "\n\n" + new_text
