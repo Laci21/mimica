@@ -13,7 +13,11 @@ TKF_UPDATES = [
     "old_text": "",
     "new_text": "The Methodical Evaluator appreciates clear and detailed information in headings, tooltips, and confirmation messages. This persona's goal is to read key text before acting and prefers to pause for additional information if something is unclear. Events show a preference for thorough reading and tooltips for clarity.",
     "reasoning": "This addition highlights a persona approach emphasizing clarity and detail, aligning with UX design principles focused on user-centricity and accessibility. Incorporating this persona ensures guidance for designing interfaces that cater to users who prefer thoughtful engagement with textual content.",
-    "metadata": {}
+    "metadata": {
+        "group_id": "suite-v1-1765375889116",
+        "persona_id": "methodical_evaluator",
+        "session_id": "run-methodical_evaluator-1765375898287"
+    }
   },
   {
     "id": "74b4e4f7-1d0b-4ac9-ad32-9333a625b76b",
@@ -21,7 +25,11 @@ TKF_UPDATES = [
     "old_text": "",
     "new_text": "The Methodical Evaluator prefers options to be presented in a way that allows for easy comparison and clear differentiation. This insight is universal for users who compare options side by side.",
     "reasoning": "The Methodical Evaluator consistently struggles with vague option descriptions and relies on clear explanations to narrate trade-offs before making decisions.",
-    "metadata": {}
+    "metadata": {
+        "group_id": "suite-v1-1765375889116",
+        "persona_id": "methodical_evaluator",
+        "session_id": "run-methodical_evaluator-1765375898287"
+    }
   },
   {
     "id": "79632329-ee32-404b-b3fa-0380f6b6c3da",
@@ -29,7 +37,11 @@ TKF_UPDATES = [
     "old_text": "",
     "new_text": "A lack of clear explanations for interactive elements, such as sliders, results in confusion for Methodical Evaluators. Events show confusion when sliders lack labels or context. The Methodical Evaluator sets it to medium out of caution rather than understanding. This highlights the need for clearer instructions and is applicable to ensuring user confidence in interface interactions.",
     "reasoning": "Methodical Evaluators benefit from clear explanations and labels, which prevent misunderstanding and enhance confidence in using interactive components. This update strengthens the section on ensuring clarity and context in UX design.",
-    "metadata": {}
+    "metadata": {
+        "group_id": "suite-v1-1765375889116",
+        "persona_id": "methodical_evaluator",
+        "session_id": "run-methodical_evaluator-1765375898287"
+    }
   },
   {
     "id": "629933a8-0862-4add-a600-dd50ce004ef5",
@@ -37,7 +49,11 @@ TKF_UPDATES = [
     "old_text": "",
     "new_text": "Methodical Evaluators are cautious in proceeding forward if they are uncertain about their previous actions or the implications of their choices.",
     "reasoning": "This persona's low risk tolerance drives a need to verify choices and understand implications thoroughly. The user checks if it's possible to return to previous steps before committing, which reflects common cautious behavior in decision-making environments.",
-    "metadata": {}
+    "metadata": {
+        "group_id": "suite-v1-1765375889116",
+        "persona_id": "methodical_evaluator",
+        "session_id": "run-methodical_evaluator-1765375898287"
+    }
   },
   {
     "id": "afa9e50a-12af-46d0-a7ca-046a173217fb",
@@ -45,7 +61,11 @@ TKF_UPDATES = [
     "old_text": "",
     "new_text": "Engagement with interfaces that provide detailed options or multiple features requires clarity to avoid confusion, particularly for Methodical Evaluators.",
     "reasoning": "Despite the persona's deep reading style, unclear terms like 'Engagement Mode' and 'Interaction Paradigm' result in confusion. Clarity ensures that users can effectively evaluate and understand features, which is critical across all user experiences.",
-    "metadata": {}
+    "metadata": {
+        "group_id": "suite-v1-1765375889116",
+        "persona_id": "methodical_evaluator",
+        "session_id": "run-methodical_evaluator-1765375898287"
+    }
   },
   {
     "id": "fb0bf526-4554-4e7c-8953-1ca7bb870c15",
@@ -53,7 +73,11 @@ TKF_UPDATES = [
     "old_text": "",
     "new_text": "Methodical Evaluators are inclined to choose the least risky option when faced with unclear choices. The persona opts for 'Equilibrium Mode' due to perceived safety, despite lacking confidence. This tendency to avoid risk in unclear situations is universal, especially for users with low risk tolerance.",
     "reasoning": "The information highlights a behavioral tendency of Methodical Evaluators that is not currently captured in the knowledge base, emphasizing risk aversion and preference for safety in decision-making under uncertainty, which is critical for understanding user personas in UX design.",
-    "metadata": {}
+    "metadata": {
+        "group_id": "suite-v1-1765375889116",
+        "persona_id": "methodical_evaluator",
+        "session_id": "run-methodical_evaluator-1765375898287"
+    }
   },
   {
     "id": "9a617198-30f3-49d1-9d92-da7ab69b3946",
@@ -61,7 +85,11 @@ TKF_UPDATES = [
     "old_text": "",
     "new_text": "Notification preferences need to be straightforward and perceived as safe to be selected confidently by Methodical Evaluators. The intuitiveness of selecting updates is reflected in successful sentiment because it aligns with the persona's goal to avoid risky actions. When notifications are clear and informative, they appeal to cautious decision-makers universally.",
     "reasoning": "This aligns with existing knowledge that Methodical Evaluators appreciate clear and detailed information and require confidence in their actions. Adding this information will enrich the persona understanding by emphasizing the importance of clarity and perceived safety in notification settings.",
-    "metadata": {}
+    "metadata": {
+        "group_id": "suite-v1-1765375889116",
+        "persona_id": "methodical_evaluator",
+        "session_id": "run-methodical_evaluator-1765375898287"
+    }
   },
   {
     "id": "55f29fe0-1e76-4c07-9a0d-737c6ccbd6d1",
@@ -69,7 +97,11 @@ TKF_UPDATES = [
     "old_text": "",
     "new_text": "Reviewing summaries or conclusion screens is vital for Methodical Evaluators to ensure everything is correct before finalizing actions. The persona prioritizes verifying information accuracy in conclusion screens to avoid mistakes. This final review process is a crucial step for all users seeking confidence in their decisions.",
     "reasoning": "The persona emphasizes the importance of reviewing summaries to verify information accuracy and ensure confident decision-making, highlighting its significance in user experience evaluation.",
-    "metadata": {}
+    "metadata": {
+        "group_id": "suite-v1-1765375889116",
+        "persona_id": "methodical_evaluator",
+        "session_id": "run-methodical_evaluator-1765375898287"
+    }
   },
   {
     "id": "6bd7b0f1-1279-45de-9670-deda58cb269d",
@@ -77,7 +109,11 @@ TKF_UPDATES = [
     "old_text": "",
     "new_text": "Interfaces with unclear language or terminology impact the confidence and satisfaction of Methodical Evaluators. This principle highlights the importance of clarity in language to maintain user confidence and satisfaction. Given the persona's feedback expressing concerns over unclear language, clear and precise communication is essential for accommodating cautious decision-makers.",
     "reasoning": "The user's feedback underscores the necessity for clarity in UX design. Unclear language can confuse decision-makers, affecting their confidence in navigating interfaces. Incorporating this principle into design practices ensures informed decisions, enhancing usability and satisfaction across digital products.",
-    "metadata": {}
+    "metadata": {
+        "group_id": "suite-v1-1765375889116",
+        "persona_id": "methodical_evaluator",
+        "session_id": "run-methodical_evaluator-1765375898287"
+    }
   },
   {
     "id": "63512a64-00ca-47a5-bff9-beab1d4b63e2",
@@ -85,7 +121,11 @@ TKF_UPDATES = [
     "old_text": "",
     "new_text": "For the Impatient New User, prominent and easily identifiable primary action buttons reduce task abandonment rates. This persona quickly selects visually prominent options, as seen when the user clicked 'step0-continue' and 'step1-continue'. Designers should prioritize the visibility and prominence of action buttons to cater to their preference for rapid navigation. This insight stems from consistent interaction with primary actions and directly aligns with their goal of task completion.",
     "reasoning": "This information details how the Impatient New User persona interacts with interfaces and the importance of designing visually prominent primary action buttons for them. It adds an understanding of user behavior and tasks to enhance UX design effectively by reducing task abandonment and aligning with this persona's goal of quick task completion.",
-    "metadata": {}
+    "metadata": {
+        "group_id": "suite-v1-1765375889116",
+        "persona_id": "impatient_new_user",
+        "session_id": "run-impatient_new_user-1765375889116"
+    }
   },
   {
     "id": "c6fdde54-9727-4469-b0d2-c0e338c7b046",
@@ -93,7 +133,11 @@ TKF_UPDATES = [
     "old_text": "",
     "new_text": "Straightforward, minimal path onboarding flows are optimal for the Impatient New User. The persona navigates swiftly through initial steps and struggles when tasks become less intuitive, shown by confusion when they couldn't locate the 'continue' button in step-1. Designing onboarding flows with minimal steps and clear next actions aligns with their goal of rapid task completion and helps mitigate frustration due to unclear navigation.",
     "reasoning": "This insight highlights the importance of creating onboarding experiences that align with the persona's preference for rapid navigation and task completion. Incorporating minimal steps and clear next actions ensures that users like the Impatient New User can efficiently complete onboarding without facing confusion or frustration due to unclear navigation steps.",
-    "metadata": {}
+    "metadata": {
+        "group_id": "suite-v1-1765375889116",
+        "persona_id": "impatient_new_user",
+        "session_id": "run-impatient_new_user-1765375889116"
+    }
   },
   {
     "id": "d7197b48-e730-4eda-9e87-37edec221be2",
@@ -101,7 +145,11 @@ TKF_UPDATES = [
     "old_text": "",
     "new_text": "Visual cues and indicators can improve engagement and reduce confusion for the Impatient New User. Providing users with clear visual cues or indicators can aid this persona's navigation style and exploration level, enhancing the experience in moments where they're uncertain about next steps.",
     "reasoning": "The existing TKF already highlights the Impatient New User's need for straightforward navigation and prominent action buttons, but lacks specificity regarding visual cues and indicators. This addition emphasizes enhancing user experience by aiding navigation when users are uncertain, directly addressing potential moments of confusion encountered during interactions such as with the 'engagement-intensity-slider.'",
-    "metadata": {}
+    "metadata": {
+        "group_id": "suite-v1-1765375889116",
+        "persona_id": "impatient_new_user",
+        "session_id": "run-impatient_new_user-1765375889116"
+    }
   },
   {
     "id": "b9333bc2-97ad-4ab1-bb94-38345059952e",
@@ -109,7 +157,11 @@ TKF_UPDATES = [
     "old_text": "",
     "new_text": "For the Impatient New User, emphasizing obvious next steps reduces user wait times and confusion. This persona experiences frustration when unable to locate the next step, leading to unwanted delays. Enhancing clarity around subsequent actions accommodates their low patience level, aligning with their direct navigation style and goal orientation.",
     "reasoning": "The Impatient New User struggles with unclear navigation and experiences frustration when unable to locate the next step, leading to delays. Their navigation style favors rapid completion, requiring clear indicators to avoid confusion and reduce wait times.",
-    "metadata": {}
+    "metadata": {
+        "group_id": "suite-v1-1765375889116",
+        "persona_id": "impatient_new_user",
+        "session_id": "run-impatient_new_user-1765375889116"
+    }
   },
   {
     "id": "2a9718e1-0b7d-4837-b8eb-86a719042b3d",
@@ -117,7 +169,11 @@ TKF_UPDATES = [
     "old_text": "",
     "new_text": "In onboarding flows, providing an option to skip non-essential components appeals to Impatient New Users. Allowing users to bypass optional settings caters to their task completion goals and impatience, providing flexibility in how they interact with setups without forcing engagement with every component.",
     "reasoning": "This new insight aligns with the existing principle that emphasizes clear and straightforward onboarding flows for Impatient New Users, as they prioritize rapid task completion and prefer minimal steps. Adding this knowledge reinforces the importance of accommodating different user personas within UX design.",
-    "metadata": {}
+    "metadata": {
+        "group_id": "suite-v1-1765375889116",
+        "persona_id": "impatient_new_user",
+        "session_id": "run-impatient_new_user-1765375889116"
+    }
   },
   {
     "id": "02e196d4-e045-4e18-975e-f989ecb67eac",
@@ -125,7 +181,11 @@ TKF_UPDATES = [
     "old_text": "",
     "new_text": "Brief, concise instructions improve usability for Impatient New User personas. This persona benefits from succinct guidance that quickly enables further action. Extensive documentation or lengthy explanations are ignored, as observed through the rapid navigation choices and minimal engagement with text. Brief instructions support their skim reading style and direct needs, reducing cognitive load and facilitating smooth progress in tasks.",
     "reasoning": "Adding this information enhances our understanding of the Impatient New User persona. It underscores the importance of brief instructions that cater to their preference for rapid navigation and minimal engagement with lengthy text, aligning with their direct needs and reducing cognitive load.",
-    "metadata": {}
+    "metadata": {
+        "group_id": "suite-v1-1765375889116",
+        "persona_id": "impatient_new_user",
+        "session_id": "run-impatient_new_user-1765375889116"
+    }
   },
   {
     "id": "5d59aea0-cc62-4258-b4e3-097d8d169fbf",
@@ -133,7 +193,11 @@ TKF_UPDATES = [
     "old_text": "",
     "new_text": "Skeptical Privacy-Conscious Users require clear and detailed explanations of data usage and permissions during onboarding.",
     "reasoning": "The persona 'privacy_skeptic' consistently expresses confusion and frustration with vague language and unclear data policies, highlighting the need for transparency. In trusted UX design, ensuring users understand how their data will be used enhances trust and engagement.",
-    "metadata": {}
+    "metadata": {
+        "group_id": "suite-v1-1765375889116",
+        "persona_id": "privacy_skeptic",
+        "session_id": "run-privacy_skeptic-1765375948527"
+    }
   },
   {
     "id": "97ef9348-e958-4db4-b0e0-40bc1bb2bcd2",
@@ -141,7 +205,11 @@ TKF_UPDATES = [
     "old_text": "",
     "new_text": "Options perceived as less intrusive will be favored by Skeptical Privacy-Conscious Users in the absence of clear privacy information.",
     "reasoning": "The addition provides context on user preferences when privacy information is insufficient, emphasizing the importance of presenting options transparently to align user choices with privacy concerns.",
-    "metadata": {}
+    "metadata": {
+        "group_id": "suite-v1-1765375889116",
+        "persona_id": "privacy_skeptic",
+        "session_id": "run-privacy_skeptic-1765375948527"
+    }
   },
   {
     "id": "8ecc9463-079f-4112-9cf6-165e2cbc8f9d",
@@ -149,7 +217,11 @@ TKF_UPDATES = [
     "old_text": "",
     "new_text": "Skeptical Privacy-Conscious Users will opt for the lowest engagement or data collection settings when given ambiguous controls.",
     "reasoning": "The persona 'privacy_skeptic' set engagement intensity low to reduce potential data collection. This behavior indicates that users will default to conservative settings when privacy impact is unclear, emphasizing the need for clear control descriptions.",
-    "metadata": {}
+    "metadata": {
+        "group_id": "suite-v1-1765375889116",
+        "persona_id": "privacy_skeptic",
+        "session_id": "run-privacy_skeptic-1765375948527"
+    }
   },
   {
     "id": "56b7657b-54e9-4888-aa17-f551292ddc61",
@@ -157,7 +229,11 @@ TKF_UPDATES = [
     "old_text": "",
     "new_text": "Absence of a privacy policy link in onboarding flows is a significant pain point for Skeptical Privacy-Conscious Users.",
     "reasoning": "Throughout the flow, 'privacy_skeptic' noted discomfort with the lack of privacy policy visibility, illustrating the crucial role of easy access to privacy policies in building user trust in data usage transparency.",
-    "metadata": {}
+    "metadata": {
+        "group_id": "suite-v1-1765375889116",
+        "persona_id": "privacy_skeptic",
+        "session_id": "run-privacy_skeptic-1765375948527"
+    }
   },
   {
     "id": "3ed4ccbb-2304-4ead-bae8-62a4f16564fb",
@@ -165,7 +241,11 @@ TKF_UPDATES = [
     "old_text": "",
     "new_text": "Skeptical Privacy-Conscious Users avoid enabling notifications or features perceived to increase data sharing without adequate explanation. The persona 'privacy_skeptic' chose to skip notification selections due to vague descriptions, indicating that without detailed context on data implications, users may opt out, potentially sacrificing utility for perceived privacy protection.",
     "reasoning": "The statement expands on the existing knowledge by providing specific behavior insights of Skeptical Privacy-Conscious Users regarding feature and notification preferences. This is crucial to understanding and designing user interfaces that cater to privacy-sensitive users.",
-    "metadata": {}
+    "metadata": {
+        "group_id": "suite-v1-1765375889116",
+        "persona_id": "privacy_skeptic",
+        "session_id": "run-privacy_skeptic-1765375948527"
+    }
   },
   {
     "id": "7a2f37a2-eb71-475b-99e5-093a288baa63",
@@ -173,7 +253,11 @@ TKF_UPDATES = [
     "old_text": "",
     "new_text": "For the Impatient New User, prominent and easily identifiable primary action buttons reduce task abandonment rates. This persona quickly selects visually prominent options, as seen when the user clicked 'step0-continue' and 'step1-continue'. Designers should prioritize the visibility and prominence of action buttons to cater to their preference for rapid navigation. This insight stems from consistent interaction with primary actions and directly aligns with their goal of task completion.",
     "reasoning": "This new information about the Impatient New User provides insight into how UX design can reduce task abandonment rates through prominent, visually appealing action buttons. Aligning with their preference for rapid navigation, this complements existing knowledge about designing for user personas, enhancing our understanding of task completion efficiency strategies.",
-    "metadata": {}
+    "metadata": {
+        "group_id": "suite-v1-1765375889116",
+        "persona_id": "impatient_new_user",
+        "session_id": "run-impatient_new_user-1765375889116"
+    }
   },
   {
     "id": "9cf4c3ff-6bf6-4a98-970d-3d14afddfbfb",
@@ -181,7 +265,11 @@ TKF_UPDATES = [
     "old_text": "",
     "new_text": "Straightforward, minimal path onboarding flows are optimal for the Impatient New User. The persona navigates swiftly through initial steps and struggles when tasks become less intuitive, shown by confusion when they couldn't locate the 'continue' button in step-1. Designing onboarding flows with minimal steps and clear next actions aligns with their goal of rapid task completion and helps mitigate frustration due to unclear navigation.",
     "reasoning": "This addition emphasizes the importance of designing onboarding flows for Impatient New Users with minimal steps and intuitive navigation. It addresses the existing content by providing specific insights into user behavior and preferences, enhancing the understanding of effective onboarding strategies for this persona.",
-    "metadata": {}
+    "metadata": {
+        "group_id": "suite-v1-1765375889116",
+        "persona_id": "impatient_new_user",
+        "session_id": "run-impatient_new_user-1765375889116"
+    }
   },
   {
     "id": "0fd20d47-983a-49fa-8763-4b2c9f09fdc8",
@@ -189,7 +277,11 @@ TKF_UPDATES = [
     "old_text": "",
     "new_text": "Visual cues and indicators can improve engagement and reduce confusion for the Impatient New User. Providing users with clear visual cues or indicators can aid this persona's navigation style and exploration level, enhancing the experience in moments where they're uncertain about next steps.",
     "reasoning": "During interaction with the 'engagement-intensity-slider', lack of clarity resulted in a moment of confusion. Providing users with clear visual cues or indicators can aid this persona's navigation style and exploration level, enhancing the experience in moments where they're uncertain about next steps.",
-    "metadata": {}
+    "metadata": {
+        "group_id": "suite-v1-1765375889116",
+        "persona_id": "impatient_new_user",
+        "session_id": "run-impatient_new_user-1765375889116"
+    }
   },
   {
     "id": "84ba9a1c-1708-4b46-b133-cf23cdfa0041",
@@ -197,7 +289,11 @@ TKF_UPDATES = [
     "old_text": "",
     "new_text": "For Impatient New User personas, brief and concise instructions enhance usability. This persona benefits from succinct guidance that quickly enables further action. Extensive documentation or lengthy explanations are generally skipped, due to rapid navigation choices and minimal text engagement. Brief instructions support their skim reading style and direct needs, reducing cognitive load and facilitating smooth progression in tasks.",
     "reasoning": "The Impatient New User persona prioritizes rapid task completion with minimal text engagement. Providing concise instructions aligns with their preference for quick navigation and action initiation, ultimately enhancing usability and reducing cognitive load.",
-    "metadata": {}
+    "metadata": {
+        "group_id": "suite-v1-1765375889116",
+        "persona_id": "impatient_new_user",
+        "session_id": "run-impatient_new_user-1765375889116"
+    }
   },
   {
     "id": "e66c49a6-3fe1-4dc8-9a44-5969f7418d36",
@@ -205,7 +301,11 @@ TKF_UPDATES = [
     "old_text": "",
     "new_text": "Exploratory Power Users appreciate access to non-obvious settings or controls to personalize their experience.",
     "reasoning": "The persona frequently seeks out advanced settings, trying out different configuration options and flows. This pattern indicates a preference for uncovering hidden or less accessible features that might offer efficiency gains or customization. Understanding these behaviors helps design interfaces that reward exploration, aligning with their goal to optimize their usage.",
-    "metadata": {}
+    "metadata": {
+        "group_id": "suite-v1-1765375889116",
+         "persona_id": "power_user_explorer",
+         "session_id": "run-power_user_explorer-1765375930493"
+    }
   },
   {
     "id": "56d3fd9a-ef0d-4d79-b50d-4b7f4df36870",
@@ -213,7 +313,11 @@ TKF_UPDATES = [
     "old_text": "",
     "new_text": "Exploratory Power Users systematically test features through trial and error to understand option behaviors and edge cases. By following test sequences that involve hovering over multiple options and clicking various elements to observe changes, the persona demonstrates a methodology built on trial and error. This approach highlights the importance of providing clear feedback and reversible actions in interfaces, allowing users to safely experiment and learn.",
     "reasoning": "This information details the behavioral attributes of Exploratory Power Users, emphasizing their methodical approach to understanding application interfaces through trial and error. Such insights are essential for designing interfaces that accommodate user experimentation, ensuring safety and learning efficacy.",
-    "metadata": {}
+    "metadata": {
+        "group_id": "suite-v1-1765375889116",
+         "persona_id": "power_user_explorer",
+         "session_id": "run-power_user_explorer-1765375930493"
+    }
   },
   {
     "id": "e59ef60d-d4d4-4b4a-a6fa-6671d6502cb1",
@@ -221,7 +325,11 @@ TKF_UPDATES = [
     "old_text": "",
     "new_text": "Verbal and naming consistency across UI elements is crucial for reducing confusion for Exploratory Power Users. Ensuring consistent terminology can reduce cognitive load and improve experience fluidity for users who actively look for and critique interface details.",
     "reasoning": "The persona noted inconsistencies in option naming (verbs vs. nouns), which led to confusion. Ensuring consistent terminology can reduce cognitive load and improve experience fluidity for Exploratory Power Users.",
-    "metadata": {}
+    "metadata": {
+        "group_id": "suite-v1-1765375889116",
+         "persona_id": "power_user_explorer",
+         "session_id": "run-power_user_explorer-1765375930493"
+    }
   },
   {
     "id": "013f83b6-b664-4294-b08d-3c4cc72ab06f",
@@ -229,7 +337,11 @@ TKF_UPDATES = [
     "old_text": "",
     "new_text": "Exploratory Power Users prefer interfaces that provide the ability to backtrack, ensuring decisions can be revisited without penalty.",
     "reasoning": "Understanding the behaviors and needs of Exploratory Power Users allows for better design of interfaces that accommodate their need for flexibility in navigation. By ensuring that users can revisit decisions without negative consequences, the design enhances the exploratory and experimental approach characteristic of such users.",
-    "metadata": {}
+    "metadata": {
+        "group_id": "suite-v1-1765375889116",
+         "persona_id": "power_user_explorer",
+         "session_id": "run-power_user_explorer-1765375930493"
+    }
   },
   {
     "id": "fafa6787-9c8f-4e7d-93eb-5ff6677ba076",
@@ -237,7 +349,11 @@ TKF_UPDATES = [
     "old_text": "",
     "new_text": "Interface elements that provide visual or immediate feedback are essential for the exploratory learning style of Power Users.",
     "reasoning": "Exploratory Power Users interact with toggles and sliders to understand functionality, relying on direct interface responses to guide their understanding. UI elements should offer clear and immediate feedback to support learning through interaction.",
-    "metadata": {}
+    "metadata": {
+        "group_id": "suite-v1-1765375889116",
+         "persona_id": "power_user_explorer",
+         "session_id": "run-power_user_explorer-1765375930493"
+    }
   },
   {
     "id": "ebce1521-1bd3-49b5-82ba-0710909d5859",
@@ -245,7 +361,11 @@ TKF_UPDATES = [
     "old_text": "",
     "new_text": "Exploratory Power Users value the ability to test multiple selections concurrently to understand their combined effects.",
     "reasoning": "While selecting notification settings, the persona tested multiple simultaneous selections. This exploratory approach necessitates a well-designed system that visibly handles and responds to combinations of user inputs, enabling users to gauge interaction outcomes effectively.",
-    "metadata": {}
+    "metadata": {
+        "group_id": "suite-v1-1765375889116",
+         "persona_id": "power_user_explorer",
+         "session_id": "run-power_user_explorer-1765375930493"
+    }
   },
   {
     "id": "1b99c7d2-c879-40e5-83eb-8597332fc5c0",
@@ -253,7 +373,11 @@ TKF_UPDATES = [
     "old_text": "",
     "new_text": "Language improvements in user flows help reduce confusion and improve overall satisfaction for Exploratory Power Users. The persona described the labels as confusing but appreciated the backtracking feature, suggesting that while navigation was effectively designed, consistent and clear language throughout the flow could enhance the experience. Aligning language with user expectations and clarity can reduce friction and improve user perception of the product.",
     "reasoning": "This addition highlights the importance of clear language in user flows, especially for Exploratory Power Users who benefit from reduced confusion and improved satisfaction with enhanced language clarity. Existing content already emphasizes feedback and reversible actions, which align with the described need for clearer language.",
-    "metadata": {}
+    "metadata": {
+        "group_id": "suite-v1-1765375889116",
+         "persona_id": "power_user_explorer",
+         "session_id": "run-power_user_explorer-1765375930493"
+    }
   }
 ]
 
