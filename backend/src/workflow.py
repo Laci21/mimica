@@ -6,7 +6,7 @@ import uuid
 from agents import RunConfig, Runner
 from src.seeds import KNOWLEDGE_BASE_LIST, TKF_INIT_KNOWLEDGE, TKF_FULL_CONTENT, TKF_UPDATES
 from src.tracking import propagate_attributes
-from src.tkf import get_tkf_agent
+from src.tkf import TKFAgent
 from src.tkf_store import TKFStore
 from src.knowledge_generator import KnowledgeGenerator
 from src.persona_repository import repository as persona_repo
@@ -103,17 +103,16 @@ class Workflow:
 
 
     async def process_run(self, group_id: str):
-        agent = get_tkf_agent()
-        # knowledge_list = await self._process_event_to_knowledge(group_id)
         knowledge_list = KNOWLEDGE_BASE_LIST
         with propagate_attributes(
             session_id=group_id,
             tags=[f"run_{group_id}"],
-            metadata={"agent_name": agent.name},
         ):
-            for knowledge in knowledge_list:
-                result = await Runner.run(
-                    agent, input=knowledge, run_config=RunConfig(tracing_disabled=False)
-                )
-                print(result.final_output)
+            # Group knowledge items into batches of 5 before sending to TKF
+            chunk_size = 5
+            for i in range(0, len(knowledge_list), chunk_size):
+                knowledge_group = "\n".join(knowledge_list[i : i + chunk_size])
+                tkf = TKFAgent()
+                result = await tkf.run(knowledge_group)
+                # print(result)
         print(f"***** TKF=\n\n{await self.tkf_store.get_full_content()}\n\n*****")

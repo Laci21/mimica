@@ -2,6 +2,7 @@ import agents
 from agents import Agent, RunConfig, Runner
 from agents.extensions.models.litellm_model import LitellmModel
 
+from src.event_listener import EventListener
 from src.config import OPENAI_API_KEY_GPT_4O, OPENAI_API_ENDPOINT_GPT_4O
 
 # Use gpt-4o-mini for faster responses (5-10x faster than gpt-4o)
@@ -16,6 +17,7 @@ async def call_llm(name: str, instructions: str, prompt: str) -> str:
         name=name,
         instructions=instructions,
         model=llm_gpt_4o,
+        hooks=EventListener(),
     )
     
     result = await Runner.run(
