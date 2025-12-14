@@ -12,7 +12,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 0.0
   },
   {
     "run_id": "run-methodical_evaluator-1765375898287",
@@ -27,7 +28,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 2.002
   },
   {
     "run_id": "run-methodical_evaluator-1765375898287",
@@ -42,7 +44,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 4.51
   },
   {
     "run_id": "run-methodical_evaluator-1765375898287",
@@ -57,7 +60,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 6.55
   },
   {
     "run_id": "run-methodical_evaluator-1765375898287",
@@ -72,7 +76,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 8.581
   },
   {
     "run_id": "run-methodical_evaluator-1765375898287",
@@ -87,7 +92,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 11.113
   },
   {
     "run_id": "run-methodical_evaluator-1765375898287",
@@ -102,7 +108,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 12.66
   },
   {
     "run_id": "run-methodical_evaluator-1765375898287",
@@ -117,7 +124,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 13.723
   },
   {
     "run_id": "run-methodical_evaluator-1765375898287",
@@ -132,7 +140,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 16.73
   },
   {
     "run_id": "run-methodical_evaluator-1765375898287",
@@ -147,7 +156,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 19.261
   },
   {
     "run_id": "run-methodical_evaluator-1765375898287",
@@ -162,7 +172,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 20.787
   },
   {
     "run_id": "run-methodical_evaluator-1765375898287",
@@ -177,7 +188,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 21.827
   },
   {
     "run_id": "run-methodical_evaluator-1765375898287",
@@ -192,7 +204,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 22.853
   },
   {
     "run_id": "run-methodical_evaluator-1765375898287",
@@ -207,7 +220,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 24.862
   },
   {
     "run_id": "run-methodical_evaluator-1765375898287",
@@ -222,7 +236,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 25.899
   },
   {
     "run_id": "run-methodical_evaluator-1765375898287",
@@ -237,7 +252,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 26.928
   },
   {
     "run_id": "run-methodical_evaluator-1765375898287",
@@ -252,6 +268,7 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 29.934
   }
 ]
