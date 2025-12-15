@@ -12,7 +12,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 0.0
   },
   {
     "run_id": "run-accessibility_screen_reader-1765375985868",
@@ -27,7 +28,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 2.004
   },
   {
     "run_id": "run-accessibility_screen_reader-1765375985868",
@@ -42,7 +44,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 4.009
   },
   {
     "run_id": "run-accessibility_screen_reader-1765375985868",
@@ -57,7 +60,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 6.072
   },
   {
     "run_id": "run-accessibility_screen_reader-1765375985868",
@@ -72,7 +76,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 8.099
   },
   {
     "run_id": "run-accessibility_screen_reader-1765375985868",
@@ -87,7 +92,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 10.134
   },
   {
     "run_id": "run-accessibility_screen_reader-1765375985868",
@@ -102,7 +108,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 11.377
   },
   {
     "run_id": "run-accessibility_screen_reader-1765375985868",
@@ -117,7 +124,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 12.401
   },
   {
     "run_id": "run-accessibility_screen_reader-1765375985868",
@@ -132,7 +140,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 14.905
   },
   {
     "run_id": "run-accessibility_screen_reader-1765375985868",
@@ -147,7 +156,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 17.436
   },
   {
     "run_id": "run-accessibility_screen_reader-1765375985868",
@@ -162,7 +172,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 18.965
   },
   {
     "run_id": "run-accessibility_screen_reader-1765375985868",
@@ -177,7 +188,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 20.504
   },
   {
     "run_id": "run-accessibility_screen_reader-1765375985868",
@@ -192,7 +204,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 21.734
   },
   {
     "run_id": "run-accessibility_screen_reader-1765375985868",
@@ -207,7 +220,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 22.757
   },
   {
     "run_id": "run-accessibility_screen_reader-1765375985868",
@@ -222,7 +236,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 24.759
   },
   {
     "run_id": "run-accessibility_screen_reader-1765375985868",
@@ -237,7 +252,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 26.286
   },
   {
     "run_id": "run-accessibility_screen_reader-1765375985868",
@@ -252,7 +268,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 27.333
   },
   {
     "run_id": "run-accessibility_screen_reader-1765375985868",
@@ -267,7 +284,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 28.376
   },
   {
     "run_id": "run-accessibility_screen_reader-1765375985868",
@@ -282,6 +300,7 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 30.88
   }
 ]

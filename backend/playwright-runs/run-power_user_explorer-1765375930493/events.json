@@ -12,7 +12,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 0.0
   },
   {
     "run_id": "run-power_user_explorer-1765375930493",
@@ -27,7 +28,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 2.002
   },
   {
     "run_id": "run-power_user_explorer-1765375930493",
@@ -42,7 +44,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 3.082
   },
   {
     "run_id": "run-power_user_explorer-1765375930493",
@@ -57,7 +60,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 4.116
   },
   {
     "run_id": "run-power_user_explorer-1765375930493",
@@ -72,7 +76,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 5.346
   },
   {
     "run_id": "run-power_user_explorer-1765375930493",
@@ -87,7 +92,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 6.18
   },
   {
     "run_id": "run-power_user_explorer-1765375930493",
@@ -102,7 +108,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 6.802
   },
   {
     "run_id": "run-power_user_explorer-1765375930493",
@@ -117,7 +124,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 7.836
   },
   {
     "run_id": "run-power_user_explorer-1765375930493",
@@ -132,7 +140,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 8.669
   },
   {
     "run_id": "run-power_user_explorer-1765375930493",
@@ -147,7 +156,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 9.707
   },
   {
     "run_id": "run-power_user_explorer-1765375930493",
@@ -162,7 +172,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 10.524
   },
   {
     "run_id": "run-power_user_explorer-1765375930493",
@@ -177,7 +188,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 11.163
   },
   {
     "run_id": "run-power_user_explorer-1765375930493",
@@ -192,7 +204,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 11.694
   },
   {
     "run_id": "run-power_user_explorer-1765375930493",
@@ -207,7 +220,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 12.327
   },
   {
     "run_id": "run-power_user_explorer-1765375930493",
@@ -222,7 +236,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 12.864
   },
   {
     "run_id": "run-power_user_explorer-1765375930493",
@@ -237,7 +252,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 13.511
   },
   {
     "run_id": "run-power_user_explorer-1765375930493",
@@ -252,7 +268,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 14.346
   },
   {
     "run_id": "run-power_user_explorer-1765375930493",
@@ -267,7 +284,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 14.878
   },
   {
     "run_id": "run-power_user_explorer-1765375930493",
@@ -282,6 +300,7 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 16.08
   }
 ]

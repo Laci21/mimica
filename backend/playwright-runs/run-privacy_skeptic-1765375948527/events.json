@@ -12,7 +12,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 0.0
   },
   {
     "run_id": "run-privacy_skeptic-1765375948527",
@@ -27,7 +28,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 2.001
   },
   {
     "run_id": "run-privacy_skeptic-1765375948527",
@@ -42,7 +44,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 5.015
   },
   {
     "run_id": "run-privacy_skeptic-1765375948527",
@@ -57,7 +60,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 7.564
   },
   {
     "run_id": "run-privacy_skeptic-1765375948527",
@@ -72,7 +76,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 10.099
   },
   {
     "run_id": "run-privacy_skeptic-1765375948527",
@@ -87,7 +92,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 12.148
   },
   {
     "run_id": "run-privacy_skeptic-1765375948527",
@@ -102,7 +108,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 13.675
   },
   {
     "run_id": "run-privacy_skeptic-1765375948527",
@@ -117,7 +124,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 14.753
   },
   {
     "run_id": "run-privacy_skeptic-1765375948527",
@@ -132,7 +140,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 17.758
   },
   {
     "run_id": "run-privacy_skeptic-1765375948527",
@@ -147,7 +156,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 20.29
   },
   {
     "run_id": "run-privacy_skeptic-1765375948527",
@@ -162,7 +172,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 21.823
   },
   {
     "run_id": "run-privacy_skeptic-1765375948527",
@@ -177,7 +188,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 22.878
   },
   {
     "run_id": "run-privacy_skeptic-1765375948527",
@@ -192,7 +204,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 25.381
   },
   {
     "run_id": "run-privacy_skeptic-1765375948527",
@@ -207,7 +220,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 27.419
   },
   {
     "run_id": "run-privacy_skeptic-1765375948527",
@@ -222,7 +236,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 29.454
   },
   {
     "run_id": "run-privacy_skeptic-1765375948527",
@@ -237,7 +252,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 31.456
   },
   {
     "run_id": "run-privacy_skeptic-1765375948527",
@@ -252,7 +268,8 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 32.48
   },
   {
     "run_id": "run-privacy_skeptic-1765375948527",
@@ -267,6 +284,7 @@
     "target_element_id": null,
     "duration_ms": null,
     "metadata": {},
-    "run_group_id": "suite-v1-1765375889116"
+    "run_group_id": "suite-v1-1765375889116",
+    "elapsed": 34.983
   }
 ]

@@ -16,7 +16,8 @@ TKF_UPDATES = [
     "metadata": {
         "group_id": "suite-v1-1765375889116",
         "persona_id": "methodical_evaluator",
-        "session_id": "run-methodical_evaluator-1765375898287"
+        "session_id": "run-methodical_evaluator-1765375898287",
+        "elapsed": 2.002
     }
   },
   {
@@ -28,7 +29,8 @@ TKF_UPDATES = [
     "metadata": {
         "group_id": "suite-v1-1765375889116",
         "persona_id": "methodical_evaluator",
-        "session_id": "run-methodical_evaluator-1765375898287"
+        "session_id": "run-methodical_evaluator-1765375898287",
+        "elapsed": 6.55
     }
   },
   {
@@ -40,7 +42,8 @@ TKF_UPDATES = [
     "metadata": {
         "group_id": "suite-v1-1765375889116",
         "persona_id": "methodical_evaluator",
-        "session_id": "run-methodical_evaluator-1765375898287"
+        "session_id": "run-methodical_evaluator-1765375898287",
+        "elapsed": 11.113
     }
   },
   {
@@ -52,7 +55,8 @@ TKF_UPDATES = [
     "metadata": {
         "group_id": "suite-v1-1765375889116",
         "persona_id": "methodical_evaluator",
-        "session_id": "run-methodical_evaluator-1765375898287"
+        "session_id": "run-methodical_evaluator-1765375898287",
+       "elapsed": 13.723
     }
   },
   {
@@ -64,7 +68,8 @@ TKF_UPDATES = [
     "metadata": {
         "group_id": "suite-v1-1765375889116",
         "persona_id": "methodical_evaluator",
-        "session_id": "run-methodical_evaluator-1765375898287"
+        "session_id": "run-methodical_evaluator-1765375898287",
+        "elapsed": 19.261
     }
   },
   {
@@ -76,7 +81,8 @@ TKF_UPDATES = [
     "metadata": {
         "group_id": "suite-v1-1765375889116",
         "persona_id": "methodical_evaluator",
-        "session_id": "run-methodical_evaluator-1765375898287"
+        "session_id": "run-methodical_evaluator-1765375898287",
+        "elapsed": 21.827
     }
   },
   {
@@ -88,7 +94,8 @@ TKF_UPDATES = [
     "metadata": {
         "group_id": "suite-v1-1765375889116",
         "persona_id": "methodical_evaluator",
-        "session_id": "run-methodical_evaluator-1765375898287"
+        "session_id": "run-methodical_evaluator-1765375898287",
+         "elapsed": 24.862
     }
   },
   {
@@ -100,7 +107,8 @@ TKF_UPDATES = [
     "metadata": {
         "group_id": "suite-v1-1765375889116",
         "persona_id": "methodical_evaluator",
-        "session_id": "run-methodical_evaluator-1765375898287"
+        "session_id": "run-methodical_evaluator-1765375898287",
+         "elapsed": 26.928
     }
   },
   {
@@ -112,7 +120,8 @@ TKF_UPDATES = [
     "metadata": {
         "group_id": "suite-v1-1765375889116",
         "persona_id": "methodical_evaluator",
-        "session_id": "run-methodical_evaluator-1765375898287"
+        "session_id": "run-methodical_evaluator-1765375898287",
+        "elapsed": 28.934
     }
   },
   {
@@ -124,7 +133,8 @@ TKF_UPDATES = [
     "metadata": {
         "group_id": "suite-v1-1765375889116",
         "persona_id": "impatient_new_user",
-        "session_id": "run-impatient_new_user-1765375889116"
+        "session_id": "run-impatient_new_user-1765375889116",
+        "elapsed": 1.000
     }
   },
   {
@@ -136,7 +146,8 @@ TKF_UPDATES = [
     "metadata": {
         "group_id": "suite-v1-1765375889116",
         "persona_id": "impatient_new_user",
-        "session_id": "run-impatient_new_user-1765375889116"
+        "session_id": "run-impatient_new_user-1765375889116",
+        "elapsed": 2.003
     }
   },
   {
@@ -148,7 +159,8 @@ TKF_UPDATES = [
     "metadata": {
         "group_id": "suite-v1-1765375889116",
         "persona_id": "impatient_new_user",
-        "session_id": "run-impatient_new_user-1765375889116"
+        "session_id": "run-impatient_new_user-1765375889116",
+        "elapsed": 2.548
     }
   },
   {
@@ -160,7 +172,8 @@ TKF_UPDATES = [
     "metadata": {
         "group_id": "suite-v1-1765375889116",
         "persona_id": "impatient_new_user",
-        "session_id": "run-impatient_new_user-1765375889116"
+        "session_id": "run-impatient_new_user-1765375889116",
+        "elapsed": 2.921
     }
   },
   {
@@ -172,7 +185,8 @@ TKF_UPDATES = [
     "metadata": {
         "group_id": "suite-v1-1765375889116",
         "persona_id": "impatient_new_user",
-        "session_id": "run-impatient_new_user-1765375889116"
+        "session_id": "run-impatient_new_user-1765375889116",
+        "elapsed": 3.451
     }
   },
   {
@@ -184,70 +198,11 @@ TKF_UPDATES = [
     "metadata": {
         "group_id": "suite-v1-1765375889116",
         "persona_id": "impatient_new_user",
-        "session_id": "run-impatient_new_user-1765375889116"
+        "session_id": "run-impatient_new_user-1765375889116",
+        "elapsed": 4.954
     }
   },
-  {
-    "id": "5d59aea0-cc62-4258-b4e3-097d8d169fbf",
-    "created_at": "2025-12-10T19:01:58.039420",
-    "old_text": "",
-    "new_text": "Skeptical Privacy-Conscious Users require clear and detailed explanations of data usage and permissions during onboarding.",
-    "reasoning": "The persona 'privacy_skeptic' consistently expresses confusion and frustration with vague language and unclear data policies, highlighting the need for transparency. In trusted UX design, ensuring users understand how their data will be used enhances trust and engagement.",
-    "metadata": {
-        "group_id": "suite-v1-1765375889116",
-        "persona_id": "privacy_skeptic",
-        "session_id": "run-privacy_skeptic-1765375948527"
-    }
-  },
-  {
-    "id": "97ef9348-e958-4db4-b0e0-40bc1bb2bcd2",
-    "created_at": "2025-12-10T19:02:04.468292",
-    "old_text": "",
-    "new_text": "Options perceived as less intrusive will be favored by Skeptical Privacy-Conscious Users in the absence of clear privacy information.",
-    "reasoning": "The addition provides context on user preferences when privacy information is insufficient, emphasizing the importance of presenting options transparently to align user choices with privacy concerns.",
-    "metadata": {
-        "group_id": "suite-v1-1765375889116",
-        "persona_id": "privacy_skeptic",
-        "session_id": "run-privacy_skeptic-1765375948527"
-    }
-  },
-  {
-    "id": "8ecc9463-079f-4112-9cf6-165e2cbc8f9d",
-    "created_at": "2025-12-10T19:02:11.625191",
-    "old_text": "",
-    "new_text": "Skeptical Privacy-Conscious Users will opt for the lowest engagement or data collection settings when given ambiguous controls.",
-    "reasoning": "The persona 'privacy_skeptic' set engagement intensity low to reduce potential data collection. This behavior indicates that users will default to conservative settings when privacy impact is unclear, emphasizing the need for clear control descriptions.",
-    "metadata": {
-        "group_id": "suite-v1-1765375889116",
-        "persona_id": "privacy_skeptic",
-        "session_id": "run-privacy_skeptic-1765375948527"
-    }
-  },
-  {
-    "id": "56b7657b-54e9-4888-aa17-f551292ddc61",
-    "created_at": "2025-12-10T19:02:17.843885",
-    "old_text": "",
-    "new_text": "Absence of a privacy policy link in onboarding flows is a significant pain point for Skeptical Privacy-Conscious Users.",
-    "reasoning": "Throughout the flow, 'privacy_skeptic' noted discomfort with the lack of privacy policy visibility, illustrating the crucial role of easy access to privacy policies in building user trust in data usage transparency.",
-    "metadata": {
-        "group_id": "suite-v1-1765375889116",
-        "persona_id": "privacy_skeptic",
-        "session_id": "run-privacy_skeptic-1765375948527"
-    }
-  },
-  {
-    "id": "3ed4ccbb-2304-4ead-bae8-62a4f16564fb",
-    "created_at": "2025-12-10T19:02:24.492705",
-    "old_text": "",
-    "new_text": "Skeptical Privacy-Conscious Users avoid enabling notifications or features perceived to increase data sharing without adequate explanation. The persona 'privacy_skeptic' chose to skip notification selections due to vague descriptions, indicating that without detailed context on data implications, users may opt out, potentially sacrificing utility for perceived privacy protection.",
-    "reasoning": "The statement expands on the existing knowledge by providing specific behavior insights of Skeptical Privacy-Conscious Users regarding feature and notification preferences. This is crucial to understanding and designing user interfaces that cater to privacy-sensitive users.",
-    "metadata": {
-        "group_id": "suite-v1-1765375889116",
-        "persona_id": "privacy_skeptic",
-        "session_id": "run-privacy_skeptic-1765375948527"
-    }
-  },
-  {
+    {
     "id": "7a2f37a2-eb71-475b-99e5-093a288baa63",
     "created_at": "2025-12-10T19:02:30.651928",
     "old_text": "",
@@ -256,7 +211,8 @@ TKF_UPDATES = [
     "metadata": {
         "group_id": "suite-v1-1765375889116",
         "persona_id": "impatient_new_user",
-        "session_id": "run-impatient_new_user-1765375889116"
+        "session_id": "run-impatient_new_user-1765375889116",
+        "elapsed": 5.389
     }
   },
   {
@@ -268,7 +224,8 @@ TKF_UPDATES = [
     "metadata": {
         "group_id": "suite-v1-1765375889116",
         "persona_id": "impatient_new_user",
-        "session_id": "run-impatient_new_user-1765375889116"
+        "session_id": "run-impatient_new_user-1765375889116",
+        "elapsed": 6.01
     }
   },
   {
@@ -280,7 +237,8 @@ TKF_UPDATES = [
     "metadata": {
         "group_id": "suite-v1-1765375889116",
         "persona_id": "impatient_new_user",
-        "session_id": "run-impatient_new_user-1765375889116"
+        "session_id": "run-impatient_new_user-1765375889116",
+        "elapsed": 6.346
     }
   },
   {
@@ -292,7 +250,73 @@ TKF_UPDATES = [
     "metadata": {
         "group_id": "suite-v1-1765375889116",
         "persona_id": "impatient_new_user",
-        "session_id": "run-impatient_new_user-1765375889116"
+        "session_id": "run-impatient_new_user-1765375889116",
+        "elapsed": 7.000
+    }
+  },
+  {
+    "id": "5d59aea0-cc62-4258-b4e3-097d8d169fbf",
+    "created_at": "2025-12-10T19:01:58.039420",
+    "old_text": "",
+    "new_text": "Skeptical Privacy-Conscious Users require clear and detailed explanations of data usage and permissions during onboarding.",
+    "reasoning": "The persona 'privacy_skeptic' consistently expresses confusion and frustration with vague language and unclear data policies, highlighting the need for transparency. In trusted UX design, ensuring users understand how their data will be used enhances trust and engagement.",
+    "metadata": {
+        "group_id": "suite-v1-1765375889116",
+        "persona_id": "privacy_skeptic",
+        "session_id": "run-privacy_skeptic-1765375948527",
+        "elapsed": 5.015
+      }
+  },
+  {
+    "id": "97ef9348-e958-4db4-b0e0-40bc1bb2bcd2",
+    "created_at": "2025-12-10T19:02:04.468292",
+    "old_text": "",
+    "new_text": "Options perceived as less intrusive will be favored by Skeptical Privacy-Conscious Users in the absence of clear privacy information.",
+    "reasoning": "The addition provides context on user preferences when privacy information is insufficient, emphasizing the importance of presenting options transparently to align user choices with privacy concerns.",
+    "metadata": {
+        "group_id": "suite-v1-1765375889116",
+        "persona_id": "privacy_skeptic",
+        "session_id": "run-privacy_skeptic-1765375948527",
+         "elapsed": 13.675
+    }
+  },
+  {
+    "id": "8ecc9463-079f-4112-9cf6-165e2cbc8f9d",
+    "created_at": "2025-12-10T19:02:11.625191",
+    "old_text": "",
+    "new_text": "Skeptical Privacy-Conscious Users will opt for the lowest engagement or data collection settings when given ambiguous controls.",
+    "reasoning": "The persona 'privacy_skeptic' set engagement intensity low to reduce potential data collection. This behavior indicates that users will default to conservative settings when privacy impact is unclear, emphasizing the need for clear control descriptions.",
+    "metadata": {
+        "group_id": "suite-v1-1765375889116",
+        "persona_id": "privacy_skeptic",
+        "session_id": "run-privacy_skeptic-1765375948527",
+         "elapsed": 20.29
+    }
+  },
+  {
+    "id": "56b7657b-54e9-4888-aa17-f551292ddc61",
+    "created_at": "2025-12-10T19:02:17.843885",
+    "old_text": "",
+    "new_text": "Absence of a privacy policy link in onboarding flows is a significant pain point for Skeptical Privacy-Conscious Users.",
+    "reasoning": "Throughout the flow, 'privacy_skeptic' noted discomfort with the lack of privacy policy visibility, illustrating the crucial role of easy access to privacy policies in building user trust in data usage transparency.",
+    "metadata": {
+        "group_id": "suite-v1-1765375889116",
+        "persona_id": "privacy_skeptic",
+        "session_id": "run-privacy_skeptic-1765375948527",
+         "elapsed": 25.381
+    }
+  },
+  {
+    "id": "3ed4ccbb-2304-4ead-bae8-62a4f16564fb",
+    "created_at": "2025-12-10T19:02:24.492705",
+    "old_text": "",
+    "new_text": "Skeptical Privacy-Conscious Users avoid enabling notifications or features perceived to increase data sharing without adequate explanation. The persona 'privacy_skeptic' chose to skip notification selections due to vague descriptions, indicating that without detailed context on data implications, users may opt out, potentially sacrificing utility for perceived privacy protection.",
+    "reasoning": "The statement expands on the existing knowledge by providing specific behavior insights of Skeptical Privacy-Conscious Users regarding feature and notification preferences. This is crucial to understanding and designing user interfaces that cater to privacy-sensitive users.",
+    "metadata": {
+        "group_id": "suite-v1-1765375889116",
+        "persona_id": "privacy_skeptic",
+        "session_id": "run-privacy_skeptic-1765375948527",
+         "elapsed": 33.000
     }
   },
   {
@@ -304,7 +328,8 @@ TKF_UPDATES = [
     "metadata": {
         "group_id": "suite-v1-1765375889116",
          "persona_id": "power_user_explorer",
-         "session_id": "run-power_user_explorer-1765375930493"
+         "session_id": "run-power_user_explorer-1765375930493",
+          "elapsed": 3.082
     }
   },
   {
@@ -316,7 +341,8 @@ TKF_UPDATES = [
     "metadata": {
         "group_id": "suite-v1-1765375889116",
          "persona_id": "power_user_explorer",
-         "session_id": "run-power_user_explorer-1765375930493"
+         "session_id": "run-power_user_explorer-1765375930493",
+          "elapsed": 6.18
     }
   },
   {
@@ -328,7 +354,8 @@ TKF_UPDATES = [
     "metadata": {
         "group_id": "suite-v1-1765375889116",
          "persona_id": "power_user_explorer",
-         "session_id": "run-power_user_explorer-1765375930493"
+         "session_id": "run-power_user_explorer-1765375930493",
+         "elapsed": 7.836
     }
   },
   {
@@ -340,7 +367,8 @@ TKF_UPDATES = [
     "metadata": {
         "group_id": "suite-v1-1765375889116",
          "persona_id": "power_user_explorer",
-         "session_id": "run-power_user_explorer-1765375930493"
+         "session_id": "run-power_user_explorer-1765375930493",
+          "elapsed": 10.524
     }
   },
   {
@@ -352,7 +380,8 @@ TKF_UPDATES = [
     "metadata": {
         "group_id": "suite-v1-1765375889116",
          "persona_id": "power_user_explorer",
-         "session_id": "run-power_user_explorer-1765375930493"
+         "session_id": "run-power_user_explorer-1765375930493",
+          "elapsed": 12.327
     }
   },
   {
@@ -364,7 +393,8 @@ TKF_UPDATES = [
     "metadata": {
         "group_id": "suite-v1-1765375889116",
          "persona_id": "power_user_explorer",
-         "session_id": "run-power_user_explorer-1765375930493"
+         "session_id": "run-power_user_explorer-1765375930493",
+         "elapsed": 14.346
     }
   },
   {
@@ -376,7 +406,8 @@ TKF_UPDATES = [
     "metadata": {
         "group_id": "suite-v1-1765375889116",
          "persona_id": "power_user_explorer",
-         "session_id": "run-power_user_explorer-1765375930493"
+         "session_id": "run-power_user_explorer-1765375930493",
+         "elapsed": 15.000
     }
   }
 ]
