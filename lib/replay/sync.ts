@@ -30,6 +30,11 @@ export function getStartUnixTime(isoString: string): number {
  * @returns Video time in seconds
  */
 export function getVideoTimeForEvent(event: PlaywrightEvent, startUnix: number): number {
+  // Prefer elapsed if available (more accurate for sync with TKF)
+  if (event.elapsed !== undefined) {
+    return event.elapsed;
+  }
+  // Fallback to timestamp calculation
   return event.timestamp - startUnix;
 }
 
