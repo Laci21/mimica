@@ -61,6 +61,7 @@ export interface PlaywrightEvent {
   status: string;
   timestamp: number;
   duration_ms?: number;
+  elapsed?: number; // Elapsed time in seconds since run start
 }
 
 export interface RunEventsResponse {

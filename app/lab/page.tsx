@@ -26,8 +26,12 @@ export default function LabPage() {
       try {
         const runList = await listPlaywrightRuns();
         setRuns(runList);
+        
         if (runList.length > 0 && !selectedRunId) {
-          setSelectedRunId(runList[0].run_id);
+          // Prefer the most recent impatient_new_user run for demo
+          const impatientRun = runList.find(run => run.persona_id === 'impatient_new_user');
+          const defaultRun = impatientRun || runList[0];
+          setSelectedRunId(defaultRun.run_id);
         }
       } catch (error) {
         console.error('Failed to load runs:', error);

@@ -1,9 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import VideoPlayer from './VideoPlayer';
 import EventTimeline from './EventTimeline';
+import TKFTimeline from './TKFTimeline';
 import EventDetails from './EventDetails';
+import TKFUpdateDetails from './TKFUpdateDetails';
 import {
   getPlaywrightRunEvents,
   getPlaywrightRunVideoUrl,
@@ -12,7 +14,15 @@ import {
   type PlaywrightEvent,
   type RunMetadata,
 } from '@/lib/api/playwright';
+import { fetchTKFUpdates } from '@/lib/api/tkf';
+import { TKFUpdate } from '@/lib/types/tkf';
 import { getStartUnixTime, findCurrentEvent, getVideoTimeForEvent } from '@/lib/replay/sync';
+import { 
+  findCurrentTKFUpdate, 
+  findNearestEvents, 
+  sortTKFUpdatesByElapsed,
+  getTKFUpdateElapsed 
+} from '@/lib/replay/tkfSync';
 
 interface ReplayViewerProps {
   selectedRunId: string;
@@ -31,6 +41,12 @@ export default function ReplayViewer({ selectedRunId, onRunChange, runs }: Repla
   const [seekToTime, setSeekToTime] = useState<number | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  
+  // TKF integration
+  const [rightPanelMode, setRightPanelMode] = useState<'events' | 'tkf'>('events');
+  const [tkfUpdates, setTkfUpdates] = useState<TKFUpdate[]>([]);
+  const [currentTKFUpdate, setCurrentTKFUpdate] = useState<TKFUpdate | null>(null);
+  const [nearbyEvents, setNearbyEvents] = useState<PlaywrightEvent[]>([]);
 
   // Load selected run data
   useEffect(() => {
@@ -40,13 +56,18 @@ export default function ReplayViewer({ selectedRunId, onRunChange, runs }: Repla
       setIsLoading(true);
       setError(null);
       try {
-        const [runMetadata, runEvents] = await Promise.all([
+        const [runMetadata, runEvents, tkfData] = await Promise.all([
           getPlaywrightRunMetadata(selectedRunId),
           getPlaywrightRunEvents(selectedRunId),
+          fetchTKFUpdates({ session_id: selectedRunId }),
         ]);
         
         setMetadata(runMetadata);
         setEvents(runEvents);
+        
+        // Sort TKF updates by elapsed time
+        const sortedTKF = sortTKFUpdatesByElapsed(tkfData);
+        setTkfUpdates(sortedTKF);
         
         // Calculate start Unix time for synchronization
         const startTime = getStartUnixTime(runMetadata.started_at);
@@ -59,6 +80,8 @@ export default function ReplayViewer({ selectedRunId, onRunChange, runs }: Repla
         // Reset playback state
         setVideoTime(0);
         setCurrentEvent(null);
+        setCurrentTKFUpdate(null);
+        setNearbyEvents([]);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load run data');
       } finally {
@@ -69,6 +92,24 @@ export default function ReplayViewer({ selectedRunId, onRunChange, runs }: Repla
     loadRunData();
   }, [selectedRunId]);
 
+  // Calculate smart timeline duration that fits both video and events
+  const timelineDuration = React.useMemo(() => {
+    // Find the maximum elapsed time from events
+    const maxEventElapsed = events.length > 0 
+      ? Math.max(...events.filter(e => e.elapsed !== undefined).map(e => e.elapsed!), 0)
+      : 0;
+    
+    // Use the maximum of video duration, max event elapsed, and metadata duration
+    // This ensures timeline is long enough for all content
+    const duration = Math.max(
+      videoDuration > 0 ? videoDuration : 0,
+      maxEventElapsed,
+      actualDuration > 0 ? actualDuration : 0
+    );
+    
+    return duration > 0 ? duration : videoDuration;
+  }, [events, videoDuration, actualDuration]);
+
   // Update current event based on video time
   useEffect(() => {
     if (events.length > 0 && startUnix > 0) {
@@ -76,6 +117,22 @@ export default function ReplayViewer({ selectedRunId, onRunChange, runs }: Repla
       setCurrentEvent(event);
     }
   }, [videoTime, events, startUnix]);
+
+  // Update current TKF update based on video time and current event
+  useEffect(() => {
+    if (tkfUpdates.length > 0) {
+      const update = findCurrentTKFUpdate(tkfUpdates, videoTime, currentEvent);
+      setCurrentTKFUpdate(update);
+      
+      // Find nearby events for evidence context
+      if (update && events.length > 0) {
+        const nearby = findNearestEvents(update, events, 3);
+        setNearbyEvents(nearby);
+      } else {
+        setNearbyEvents([]);
+      }
+    }
+  }, [videoTime, currentEvent, tkfUpdates, events]);
 
   const handleEventClick = (event: PlaywrightEvent) => {
     // Calculate video time for this event and seek to it
@@ -89,6 +146,16 @@ export default function ReplayViewer({ selectedRunId, onRunChange, runs }: Repla
     // For events beyond video, explicitly set as current event since video won't reach that time
     if (eventVideoTime > videoDuration) {
       setCurrentEvent(event);
+    }
+  };
+
+  const handleTKFUpdateClick = (update: TKFUpdate) => {
+    // Seek video to the update's elapsed time
+    const updateElapsed = getTKFUpdateElapsed(update);
+    
+    if (updateElapsed !== undefined) {
+      const clampedTime = videoDuration > 0 ? Math.min(updateElapsed, videoDuration - 0.1) : updateElapsed;
+      setSeekToTime(clampedTime);
     }
   };
 
@@ -161,25 +228,69 @@ export default function ReplayViewer({ selectedRunId, onRunChange, runs }: Repla
                 events={events}
                 currentVideoTime={videoTime}
                 videoDuration={videoDuration}
-                timelineDuration={actualDuration > 0 ? actualDuration : videoDuration}
+                timelineDuration={timelineDuration}
                 startUnix={startUnix}
                 currentEvent={currentEvent}
                 onEventClick={handleEventClick}
               />
             </div>
+
+            {/* TKF Timeline below event timeline */}
+            {tkfUpdates.length > 0 && (
+              <div className="flex-shrink-0 mt-2">
+                <TKFTimeline
+                  updates={tkfUpdates}
+                  currentVideoTime={videoTime}
+                  videoDuration={videoDuration}
+                  timelineDuration={timelineDuration}
+                  currentUpdate={currentTKFUpdate}
+                  onUpdateClick={handleTKFUpdateClick}
+                />
+              </div>
+            )}
           </div>
 
-          {/* Event Details - Right (35%) */}
+          {/* Right Panel - Event Details or TKF (35%) */}
           <div className="flex-1 flex flex-col min-h-0">
-            <h3 className="text-sm font-semibold text-foreground/90 flex-shrink-0">
-              Event Details
-            </h3>
+            {/* Panel Mode Toggle */}
+            <div className="flex items-center gap-2 mb-2 flex-shrink-0">
+              <button
+                onClick={() => setRightPanelMode('events')}
+                className={`px-3 py-1.5 text-xs rounded-lg font-medium transition-colors ${
+                  rightPanelMode === 'events'
+                    ? 'bg-accent text-white'
+                    : 'bg-surface hover:bg-surface-light border border-border'
+                }`}
+              >
+                📋 Events
+              </button>
+              <button
+                onClick={() => setRightPanelMode('tkf')}
+                className={`px-3 py-1.5 text-xs rounded-lg font-medium transition-colors ${
+                  rightPanelMode === 'tkf'
+                    ? 'bg-accent text-white'
+                    : 'bg-surface hover:bg-surface-light border border-border'
+                }`}
+              >
+                🧵 TKF {tkfUpdates.length > 0 && `(${tkfUpdates.length})`}
+              </button>
+            </div>
+
             <div className="flex-1 bg-surface/50 rounded-lg border border-border overflow-y-auto min-h-0">
-              <EventDetails
-                event={currentEvent}
-                personaName={metadata.persona_id}
-                videoTime={videoTime}
-              />
+              {rightPanelMode === 'events' ? (
+                <EventDetails
+                  event={currentEvent}
+                  personaName={metadata.persona_id}
+                  videoTime={videoTime}
+                />
+              ) : (
+                <TKFUpdateDetails
+                  update={currentTKFUpdate}
+                  nearbyEvents={nearbyEvents}
+                  videoTime={videoTime}
+                  onEventClick={handleEventClick}
+                />
+              )}
             </div>
           </div>
         </>

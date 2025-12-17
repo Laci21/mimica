@@ -6,7 +6,7 @@ export interface TKFUpdate {
   old_text: string;
   new_text: string;
   reasoning: string;
-  metadata: Record<string, string>;
+  metadata: Record<string, string | number>;
 }
 
 export interface MetadataFilters {
